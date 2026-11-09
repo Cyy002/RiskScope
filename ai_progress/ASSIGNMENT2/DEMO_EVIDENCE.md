@@ -1,5 +1,17 @@
 # 作業二核心能力實測證據 (Claude A, 2026-11-09)
 
+## 一鍵執行入口（給評審/教授/助教）
+```bash
+deploy/riskscope.sh build && deploy/riskscope.sh up   # 第一次需要建置+啟動
+deploy/demo_run.sh                                    # 之後重跑只需要這一行
+```
+**修復一個打包缺陷**：`deploy/demo_run.sh` 原本若主機上有 `python3`（幾乎所有環境都有），會優先
+在主機上直接執行 `scripts/demo_scenarios.py`，但該腳本的設計就是只能在**容器內**跑（寫死連
+`127.0.0.1:8000` 與容器內路徑 `/app/runtime/demo_credentials.json`），在主機上執行必定因埠號與
+憑證路徑都找不到而直接 crash（已實測重現：`FileNotFoundError: ... /app/runtime/demo_credentials.json`）。
+已修正為一律用 `podman exec` 在容器內執行，並在啟動前自動確認 image 已建置、容器已啟動且通過
+`/health`。修復後重新實測：見 `evidence/demo_run_sh_fixed_20261109.txt`，結果同樣是 FULL PASS。
+
 執行方式：`deploy/riskscope.sh demo`（= `podman exec <容器> python scripts/demo_scenarios.py`），
 在獨立測試 VM（`riskscope-codex-apple-20261107`，與正式機完全分離）上對**真正運行中的容器**發出
 真實 HTTP 請求，使用真實本機 Ollama（`qwen3:8b`）。完整原始輸出：

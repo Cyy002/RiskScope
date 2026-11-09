@@ -9,42 +9,35 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+NAME=${RS_NAME:-riskscope-portable}
 PORT=${RS_PORT:-8100}
 URL="http://127.0.0.1:$PORT"
 
 echo "========================================================================"
 echo "  RiskScope 期末展示驗收套件 (Podman Portable Environment)"
 echo "========================================================================"
-echo "目標端點: $URL"
+echo "目標端點: $URL  容器: $NAME"
 
-# 1. 檢查服務是否啟動
+# 1. 確保 image 已建置、容器已啟動並通過 /health
+if ! podman image exists "${RS_IMAGE:-localhost/riskscope-portable:1.0}" 2>/dev/null; then
+    echo "[INFO] 找不到 image，先建置..."
+    deploy/riskscope.sh build
+fi
 if ! curl -fs "$URL/health" >/dev/null 2>&1; then
-    echo "[INFO] 獨立測試容器未在 $PORT 埠運行，嘗試啟動..."
-    if [ -x deploy/riskscope.sh ]; then
-        deploy/riskscope.sh up
-    else
-        echo "[ERROR] 找不到 deploy/riskscope.sh，請手動啟動容器。"
-        exit 1
-    fi
+    echo "[INFO] 容器未在 $PORT 埠運行，啟動中..."
+    deploy/riskscope.sh up
 fi
 
 echo "[INFO] 服務運作中，開始執行四大展示情境驗收..."
 echo ""
 
-# 2. 執行展示情境驗收腳本
-if command -v python3 >/dev/null 2>&1; then
-    PYTHON_CMD=python3
-elif command -v python >/dev/null 2>&1; then
-    PYTHON_CMD=python
-else
-    # 在容器內執行
-    echo "[INFO] 主機無 Python，切換至容器內執行..."
-    podman exec -e RS_PORT=8000 riskscope-portable python scripts/demo_scenarios.py
-    exit $?
-fi
-
-$PYTHON_CMD scripts/demo_scenarios.py
+# 2. scripts/demo_scenarios.py 的設計就是要在容器內執行（寫死連 127.0.0.1:8000
+#    和容器內的 /app/runtime/demo_credentials.json），絕對不能在主機上直接跑
+#    python，即使主機有 Python 也一樣會因為埠號與憑證路徑不符而失敗。
+podman exec "$NAME" python scripts/demo_scenarios.py
+rc=$?
 echo ""
 echo "========================================================================"
-echo "  展示驗收完成！"
+if [ $rc -eq 0 ]; then echo "  展示驗收完成！(FULL PASS)"; else echo "  展示驗收未全過，請查看上面輸出 (exit $rc)"; fi
 echo "========================================================================"
+exit $rc
