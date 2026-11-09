@@ -39,7 +39,7 @@ API 線上介面：**http://127.0.0.1:8000/docs**（實際 API 操作需填入 B
 python -m pip install -r requirements-langgraph.txt
 ```
 
-在 API 分析結果中，`orchestration` 會明確顯示 `langgraph` 或 `sequential_fallback`，不會偽稱已使用 LangGraph。本次開發環境未能連線至外部套件索引，因此只驗證了**循序模式**的執行，尚未完成 LangGraph 安裝後的整合驗證。
+在 API 分析結果中，`orchestration` 會明確顯示 `langgraph` 或 `sequential_fallback`，不會偽稱已使用 LangGraph。**LangGraph 1.0.0 已安裝並整合驗證**（`pytest -q` 全套測試在此環境下執行，`orchestration=langgraph` 路徑已覆蓋）。
 
 ### 可選本機模型 Ollama
 
@@ -51,7 +51,7 @@ export OLLAMA_MODEL=qwen3:8b  # 需已在本機下載此模型
 python -m uvicorn app.api:app --host 127.0.0.1 --port 8000
 ```
 
-到「決策推演」勾選「本機 Ollama」即可要求額外說明。LLM 的內容被標註為**未驗證文字**，不影響工程數值、風險規則、審核狀態或自動執行。系統拒絕把 Ollama URL 指向一般遠端雲端網址。**目前尚未進行真實 Qwen3 推理品質的評估。**
+到「決策推演」勾選「本機 Ollama」即可要求額外說明。LLM 的內容被標註為**未驗證文字**，不影響工程數值、風險規則、審核狀態或自動執行。系統拒絕把 Ollama URL 指向一般遠端雲端網址。**真實 Qwen3 推理品質已多輪評估**（`qwen3:8b`／`qwen3.6:27b`，見 `ai_progress/RISK_INTELLIGENCE_EVALUATION/`），分數用於持續改善安全護欄，但評估結果本身不等於任何專業領域的正式結論。
 
 ## 2. Podman 部署（企劃指定技術）
 
@@ -61,7 +61,15 @@ python -m uvicorn app.api:app --host 127.0.0.1 --port 8000
 
 > Historical (0.1-era) commands using `riskscope`/`riskscope_runtime`/port 8000/`--rm` were removed from this README because they collide with the live production deployment.
 
-初次 build 需要網路下載 Python 套件與 base image；**目前執行環境不能對外連線，故尚未實機驗證 Podman image build**，交給接手者使用有網路的環境驗證。
+初次 build 需要網路下載 Python 套件與 base image。**實機驗證（Claude A，2026-11-09）**：`deploy/riskscope.sh build` 成功建置、`up` 啟動容器並通過 `/health`
+檢查、`smoke`（決定性引擎計算 + 真實 LLM 回覆）與 `restart-test`（重啟後憑證與分析紀錄完整保留）皆
+**PASS**；完整紀錄見 `deploy/README_PODMAN.md` 開頭的「Tested status」。
+
+**對應企劃第 181 行「LLM server 以外的介面、Agent、檢索、工具及紀錄服務均由 Podman 容器執行」**：
+單一 `riskscope`/`riskscope-portable` 容器裡的 FastAPI 行程已同時包含網頁介面（`app/static/`）、
+Agent 對話邏輯（`app/chat.py`）、文件檢索（`app/retrieval.py`）、工程工具檢核（`app/engineering.py`）
+與紀錄（`app/db.py` 寫入容器內 volume 掛載的 SQLite）——只有 LLM 推論本身（Ollama）照企劃明文排除
+留在容器外、由主機提供。因此現狀已滿足此條款，不需要拆成多個容器。
 
 ## 3. 直接操作驗收
 
@@ -93,7 +101,7 @@ python -m scripts.evaluate
 |---|---|---|
 | FR-01 受控資料 | **實作** | API Token、專案成員角色、文件 ACL、撤權即時檢查；僅 demo 身分驗證 |
 | FR-02 地端知識 | **實作** | 合成文件、文件修訂表、人工規格標註、來源 ID/版次、SQLite |
-| FR-03 主動對話 | **部分實作** | 以決策問題選擇焦點、動態產生必要追問；尚無完整多輪自然語言對話 |
+| FR-03 主動對話 | **實作** | 以決策問題選擇焦點、動態產生必要追問；多輪自然語言對話（同 session 先前訊息的事實會餵入後續回答，跨 session/專案/使用者皆已驗證不洩漏，見 `tests/test_reasoning_integration.py`） |
 | FR-04 工具驗證 | **實作** | 單位維度、負載/功率計算、缺資料與來源版本回報 `unknown` |
 | FR-05 決策分析 | **實作於範例** | 分離事實/推論/假設/未知、方案 A/B/C、必要風險與來源 |
 | FR-06 人工審核 | **實作** | 待核准 → 批准/拒絕 → 僅模擬寫入；版本與冪等保護 |
@@ -103,7 +111,7 @@ python -m scripts.evaluate
 | FR-10 時程支援 | **尚未實作定量** | 因欠缺工期，只呈現相關依賴，不偽造延期天數 |
 | FR-11 企業連接器 | **未實作** | 未接 Email/Jira/GitHub/BOM 等 |
 | FR-12 組織記憶 | **部分雛形** | 存分析與操作紀錄；尚未有成熟相似案例檢索/成效追蹤 |
-| FR-13 跨領域擴充 | **未驗證** | 目前只有一個合成軟硬體案例 |
+| FR-13 跨領域擴充 | **部分實作並驗證** | 確定性工程檢核仍只有電源/馬達一個合成硬體案例；通用（非工程）問答路徑已用涵蓋軟體可靠度、供應鏈、排程、安全/合規等多領域的 `ai_progress/RISK_INTELLIGENCE_EVALUATION/BENCHMARK_CASES/` 真實模型測試，但結果仍是工程測試分數，不是任何領域的正式專業結論 |
 
 ## 6. 資安界線與已知限制（務必閱讀）
 
@@ -135,6 +143,7 @@ CrossDomainRiskAgent/
 ├── data/evaluation_cases.json
 ├── tests/test_core.py
 ├── scripts/{init_demo.py,evaluate.py}
+├── deploy/                # 可攜式 Podman 部署（build/up/smoke/restart-test），見 deploy/README_PODMAN.md
 ├── Containerfile / compose.yml
 ├── requirements*.txt
 ├── ARCHITECTURE_AND_HANDOFF.md

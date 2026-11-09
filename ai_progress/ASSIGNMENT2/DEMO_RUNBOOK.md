@@ -1,5 +1,12 @@
 # 作業二 Demo 操作流程與截圖清單(草稿;以實際可啟動的環境為準)
-前置(Claude A 負責確認):Podman 容器啟動成功(`deploy/riskscope.sh up`,預設 http://127.0.0.1:8100)、宿主 Ollama 可連線、`deploy/riskscope.sh creds` 取得 manager/engineer/outsider token(**截圖前遮蔽 token**)。**目前 Podman VM 停止、Codex 工作未完成,以下流程尚未在容器內實測。**
+前置(Claude A 負責確認):Podman 容器啟動成功(`deploy/riskscope.sh up`,預設 http://127.0.0.1:8100)、宿主 Ollama 可連線、`deploy/riskscope.sh creds` 取得 manager/engineer/outsider token(**截圖前遮蔽 token**)。
+
+**更新(Claude A,2026-11-09):** 原「Podman VM 停止」已處理——libkrun 後端在本機 abort,已改用獨立測試 VM
+`riskscope-codex-apple-20261107`(applehv 後端,與正式機 `riskscope-machine` 完全分離)。`build`/`up`/
+`/health`/`smoke`/`restart-test` **皆已實測通過**(見 `deploy/README_PODMAN.md` 開頭的 Tested status;
+`smoke` 的 14A 決定性計算與真實 LLM 回覆皆 PASS,`restart-test` 確認重啟後憑證與分析紀錄完整保留)。
+下方流程表的步驟 1–11 仍是草稿,截圖/錄影前建議在容器內逐步走一次確認,但前置條件(容器啟動成功)
+已不再是阻塞項。
 
 | # | 步驟 | 預期 | 截圖 |
 |---|---|---|---|

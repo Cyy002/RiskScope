@@ -6,10 +6,11 @@ Needs: Podman >= 4.4 (tested 6.1.4), an Ollama server with a model pulled (defau
 `applehv` backend — the pre-existing `libkrun` backend aborts on this machine, so `applehv` is
 used instead; this does not touch the separate production machine/container):**
 `build` → succeeds. `up` → container starts and `/health` returns `{"status":"ok", ...}`. `smoke`
-→ result pending a clean re-run (one run hit an LLM-extraction timeout while a large, unrelated
-model-evaluation batch was concurrently saturating the same shared Ollama server — resource
-contention, not a confirmed app defect; see `ai_progress/RISK_INTELLIGENCE_EVALUATION/`). Do not
-treat `smoke`/`restart-test` as passing until this file is updated with a clean run's result.
+→ **PASS (deterministic + real LLM)**, clean run with the Ollama queue idle (an earlier run hit an
+LLM-extraction timeout while an unrelated model-evaluation batch was concurrently saturating the
+same shared Ollama server — resource contention, not an app defect; confirmed by re-running clean).
+`restart-test` → **PASS**, `PERSISTENCE OK: credentials hash and 3 saved analysis record(s)
+identical after restart`, smoke re-run after restart also PASS.
 
 ## 0. Ollama must be reachable from the container
 The app only accepts `localhost`, `127.0.0.1`, `::1`, `host.containers.internal` as model host (by design, no cloud).

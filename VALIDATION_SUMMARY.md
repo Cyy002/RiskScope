@@ -12,12 +12,13 @@
   `ai_progress/RISK_INTELLIGENCE_EVALUATION/`Batch G–K3 的真實模型驗收紀錄），非僅
   mock。**但這些分數是「回答品質」的工程測試，不等於任何專業領域（供應鏈/排程/
   工程安全）的正式結論**，仍需人工審核。
-- **Podman**：image 已可用 `deploy/riskscope.sh build` 成功建置；容器已用
+- **Podman**：image 已用 `deploy/riskscope.sh build` 成功建置；容器已用
   `deploy/riskscope.sh up` 在一台獨立測試用 VM（`riskscope-codex-apple-20261107`，
-  applehv 後端，與正式機 `riskscope-machine` 完全分開）啟動並通過 `/health` 檢查。
-  `smoke`/`restart-test` 的完整通過紀錄仍在進行中（2026-11-09 當天與模型驗證批次
-  並行執行時出現一次因 Ollama 資源搶佔導致的擷取逾時，**待乾淨重跑後才能正式宣稱
-  通過**，不得在此之前聲稱已完全驗證）。原始 `libkrun` 後端在此機器上會 abort，已
-  改用 `applehv` 後端繞過（兩者皆非正式機使用的設定，正式機設定未變更）。
+  applehv 後端，與正式機 `riskscope-machine` 完全分開、未被觸碰）啟動並通過 `/health`
+  檢查；`smoke`（決定性引擎 14A 計算 + 真實 LLM 回覆皆 PASS）與 `restart-test`
+  （重啟後憑證雜湊與 3 筆分析紀錄完全一致）**均已實測通過**（Claude A，2026-11-09，
+  Ollama 佇列閒置時的乾淨重跑；先前一次因與本機模型驗證批次搶佔 Ollama 資源導致逾時
+  FAIL，非程式缺陷，已排除）。原始 `libkrun` 後端在此機器上會 abort，已改用
+  `applehv` 後端繞過（兩者皆非正式機使用的設定，正式機設定未變更）。
 - **尚未驗證**：LangGraph 安裝後完整 StateGraph 多節點路徑的大規模壓力測試、跨領域
   企業資料匯入及真實企業帳號/密鑰/事件串接——這些屬於 PoC 範圍外，沒有宣稱已完成。
