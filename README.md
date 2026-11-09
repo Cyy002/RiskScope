@@ -60,7 +60,9 @@ python -m uvicorn app.api:app --host 127.0.0.1 --port 8000
 
 ## 2. Podman 部署（企劃指定技術）
 
-若你已在 Mac 安裝 Podman，先啟動 Podman machine：
+若你已安裝 Podman（需先 `podman machine init`／`podman machine start`，macOS/Windows 皆需要），
+完整的安裝前提、Ollama 連線設定、環境變數、建置/啟動/Demo/測試/停止指令及常見問題排解，
+都在：
 
 **Portable/demo entry (isolated, never touches any production deployment): see `deploy/README_PODMAN.md`** (`deploy/riskscope.sh` or `deploy\riskscope.ps1`; port 8100, volume `riskscope_portable_data`).
 
