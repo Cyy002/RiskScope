@@ -4,6 +4,11 @@
 
 本專案不只提供概念文件；包含可操作的繁體中文 Web UI、REST API、SQLite 持久化、權限與來源版本管理、工程規格檢核、可追溯工程影響圖、人工核准與模擬執行、事件監測及自動測試。
 
+> **作業二評分者請先看這裡**：`ai_progress/ASSIGNMENT2/`——`DEMO_EVIDENCE.md`（真實執行的核心能力證據：
+> 對話/授權/工具檢查/方案比較/模擬核准/錯誤處理，含原始終端輸出）、`FAILURE_CASES.md`（4 個失敗案例，
+> 誠實標示真實模型 vs. mock）、`DEMO_RUNBOOK.md`（截圖/錄影流程）、`CONSISTENCY_REVIEW.md`（文件與
+> 實際版本一致性核對）。Podman 實測狀態見本文件第 2 節與 `deploy/README_PODMAN.md`。
+
 ## 1. 最快在 Mac / Windows / Linux 啟動
 
 需要 Python **3.12 或 3.13**（建議 3.12）。在終端機執行：
