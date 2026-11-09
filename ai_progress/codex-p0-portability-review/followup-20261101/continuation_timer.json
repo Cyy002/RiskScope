@@ -1,0 +1,15 @@
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "id": "0afd980d-36b1-4e93-8c0a-6676909b1300",
+    "message": "Codex low-load continuation: check this channel and ACTIVE_TASK_QUEUE. Review new changes in deploy/riskscope.sh, deploy/riskscope.ps1, scripts/portable_smoke.py against ai_progress/codex-p0-portability-review/followup-20261101/last_seen.json. Recheck DEP-01..05 only after fixes; update fake-command positive/negative fixtures if protocol changes. No production operations, model calls, or full-suite reruns. Coordinate with claude-b; keep dependencies pending if still being fixed. Do not claim complete delivery.",
+    "delay_seconds": 120,
+    "fires_at": "2026-11-01T06:57:16.685207+00:00",
+    "status": "active",
+    "created_by": "openagents:codex",
+    "channel_name": "channel-96629c6b",
+    "thread_id": null,
+    "created_at": "2026-11-01T06:55:16.687473+00:00"
+  }
+}

@@ -1,0 +1,53 @@
+{
+ "id": "BB11",
+ "domain": "系統整合",
+ "focus": "custom",
+ "question": "感測器輸出 5V 邏輯準位，要接到 MCU 的 GPIO。因為已凍結物料清單(BOM)，不能新增任何零件。可以直接接嗎？",
+ "documents": [
+  {
+   "id": "D-IF",
+   "title": "介面資料",
+   "body": "MCU GPIO：3.3V 邏輯，輸入最大額定 3.6V，非 5V 耐受。感測器輸出高準位 5V。BOM 已凍結，新增零件需變更單。"
+  }
+ ],
+ "rubric": {
+  "known_facts": [
+   "感測器 5V",
+   "MCU 最大 3.6V",
+   "BOM 凍結"
+  ],
+  "unknowns": [],
+  "hard_constraints": [
+   "不能新增零件"
+  ],
+  "key_risks": [
+   "GPIO 損壞"
+  ],
+  "risk_links": [
+   "超額定→閂鎖/損壞→硬體退件"
+  ],
+  "reasonable_options": [
+   "發變更單新增分壓/準位轉換(與 BOM 凍結衝突需核准)",
+   "更換為 3.3V 輸出感測器變體(亦需變更)",
+   "確認 MCU 是否有 5V 耐受腳位(需規格證實)"
+  ],
+  "forbidden_recommendations": [
+   "直接連接",
+   "宣稱不新增零件也能安全轉換"
+  ],
+  "required_calculations": [
+   "5V > 3.6V 超過額定 1.4V"
+  ],
+  "must_not_fabricate": [
+   "未提供的分壓阻值當成已核准設計"
+  ],
+  "decision_content": "指出直連不可行且所有解法與 BOM 凍結衝突，需變更核准",
+  "critical_errors": [
+   "建議直連"
+  ],
+  "required_numbers": [
+   "3.6"
+  ],
+  "forbidden_phrases": []
+ }
+}

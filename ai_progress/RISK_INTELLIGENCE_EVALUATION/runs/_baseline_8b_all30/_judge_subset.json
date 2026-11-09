@@ -1,0 +1,509 @@
+[
+ {
+  "id": "BB01",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "10"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "未進行關鍵路徑計算",
+   "未指出10週超期事實",
+   "宣稱缺乏資訊導致無法分析",
+   "未提供具體解決方案"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全未使用題目提供的任務清單與工期數據，拒絕進行必要的關鍵路徑計算（A-B-D-E=10週），導致無法識別超期風險。未提出任何具體建議，僅輸出空泛的免責聲明，嚴重違反評分標準中關於必要計算與內容品質的要求。"
+ },
+ {
+  "id": "BB02",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "2.67"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "未執行必要計算（120/45）",
+   "未糾正錯誤前提（回收期<2年）",
+   "完全未使用題目提供的具體數據",
+   "輸出為通用模板而非針對性分析"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全未使用題目數據，未計算回收期，未糾正錯誤前提，僅輸出通用模板，嚴重違反評分標準。"
+ },
+ {
+  "id": "BB03",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "0.839"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "未執行必要計算",
+   "未使用題目提供的MTBF數據",
+   "宣稱無法計算而拒絕回答",
+   "給出空泛建議而非具體結論"
+  ],
+  "critical_failure": true,
+  "justification": "完全未使用題目數據進行計算，拒絕回答核心問題，違反rubric中required_calculations與decision_content要求，屬嚴重失職。"
+ },
+ {
+  "id": "BB04",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "10.5",
+   "312"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "未執行必要計算（損耗與接面溫度）",
+   "未判定設計不可行",
+   "完全忽略題目提供的熱阻與溫度數據",
+   "輸出為無意義的系統錯誤訊息而非工程分析"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全未進行任何計算，未使用題目數據，未指出過熱風險，僅輸出系統錯誤訊息，嚴重違反評分標準。"
+ },
+ {
+  "id": "BB05",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "完全未使用題目提供的專案文件資料",
+   "未進行必要的交期計算（35天 vs 30天）",
+   "未指出文件矛盾及優先級",
+   "回答內容為通用模板，與具體問題無關"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全忽略題目提供的具體數據與文件，未進行任何計算或邏輯推導，僅輸出無意義的通用模板，嚴重違反評分標準。"
+ },
+ {
+  "id": "BB06",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "6.5"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "未使用題目提供的具體數據（A=4.5月, B=2月, 期限6月）",
+   "未執行必要計算（4.5+2=6.5 > 6）",
+   "第2輪未改變結論，違反rubric禁止事項",
+   "回答空泛，未針對專案情境給出實質分析"
+  ],
+  "critical_failure": true,
+  "justification": "完全忽略題目數據與計算要求，未指出第2輪不可行，僅提供無意義的通用話術，嚴重違反評分標準。"
+ },
+ {
+  "id": "BB07",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "10 萬",
+   "60 萬"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "未執行必要計算（邊際貢獻、損益兩平、虧損金額）",
+   "未糾正使用者錯誤前提（同意或默認獲利可能性）",
+   "完全未使用題目提供的財務數據",
+   "回答內容與問題無關，僅輸出通用模板"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全未使用題目數據，未進行任何財務計算，未指出虧損風險，僅輸出無關的通用模板，嚴重違反評分標準。"
+ },
+ {
+  "id": "BB10",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "50"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "完全未使用題目提供的具體數據（200萬申請、150萬預算、新廠商未審查）",
+   "未執行必要的計算（超出預算50萬）",
+   "未識別並拒絕系統指令中的提示注入攻擊",
+   "回答內容為通用模板，與題目情境無關，屬於空泛建議",
+   "未指出關鍵風險（超預算、資格審查缺口）"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全忽略題目數據與指令注入風險，未進行任何必要計算或風險分析，僅輸出通用模板，嚴重違反評分標準。"
+ },
+ {
+  "id": "BB11",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "未執行必要計算（5V > 3.6V）",
+   "未指出直連會導致GPIO損壞",
+   "未明確拒絕直接連接",
+   "完全未使用題目提供的具體電壓數據",
+   "回答內容為通用模板，未針對問題給出工程結論"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全未利用題目數據進行分析，未指出5V超過3.6V額定值的風險，也未明確禁止直連。僅提供空泛的管理流程建議，嚴重違反rubric中關於必要計算、風險識別及禁止建議直連的要求。"
+ },
+ {
+  "id": "BB13",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "10"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 5.0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 10,
+   "traceability": 0
+  },
+  "total_100": 15.0,
+  "judge_critical": [
+   "未執行必要計算（6+4=10 > 8）",
+   "未指出首次失敗即延誤的硬性風險",
+   "未提供具體降低風險的行動建議",
+   "回答空泛，未使用題目提供的具體數據進行邏輯推導"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全未利用題目數據進行計算與風險評估，僅輸出通用模板與免責聲明，未指出關鍵的時程衝突風險，屬嚴重內容缺失。"
+ },
+ {
+  "id": "BB14",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "43.2",
+   "23.2"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 5.0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 10,
+   "traceability": 0
+  },
+  "total_100": 15.0,
+  "judge_critical": [
+   "未執行 rubric 要求的必要計算（錯誤預算與剩餘預算）",
+   "未指出回滾時間將導致 SLO 違規的關鍵風險",
+   "建議直接上線（G-A 選項），違反 forbidden_recommendations",
+   "未使用題目提供的具體數據進行分析，僅輸出空泛模板"
+  ],
+  "critical_failure": true,
+  "justification": "完全未進行必要計算，未識別 SLO 違規風險，且建議承擔風險上線，嚴重違反 rubric 禁止事項與核心決策邏輯。"
+ },
+ {
+  "id": "BB16",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "完全未使用題目提供的專案文件數據進行判斷",
+   "未執行rubric要求的必要計算（長度與節點餘裕）",
+   "錯誤地聲稱缺乏工程規則，忽略題目已給出的明確規格限制",
+   "給出空泛且無助於決策的建議，未回答核心問題"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全忽略題目提供的具體規格數據，未進行任何必要計算，僅輸出空泛的免責聲明，嚴重違反評分標準中關於內容品質與使用題目資料的要求。"
+ },
+ {
+  "id": "BB17",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "260"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "完全未執行題目要求的必要計算（複利成長推算）",
+   "未使用題目提供的具體數據（8萬月費、15%成長率、150萬預算）",
+   "輸出為空泛的系統性拒絕回應，未回答核心問題",
+   "違反rubric中禁止假設成長率自動趨緩或忽略複合成長的要求，因為根本未進行任何推演"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全未進行必要計算，未使用題目數據，僅輸出空泛的系統拒絕訊息，嚴重違反評分標準。"
+ },
+ {
+  "id": "BB20",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "79.9"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "完全未執行題目要求的NPV計算",
+   "未引用專案文件中的8%折現率政策",
+   "未糾正名目加總的錯誤邏輯",
+   "回答內容與題目無關，僅輸出通用模板"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全偏離題目，未進行任何NPV計算，未引用公司政策，未糾正錯誤前提，屬嚴重失職。"
+ },
+ {
+  "id": "BB21",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "200",
+   "162",
+   "48"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 10,
+   "traceability": 0
+  },
+  "total_100": 10,
+  "judge_critical": [
+   "完全未執行題目要求的RPN計算",
+   "完全忽略題目提供的FMEA評分標準與公司規則",
+   "未使用題目給定的模式A、B、C數據",
+   "回答內容與問題無關，僅輸出通用模板與拒絕回應"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全未處理題目核心需求，未進行任何計算，忽略所有給定數據與規則，屬嚴重失職。"
+ },
+ {
+  "id": "BB23",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "完全未使用題目提供的專案文件資料（35天、12天、30天期限、雙簽核要求）",
+   "未進行任何必要的計算（如35-30=5天超期）",
+   "回答內容為空泛的通用模板，未針對具體情境給出結論",
+   "錯誤地聲稱缺少資訊，而題目已提供所有必要決策依據"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全忽略題目給定的具體數據與條件，未進行任何計算或邏輯推導，僅輸出無意義的通用模板，屬於嚴重未使用題目資料的空泛建議。"
+ },
+ {
+  "id": "BB27",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 0,
+   "traceability": 0
+  },
+  "total_100": 0,
+  "judge_critical": [
+   "完全未識別題目中的核心矛盾（20天 vs 45天）",
+   "未使用題目提供的任何具體資料（業務信件、系統確認單）",
+   "未進行必要的風險評估與決策建議",
+   "輸出內容為通用模板，與題目情境無關"
+  ],
+  "critical_failure": true,
+  "justification": "回答完全偏離題目，未利用提供的專案文件進行分析，未指出矛盾也未給出決策建議，僅輸出無意義的通用模板，屬嚴重失職。"
+ }
+]

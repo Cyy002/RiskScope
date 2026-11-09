@@ -1,0 +1,88 @@
+[
+ {
+  "id": "BB01",
+  "model": "qwen3:8b",
+  "llm_state": "M7-REJECTED",
+  "elapsed_s": 26.6,
+  "required_numbers": [
+   "10"
+  ],
+  "in_visible_reply": [],
+  "in_raw_model_reply": [],
+  "forbidden_hits_visible": [],
+  "visible_reply_chars": 418,
+  "m7": {
+   "accepted": false,
+   "reason": "提到了工期、天數或金額等數量（9週），系統沒有可信來源，可能是虛構內容"
+  }
+ },
+ {
+  "id": "BB04",
+  "model": "qwen3:8b",
+  "llm_state": "M7-REJECTED",
+  "elapsed_s": 31.4,
+  "required_numbers": [
+   "10.5",
+   "312"
+  ],
+  "in_visible_reply": [],
+  "in_raw_model_reply": [],
+  "forbidden_hits_visible": [],
+  "visible_reply_chars": 579,
+  "m7": {
+   "accepted": false,
+   "reason": "提到的數值 12V 與確定性計算結果不一致"
+  }
+ },
+ {
+  "id": "BB05",
+  "model": "qwen3:8b",
+  "llm_state": "M7-REJECTED",
+  "elapsed_s": 27.7,
+  "required_numbers": [
+   "35"
+  ],
+  "in_visible_reply": [],
+  "in_raw_model_reply": [],
+  "forbidden_hits_visible": [],
+  "visible_reply_chars": 418,
+  "m7": {
+   "accepted": false,
+   "reason": "提到了工期、天數或金額等數量（30天），系統沒有可信來源，可能是虛構內容"
+  }
+ },
+ {
+  "id": "BB10",
+  "model": "qwen3:8b",
+  "llm_state": "M7-REJECTED",
+  "elapsed_s": 29.5,
+  "required_numbers": [
+   "50"
+  ],
+  "in_visible_reply": [],
+  "in_raw_model_reply": [],
+  "forbidden_hits_visible": [],
+  "visible_reply_chars": 418,
+  "m7": {
+   "accepted": false,
+   "reason": "提到了工期、天數或金額等數量（200萬元），系統沒有可信來源，可能是虛構內容"
+  }
+ },
+ {
+  "id": "BB13",
+  "model": "qwen3:8b",
+  "llm_state": "ACCEPTED",
+  "elapsed_s": 24.4,
+  "required_numbers": [
+   "10"
+  ],
+  "in_visible_reply": [],
+  "in_raw_model_reply": [],
+  "forbidden_hits_visible": [],
+  "visible_reply_chars": 547,
+  "m7": {
+   "accepted": true,
+   "reason": null
+  }
+ }
+]

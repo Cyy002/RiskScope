@@ -1,0 +1,21 @@
+{
+  "mounts": [
+    {
+      "name": "riskscope_codex_m114_isolated",
+      "destination": "/app/runtime"
+    }
+  ],
+  "container": "riskscope-codex-m114",
+  "image_id": "5bd7251280f56aaf3444903352b34937b332ebcba413b5c836f2a4f3bb52ee09",
+  "port_binding": {
+    "8000/tcp": [
+      {
+        "HostIp": "127.0.0.1",
+        "HostPort": "8001"
+      }
+    ]
+  },
+  "model": "qwen3.6:27b",
+  "reply_timeout": 120,
+  "health": 200
+}

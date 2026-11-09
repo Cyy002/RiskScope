@@ -1,0 +1,411 @@
+{
+  "timestamp": "2026-10-19T07:56:14.277581+00:00",
+  "version": {
+    "Client": {
+      "APIVersion": "6.1.4",
+      "Version": "6.1.4",
+      "GoVersion": "go1.26.8",
+      "GitCommit": "464c15fec06f0074c916f9eff87c4806869c2833",
+      "BuiltTime": "Tue Oct 13 04:53:47 2026",
+      "Built": 1791838427,
+      "BuildOrigin": "pkginstaller",
+      "OsArch": "darwin/arm64",
+      "Os": "darwin"
+    },
+    "Server": {
+      "APIVersion": "6.1.4",
+      "Version": "6.1.4",
+      "GoVersion": "go1.26.9-X:nodwarf5",
+      "GitCommit": "464c15fec06f0074c916f9eff87c4806869c2833",
+      "BuiltTime": "Mon Oct 12 08:00:00 2026",
+      "Built": 1791763200,
+      "OsArch": "linux/arm64",
+      "Os": "linux"
+    }
+  },
+  "machine": [
+    {
+      "ConfigDir": {
+        "Path": "/Users/haochenglin/.config/containers/podman/machine/applehv"
+      },
+      "ConnectionInfo": {
+        "PodmanSocket": {
+          "Path": "/var/folders/d5/tstcbmfj3v1b64ldw1jn8tf00000gn/T/podman/riskscope-machine-api.sock"
+        },
+        "PodmanPipe": null
+      },
+      "Created": "2026-10-19T15:20:45.945516+08:00",
+      "LastUp": "0001-01-01T00:00:00Z",
+      "Name": "riskscope-machine",
+      "Resources": {
+        "CPUs": 4,
+        "DiskSize": 20,
+        "Memory": 4096,
+        "USBs": []
+      },
+      "SSHConfig": {
+        "IdentityPath": "/Users/haochenglin/.local/share/containers/podman/machine/machine",
+        "Port": 61795,
+        "RemoteUsername": "core"
+      },
+      "State": "running",
+      "UserModeNetworking": true,
+      "Rootful": false,
+      "Rosetta": false
+    }
+  ],
+  "machine_list": [
+    {
+      "Name": "riskscope-machine",
+      "Default": true,
+      "Created": "2026-10-19T15:20:45.945516+08:00",
+      "Running": true,
+      "Starting": false,
+      "LastUp": "0001-01-01T00:00:00Z",
+      "Stream": "default",
+      "VMType": "applehv",
+      "CPUs": 4,
+      "Memory": "4294967296",
+      "Swap": "0",
+      "DiskSize": "21474836480",
+      "Port": 61795,
+      "RemoteUsername": "core",
+      "IdentityPath": "/Users/haochenglin/.local/share/containers/podman/machine/machine",
+      "UserModeNetworking": true
+    }
+  ],
+  "provider_default": {
+    "Host": {
+      "Arch": "arm64",
+      "CurrentMachine": "",
+      "DefaultMachine": "",
+      "EventsDir": "/var/folders/d5/tstcbmfj3v1b64ldw1jn8tf00000gn/T/storage-run-501/podman",
+      "MachineConfigDir": "/Users/haochenglin/.config/containers/podman/machine/libkrun",
+      "MachineImageDir": "/Users/haochenglin/.local/share/containers/podman/machine/libkrun",
+      "MachineState": "",
+      "NumberOfMachines": 0,
+      "OS": "darwin",
+      "VMType": "libkrun"
+    },
+    "Version": {
+      "APIVersion": "6.1.4",
+      "Version": "6.1.4",
+      "GoVersion": "go1.26.8",
+      "GitCommit": "464c15fec06f0074c916f9eff87c4806869c2833",
+      "BuiltTime": "Tue Oct 13 04:53:47 2026",
+      "Built": 1791838427,
+      "BuildOrigin": "pkginstaller",
+      "OsArch": "darwin/arm64",
+      "Os": "darwin"
+    }
+  },
+  "provider_applehv": null,
+  "container": {
+    "id": "c1c0ecd35c63927a06a6f48a64cd8f5d7fe4f52a72460a238344cb127d292af9",
+    "image": "21ae758ad34eae5e829ff65997837cae40000d0166ee477ffc6c40c034bcaf31",
+    "user": "risk",
+    "command": [
+      "python",
+      "-m",
+      "uvicorn",
+      "app.api:app",
+      "--host",
+      "0.0.0.0",
+      "--port",
+      "8000"
+    ],
+    "env": [
+      "AGENT_CREDENTIALS_PATH=/app/runtime/demo_credentials.json",
+      "OLLAMA_MODEL=qwen3:8b",
+      "OLLAMA_URL=http://host.containers.internal:11434",
+      "AGENT_DB_PATH=/app/runtime/agent.sqlite3"
+    ],
+    "privileged": false,
+    "restart": {
+      "Name": "no",
+      "MaximumRetryCount": 0
+    },
+    "autoremove": true,
+    "ports": {
+      "8000/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "8000"
+        }
+      ]
+    },
+    "mounts": [
+      {
+        "Type": "volume",
+        "Name": "riskscope_runtime",
+        "Source": "/var/home/core/.local/share/containers/storage/volumes/riskscope_runtime/_data",
+        "Destination": "/app/runtime",
+        "Driver": "local",
+        "Mode": "",
+        "Options": [
+          "nosuid",
+          "nodev",
+          "rbind"
+        ],
+        "RW": true,
+        "Propagation": "rprivate"
+      }
+    ],
+    "healthcheck": null,
+    "status": "running"
+  },
+  "volume": [
+    {
+      "Name": "riskscope_runtime",
+      "Driver": "local",
+      "Mountpoint": "/var/home/core/.local/share/containers/storage/volumes/riskscope_runtime/_data",
+      "CreatedAt": "2026-10-19T15:23:52.293124366+08:00",
+      "Labels": {},
+      "Scope": "local",
+      "Options": {},
+      "UID": 10001,
+      "GID": 10001,
+      "MountCount": 0,
+      "NeedsCopyUp": true,
+      "LockNumber": 0
+    }
+  ],
+  "stats": [
+    {
+      "id": "c1c0ecd35c63",
+      "name": "riskscope",
+      "cpu_time": "3.384203s",
+      "cpu_percent": "0.19%",
+      "avg_cpu": "0.19%",
+      "mem_usage": "36.3MB / 4.077GB",
+      "mem_percent": "0.89%",
+      "net_io": "2.34kB / 1.118kB",
+      "block_io": "0B / 0B",
+      "pids": "2"
+    }
+  ],
+  "listeners": {
+    "command": [
+      "lsof",
+      "-nP",
+      "-iTCP:8000",
+      "-iTCP:11434",
+      "-sTCP:LISTEN"
+    ],
+    "exit": 0,
+    "stdout": "COMMAND   PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME\nollama    909 haochenglin    3u  IPv4 0xb32466f630d91ce0      0t0  TCP 127.0.0.1:11434 (LISTEN)\ngvproxy 88281 haochenglin   14u  IPv4 0x86bf7c1512697945      0t0  TCP 127.0.0.1:8000 (LISTEN)\n",
+    "stderr": ""
+  },
+  "interactive_path": {
+    "command": [
+      "zsh",
+      "-ic",
+      "command -v podman; podman --version"
+    ],
+    "exit": 0,
+    "stdout": "/Users/haochenglin/.local/podman/bin/podman\npodman version 6.1.4\n",
+    "stderr": ""
+  },
+  "installed_files": [
+    {
+      "name": "podman",
+      "sha256": "9603079ca32a9fa88f0aa2b3f9e41c9365d7db2dc19c75857a1ec40aee6e5837",
+      "mode": "0o755",
+      "uid": 501,
+      "gid": 20,
+      "size": 42702368,
+      "signature": {
+        "command": [
+          "codesign",
+          "--verify",
+          "--strict",
+          "--verbose=2",
+          "/Users/haochenglin/.local/podman/bin/podman"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "/Users/haochenglin/.local/podman/bin/podman: valid on disk\n/Users/haochenglin/.local/podman/bin/podman: satisfies its Designated Requirement\n"
+      }
+    },
+    {
+      "name": "vfkit",
+      "sha256": "acd7cb319125bb708857647debb3e7d14db3a5d61a7adcad93610b00408381a2",
+      "mode": "0o755",
+      "uid": 501,
+      "gid": 20,
+      "size": 66431920,
+      "signature": {
+        "command": [
+          "codesign",
+          "--verify",
+          "--strict",
+          "--verbose=2",
+          "/Users/haochenglin/.local/podman/bin/vfkit"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "/Users/haochenglin/.local/podman/bin/vfkit: valid on disk\n/Users/haochenglin/.local/podman/bin/vfkit: satisfies its Designated Requirement\n"
+      }
+    },
+    {
+      "name": "krunkit",
+      "sha256": "fa83de64a6f80ac5780e6aaa0d412044acec816d566a016c4ed8b7de68a494f5",
+      "mode": "0o555",
+      "uid": 501,
+      "gid": 20,
+      "size": 3319904,
+      "signature": {
+        "command": [
+          "codesign",
+          "--verify",
+          "--strict",
+          "--verbose=2",
+          "/Users/haochenglin/.local/podman/bin/krunkit"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "/Users/haochenglin/.local/podman/bin/krunkit: valid on disk\n/Users/haochenglin/.local/podman/bin/krunkit: satisfies its Designated Requirement\n"
+      }
+    },
+    {
+      "name": "gvproxy",
+      "sha256": "2c6debf5a5cc92f0e191659730664323c2078437a17c80609552949e5cb860aa",
+      "mode": "0o755",
+      "uid": 501,
+      "gid": 20,
+      "size": 27024976,
+      "signature": {
+        "command": [
+          "codesign",
+          "--verify",
+          "--strict",
+          "--verbose=2",
+          "/Users/haochenglin/.local/podman/bin/gvproxy"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "/Users/haochenglin/.local/podman/bin/gvproxy: valid on disk\n/Users/haochenglin/.local/podman/bin/gvproxy: satisfies its Designated Requirement\n"
+      }
+    },
+    {
+      "name": "podman-mac-helper",
+      "sha256": "e26bf83e1286cdb97ccc617e4f7d8b417ce7449259438249c3d65229bc9e5ef3",
+      "mode": "0o755",
+      "uid": 501,
+      "gid": 20,
+      "size": 6303728,
+      "signature": {
+        "command": [
+          "codesign",
+          "--verify",
+          "--strict",
+          "--verbose=2",
+          "/Users/haochenglin/.local/podman/bin/podman-mac-helper"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "/Users/haochenglin/.local/podman/bin/podman-mac-helper: valid on disk\n/Users/haochenglin/.local/podman/bin/podman-mac-helper: satisfies its Designated Requirement\n"
+      }
+    }
+  ],
+  "host_resources": {
+    "command": [
+      "sysctl",
+      "-n",
+      "hw.memsize",
+      "hw.logicalcpu"
+    ],
+    "exit": 0,
+    "stdout": "34359738368\n10\n",
+    "stderr": ""
+  },
+  "package_signature": {
+    "command": [
+      "pkgutil",
+      "--check-signature",
+      "/Applications/Podman Desktop.app/Contents/Resources/extensions/podman/packages/extension/assets/podman-installer-macos-aarch64-v6.1.4.pkg"
+    ],
+    "exit": 0,
+    "stdout": "Package \"podman-installer-macos-aarch64-v6.1.4.pkg\":\n   Status: signed by a developer certificate issued by Apple for distribution\n   Notarization: trusted by the Apple notary service\n   Signed with a trusted timestamp on: 2026-10-12 20:54:11 +0000\n   Certificate Chain:\n    1. Developer ID Installer: Red Hat, Inc. (HYSCB8KRL2)\n       Expires: 2027-02-01 22:12:15 +0000\n       SHA256 Fingerprint:\n           71 8E 32 94 B5 E4 F8 97 E3 C7 5B CC 8A 0E 6F 4D 75 3C C3 8C 28 D5 \n           D1 5B 91 A1 7F 7C 8F 5F A0 F6\n       ------------------------------------------------------------------------\n    2. Developer ID Certification Authority\n       Expires: 2027-02-01 22:12:15 +0000\n       SHA256 Fingerprint:\n           7A FC 9D 01 A6 2F 03 A2 DE 96 37 93 6D 4A FE 68 09 0D 2D E1 8D 03 \n           F2 9C 88 CF B0 B1 BA 63 58 7F\n       ------------------------------------------------------------------------\n    3. Apple Root CA\n       Expires: 2035-02-09 21:40:36 +0000\n       SHA256 Fingerprint:\n           B0 B1 73 0E CB C7 FF 45 05 14 2C 49 F1 29 5E 6E DA 6B CA ED 7E 2C \n           68 C5 BE 91 B5 A1 10 01 F0 24\n\n",
+    "stderr": ""
+  },
+  "desktop_signer": {
+    "command": [
+      "codesign",
+      "-dv",
+      "--verbose=4",
+      "/Applications/Podman Desktop.app"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": "Executable=/Applications/Podman Desktop.app/Contents/MacOS/Podman Desktop\nIdentifier=io.podmandesktop.PodmanDesktop\nFormat=app bundle with Mach-O thin (arm64)\nCodeDirectory v=20500 size=650 flags=0x10000(runtime) hashes=9+7 location=embedded\nVersionPlatform=1\nVersionMin=851968\nVersionSDK=1705216\nHash type=sha256 size=32\nCandidateCDHash sha256=a01aa07a2847907a103b77604f318d9fc385bbb4\nCandidateCDHashFull sha256=a01aa07a2847907a103b77604f318d9fc385bbb4cab2da098772504fa5521434\nHash choices=sha256\nCMSDigest=a01aa07a2847907a103b77604f318d9fc385bbb4cab2da098772504fa5521434\nCMSDigestType=2\nExecutable Segment base=0\nExecutable Segment limit=16384\nExecutable Segment flags=0x1\nPage size=4096\nCDHash=a01aa07a2847907a103b77604f318d9fc385bbb4\nSignature size=8976\nAuthority=Developer ID Application: Red Hat, Inc. (HYSCB8KRL2)\nAuthority=Developer ID Certification Authority\nAuthority=Apple Root CA\nTimestamp=Oct 13, 2026 at 7:17:13 PM\nNotarization Ticket=stapled\nInfo.plist entries=33\nTeamIdentifier=HYSCB8KRL2\nRuntime Version=26.5.0\nSealed Resources version=2 rules=13 files=17\nInternal requirements count=1 size=192\nTotal signatures=1\nChosen signature=1\n"
+  },
+  "desktop_gatekeeper": {
+    "command": [
+      "spctl",
+      "--assess",
+      "--type",
+      "execute",
+      "--verbose=2",
+      "/Applications/Podman Desktop.app"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": "/Applications/Podman Desktop.app: accepted\nsource=Notarized Developer ID\n"
+  },
+  "health": {
+    "status": "ok",
+    "poc": true,
+    "langgraph_installed": true,
+    "cloud_model_enabled": false
+  },
+  "container_read_probe": {
+    "source_hashes": {
+      "app/__init__.py": "934c50da81f9660bd4f2d68b4c799a16d2d41321f1768f71c28a4d5d21d47020",
+      "app/actions.py": "27a3f781bb54b17506411f8f14d8f85ab4cc72981e1067cbbe0af8553799ecf6",
+      "app/analyzer.py": "b7d326705018141fa663fce13796fd1eeeb71b707a1d3714187cfd5bddecf03a",
+      "app/api.py": "44e1b4d88d015fac372d86713f54203305571f948899c56fd25e461eddd66624",
+      "app/chat.py": "412639eae77aec4addf048e16b814a92b9b0e493fb49dd4c5e6cd6c7c9fbb1ef",
+      "app/config.py": "ddcfbc8605e97eaab2e28bf1ffc276fc9e3c4f23f947371caeff97ca2c8c62ff",
+      "app/db.py": "2cd3af5db0ba36a20abdf146d6d9368667044be1342033e99f5e2a08a9fba85c",
+      "app/engineering.py": "ccbe4c3c751c895efc18529ef2765eba6391e344ef8959edff5aa38bcbb30eb3",
+      "app/events.py": "46abaca4f23cdf2cc1d5a456c25dc3d08499b3fe43146ffe59ba85221b300327",
+      "app/impact.py": "5b2d198569e1fd1e841b354d7a5f898da6748d2c11f30354d897eb5756b593cc",
+      "app/llm_client.py": "6cf0592ee3b94adc379c1afc64679c7a02dbec1a1b64db2461c6dfd22ec5e958",
+      "app/retrieval.py": "625c851bf79840e2ce8272b2ac5569f10c7ffe065be8eeff1f2395bfdfcb9908",
+      "app/security.py": "e28756b39dc4f3db35d1270996f143fb7907d1bd2703c5fe217877fb8581447b",
+      "app/static/app.js": "b0a44fb5b5e3ba05f7f60a93925e0e71031248400a5efd4c994e2b958a594c55",
+      "app/static/index.html": "71bab95dfb1d6f0dbfa697f9ee273093a2aec346696c48bbed21fed20892a88a"
+    },
+    "counts": {
+      "users": 3,
+      "sessions": 1,
+      "analyses": 2,
+      "facts": 5,
+      "actions": 1,
+      "audit": 8
+    },
+    "credential_mode": "0o600",
+    "uid": 10001,
+    "ollama_status": 200,
+    "qwen3_8b_present": true
+  },
+  "host_source_hashes": {
+    "app/__init__.py": "934c50da81f9660bd4f2d68b4c799a16d2d41321f1768f71c28a4d5d21d47020",
+    "app/actions.py": "27a3f781bb54b17506411f8f14d8f85ab4cc72981e1067cbbe0af8553799ecf6",
+    "app/analyzer.py": "b7d326705018141fa663fce13796fd1eeeb71b707a1d3714187cfd5bddecf03a",
+    "app/api.py": "44e1b4d88d015fac372d86713f54203305571f948899c56fd25e461eddd66624",
+    "app/chat.py": "412639eae77aec4addf048e16b814a92b9b0e493fb49dd4c5e6cd6c7c9fbb1ef",
+    "app/config.py": "ddcfbc8605e97eaab2e28bf1ffc276fc9e3c4f23f947371caeff97ca2c8c62ff",
+    "app/db.py": "2cd3af5db0ba36a20abdf146d6d9368667044be1342033e99f5e2a08a9fba85c",
+    "app/engineering.py": "ccbe4c3c751c895efc18529ef2765eba6391e344ef8959edff5aa38bcbb30eb3",
+    "app/events.py": "46abaca4f23cdf2cc1d5a456c25dc3d08499b3fe43146ffe59ba85221b300327",
+    "app/impact.py": "5b2d198569e1fd1e841b354d7a5f898da6748d2c11f30354d897eb5756b593cc",
+    "app/llm_client.py": "6cf0592ee3b94adc379c1afc64679c7a02dbec1a1b64db2461c6dfd22ec5e958",
+    "app/retrieval.py": "625c851bf79840e2ce8272b2ac5569f10c7ffe065be8eeff1f2395bfdfcb9908",
+    "app/security.py": "e28756b39dc4f3db35d1270996f143fb7907d1bd2703c5fe217877fb8581447b",
+    "app/static/app.js": "b0a44fb5b5e3ba05f7f60a93925e0e71031248400a5efd4c994e2b958a594c55",
+    "app/static/index.html": "71bab95dfb1d6f0dbfa697f9ee273093a2aec346696c48bbed21fed20892a88a"
+  },
+  "source_mismatches": []
+}

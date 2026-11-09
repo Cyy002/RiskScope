@@ -1,0 +1,69 @@
+FFFFFF..                                                                 [100%]
+=================================== FAILURES ===================================
+_ test_analyze_rejects_the_same_untrusted_output_as_chat[approval-TEST-01 \u5df2\u6838\u51c6\uff0c\u53ef\u4ee5\u7acb\u5373\u57f7\u884c\u3002-supplier] _
+ai_progress/codex-review-m121-analyze/review_probes.py:91: in test_analyze_rejects_the_same_untrusted_output_as_chat
+    assert text not in a['local_llm'].get('text', ''), 'Analyze exposes text rejected by chat M7'
+E   AssertionError: Analyze exposes text rejected by chat M7
+E   assert 'TEST-01 \u5...\u884c\u3002' not in 'TEST-01 \u5...\u884c\u3002'
+E     
+E     'TEST-01 已核准，可以立即執行。' is contained here:
+E       TEST-01 已核准，可以立即執行。
+_ test_analyze_rejects_the_same_untrusted_output_as_chat[schedule-\u4f9b\u61c9\u5546\u5c07\u5ef6\u8aa412\u5929\u3002-supplier] _
+ai_progress/codex-review-m121-analyze/review_probes.py:91: in test_analyze_rejects_the_same_untrusted_output_as_chat
+    assert text not in a['local_llm'].get('text', ''), 'Analyze exposes text rejected by chat M7'
+E   AssertionError: Analyze exposes text rejected by chat M7
+E   assert '\u4f9b\u61c...\u5929\u3002' not in '\u4f9b\u61c...\u5929\u3002'
+E     
+E     '供應商將延誤12天。' is contained here:
+E       供應商將延誤12天。
+_ test_analyze_rejects_the_same_untrusted_output_as_chat[cost-\u65b0\u589e\u6210\u672c\u70ba5000\u5143\u3002-supplier] _
+ai_progress/codex-review-m121-analyze/review_probes.py:91: in test_analyze_rejects_the_same_untrusted_output_as_chat
+    assert text not in a['local_llm'].get('text', ''), 'Analyze exposes text rejected by chat M7'
+E   AssertionError: Analyze exposes text rejected by chat M7
+E   assert '\u65b0\u589...\u5143\u3002' not in '\u65b0\u589...\u5143\u3002'
+E     
+E     '新增成本為5000元。' is contained here:
+E       新增成本為5000元。
+_ test_analyze_rejects_the_same_untrusted_output_as_chat[percentage-\u5ef6\u8aa4\u6a5f\u7387\u70ba30%\u3002-supplier] _
+ai_progress/codex-review-m121-analyze/review_probes.py:91: in test_analyze_rejects_the_same_untrusted_output_as_chat
+    assert text not in a['local_llm'].get('text', ''), 'Analyze exposes text rejected by chat M7'
+E   AssertionError: Analyze exposes text rejected by chat M7
+E   assert '\u5ef6\u8aa...0ba30%\u3002' not in '\u5ef6\u8aa...0ba30%\u3002'
+E     
+E     '延誤機率為30%。' is contained here:
+E       延誤機率為30%。
+_ test_analyze_rejects_the_same_untrusted_output_as_chat[test_complete-\u54c1\u8cea\u9a57\u8b49\u5df2\u5b8c\u6210\u3002-supplier] _
+ai_progress/codex-review-m121-analyze/review_probes.py:91: in test_analyze_rejects_the_same_untrusted_output_as_chat
+    assert text not in a['local_llm'].get('text', ''), 'Analyze exposes text rejected by chat M7'
+E   AssertionError: Analyze exposes text rejected by chat M7
+E   assert '\u54c1\u8ce...\u6210\u3002' not in '\u54c1\u8ce...\u6210\u3002'
+E     
+E     '品質驗證已完成。' is contained here:
+E       品質驗證已完成。
+_ test_analyze_rejects_the_same_untrusted_output_as_chat[engineering-\u65b0\u65b9\u6848\u7e3d\u96fb\u6d4199A\u3001\u7e3d\u529f\u738724W\u3002-motor_upgrade] _
+ai_progress/codex-review-m121-analyze/review_probes.py:91: in test_analyze_rejects_the_same_untrusted_output_as_chat
+    assert text not in a['local_llm'].get('text', ''), 'Analyze exposes text rejected by chat M7'
+E   AssertionError: Analyze exposes text rejected by chat M7
+E   assert '\u65b0\u65b...38724W\u3002' not in '\u65b0\u65b...38724W\u3002'
+E     
+E     '新方案總電流99A、總功率24W。' is contained here:
+E       新方案總電流99A、總功率24W。
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:45
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/starlette/testclient.py:45: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+ai_progress/codex-review-m121-analyze/review_probes.py::test_analyze_rejects_the_same_untrusted_output_as_chat[approval-TEST-01 \u5df2\u6838\u51c6\uff0c\u53ef\u4ee5\u7acb\u5373\u57f7\u884c\u3002-supplier]
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/langgraph/cache/base/__init__.py:8: LangChainPendingDeprecationWarning: The default value of `allowed_objects` will change in a future version. Pass an explicit value (e.g., allowed_objects='messages' or allowed_objects='core') to suppress this warning.
+    from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED ai_progress/codex-review-m121-analyze/review_probes.py::test_analyze_rejects_the_same_untrusted_output_as_chat[approval-TEST-01 \u5df2\u6838\u51c6\uff0c\u53ef\u4ee5\u7acb\u5373\u57f7\u884c\u3002-supplier]
+FAILED ai_progress/codex-review-m121-analyze/review_probes.py::test_analyze_rejects_the_same_untrusted_output_as_chat[schedule-\u4f9b\u61c9\u5546\u5c07\u5ef6\u8aa412\u5929\u3002-supplier]
+FAILED ai_progress/codex-review-m121-analyze/review_probes.py::test_analyze_rejects_the_same_untrusted_output_as_chat[cost-\u65b0\u589e\u6210\u672c\u70ba5000\u5143\u3002-supplier]
+FAILED ai_progress/codex-review-m121-analyze/review_probes.py::test_analyze_rejects_the_same_untrusted_output_as_chat[percentage-\u5ef6\u8aa4\u6a5f\u7387\u70ba30%\u3002-supplier]
+FAILED ai_progress/codex-review-m121-analyze/review_probes.py::test_analyze_rejects_the_same_untrusted_output_as_chat[test_complete-\u54c1\u8cea\u9a57\u8b49\u5df2\u5b8c\u6210\u3002-supplier]
+FAILED ai_progress/codex-review-m121-analyze/review_probes.py::test_analyze_rejects_the_same_untrusted_output_as_chat[engineering-\u65b0\u65b9\u6848\u7e3d\u96fb\u6d4199A\u3001\u7e3d\u529f\u738724W\u3002-motor_upgrade]
+6 failed, 2 passed, 2 warnings in 0.40s
+{"exit_code": 1, "distinct_temporary_databases": 8, "blocked_access_attempts": [], "product_and_existing_tests_unchanged": true, "real_llm_calls": 0}

@@ -1,0 +1,180 @@
+RiskScope AI Agent
+跨領域 AI 專業決策與風險分析輔助系統｜v0.1 完整工程交接文件
+文件用途：交付其他 AI／工程師續作、重現測試與確認未完成事項。依據原始九頁企劃書及 v0.1 專案原始碼整理。
+一、交接摘要
+目前交付的是「可執行的課程 PoC」，不是已可上線的企業產品。核心 A（決策前風險分析）已有程式化原型；B（跨層依賴追蹤）與 C（模擬事件提醒）有初版。系統預設使用合成研發資料，不包含真實企業資訊。
+關鍵資訊
+本版狀態
+專案定位
+管理者決策前：工具檢核、釐清假設、比較方案、人工審核
+主要技術
+Python / FastAPI / SQLite / 原生 HTML、CSS、JS
+Agent 編排
+有 LangGraph 條件性路徑；已驗證循序 fallback，尚未完成 LangGraph 實機測試
+模型使用
+不依賴 LLM 的確定性檢核可運行；Ollama / Qwen3 尚未實機驗證
+教授部署要求
+非 LLM server 的元件需以 Podman 容器執行；已附設定，尚未證明 build 成功
+測試基準
+原開發環境紀錄：37 個自動化測試通過；12 個固定合成評估案例
+
+二、不可改掉的設計原則
+•  人工是決策主體：Agent 可質疑、追問、推演，但不能越過管理者核准改動任務或通知第三人。
+•  數學計算、單位檢核、權限、資料版本與動作許可由確定性程式處理，不靠 LLM 自行判定。
+•  已知事實、合理推論、假設、未知必須分開；缺資料不能猜測啟動電流、溫升、交期或必然故障。
+•  企業文件預設地端；未分類或機密內容不得外送雲端。使用者／專案／來源權限要在檢索前檢查。
+•  本企劃學期內採單一 Agent；若擬改成多 Agent，需先讓使用者確認需求變更。
+三、核心資料流
+Web UI / REST → Token / Project Role / Document ACL
+→ 擷取授權文件、來源 ID 與版本 → 工程規則檢核 → 影響追蹤
+→ 事實／假設／未知／風險／方案 → SQLite 分析與 Tool 紀錄
+→ 動作申請（pending）→ 管理者核准 → 版本再驗證 → 模擬寫入
+模擬事件 → 來源狀態更新 → 重新分析 → 去重 → 內部提醒
+
+四、對照企劃：功能現況
+規格
+狀態
+v0.1 交付範圍／限制
+FR-01 受控資料
+已做 PoC
+API Token、專案角色、文件 ACL；非企業身分整合
+FR-02 地端知識
+已做 PoC
+合成文件、來源／版本及 SQLite；非完整 PDF / DOCX 匯入
+FR-03 主動對話
+部分
+聚焦分析與追問；尚未完成自然語言多輪 Agent
+FR-04 工具驗證
+已做 PoC
+規格計算、單位、缺值與舊版來源 unknown
+FR-05 決策分析
+已做範例
+事實／推論／未知區分、A／B／C 方案比較
+FR-06 人工審核
+已做 PoC
+核准／拒絕、過期版本阻擋、模擬執行
+FR-07 決策狀態
+已做 PoC
+分析、Tool 輸出、操作及審核紀錄
+FR-08 影響追蹤
+已做合成圖
+多層路徑、出處、ACL、循環處理
+FR-09 雙模式
+部分
+人工觸發合成事件與內部提醒；沒有真正背景監控
+FR-10 時程支援
+部分
+可顯示依賴；沒有足夠工期就不推算延期日數
+FR-11 企業來源
+未做
+未接入 Email / GitHub / Jira / BOM
+FR-12 組織記憶
+雛形
+保存分析／操作；未做有效案例檢索
+FR-13 跨領域擴充
+未驗證
+目前僅合成軟硬體整合情境
+
+五、重要程式模組
+模組
+責任
+app/api.py
+REST API、登入驗證、管理者操作
+app/analyzer.py
+核心分析工作流；可選 LangGraph／循序 fallback／LLM 補充
+app/db.py
+SQLite Schema、合成資料初始化、資料存取
+app/security.py + retrieval.py
+Token、專案角色、文件 ACL、受控檢索
+app/engineering.py
+電氣規格計算、單位、數值檢核、unknown
+app/impact.py
+多層工程依賴遍歷、來源追溯、防循環
+app/actions.py + events.py
+人工審核／模擬任務寫入；事件去重／提醒
+app/static/
+繁體中文 Web UI
+tests/test_core.py
+自動化驗收與安全性回歸測試
+scripts/evaluate.py
+12 個固定案例的合成路徑基準評估
+
+
+六、已完成的驗證與不可誤解的數據
+以原開發環境留下的 VALIDATION_SUMMARY.md 為依據：Python 3.13／FastAPI 0.128.2 執行 37 項自動化測試通過；網頁實際完成登入、分析與建立待審核申請。這些驗證不代表正式環境一定可直接部署。
+•  合成案例：PS-01 電源 24 V / 10 A；馬達 M-02 8 A；其他負載 3 A。合計 11 A、264 W；超過連續額定 10 A、240 W，判定指定條件不合格，但不能宣稱「設備必然跳脫」。
+•  固定 12 案：已登錄的直接依賴路徑召回 11/45（24.44%）；多層依賴 45/45（100%），精確率 45/45（100%）。這是圖遍歷正確性，不是 LLM 工程推理成績。
+•  安全邊界測試涵蓋：未授權存取、撤權後已存結果拒讀、來源版本失效、錯誤單位、循環圖、未核准寫入、過期核准、冪等與事件去重。
+七、本機啟動與驗收
+先將 ZIP 解壓縮，在 CrossDomainRiskAgent 目錄開啟終端機；使用 Python 3.12 或 3.13：
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-dev.txt
+python -m scripts.init_demo
+python -m uvicorn app.api:app --host 127.0.0.1 --port 8000
+瀏覽器開啟 http://127.0.0.1:8000。登入 Token 由初始化建立，保存在 runtime/demo_credentials.json；請勿將 Token 公開。
+測試命令：
+python -m pytest -q
+python -m scripts.evaluate
+八、Podman（教授要求）：必須實機再驗證
+企劃要求 LLM server 以外的介面、Agent、檢索、工具、紀錄服務都由 Podman 容器運作。v0.1 已包含 Containerfile、compose.yml，但本次無法對外下載 image / 依賴，尚未成功實際建置驗證。
+podman machine init           # 首次使用才執行
+podman machine start
+podman compose up --build -d
+podman compose exec riskscope cat /app/runtime/demo_credentials.json
+若 podman compose 無法使用，請看 ZIP 內 README.md 的 podman build / run 備用方式。請先核對 Podman 是否安裝、machine 是否啟動與 compose provider 是否可用。
+九、最基本人工驗收順序
+•  管理者登入 → 馬達負載分析 → 確認 11 A、264 W 與方案 A 被阻擋。
+•  查看 M-02 的工程影響路徑，確認有來源與版本資訊。
+•  提出模擬 TEST-01 變更 → 核准前不可執行 → 核准後才可模擬執行。
+•  模擬供應商交期變更，確認重新分析、內部提醒與同一事件 ID 去重。
+•  使用 engineer、outsider 身分重測權限；修改文件後重測舊分析及舊核准。
+
+十、後續工程待辦（按優先序）
+優先
+要做什麼
+完成定義
+P0
+完成 Podman build／run、實際 LangGraph 安裝與全測試。
+Podman 起動可登入與驗收；保留執行紀錄、版本、失敗 log。
+P1
+真正多輪 Agent：LangGraph 持久狀態、補問、interrupt/resume。
+多輪互動後分析正確續接；人工批准不得被 LLM 略過。
+P2
+文件匯入／版本化檢索：PDF、DOCX、CSV，來源段落定位。
+授權前過濾、撤權拒讀、舊來源停止採信。
+P3
+補強專業工程工具：峰值／降額／驅動器／熱／機構／時程。
+每項有型別、公式、來源與失敗測試；缺值回 unknown。
+P4
+企業防護：SSO、RBAC、加密、憑證管理、備份、稽核強化。
+安全威脅模型與實測；無法在本機 Demo 直接宣稱完成。
+P5
+授權事件與系統串接：真正監測、通知、專案工具。
+只接授權來源；對外寫入仍須人工核准與審計。
+
+十一、已知限制與續作警示
+•  Podman、LangGraph StateGraph 路徑、實際 Ollama／Qwen3 尚未在原環境完成端到端驗證。LangGraph 不可用時會明示 sequential_fallback。
+•  Demo Token + SQLite 不等同企業級認證、審計不可竄改或完整多使用者資料隔離；預設限本機，不要直接公開至網際網路。
+•  LLM 可補充文字，但工程數值判斷、存取規則與模擬寫入均不能被 LLM 覆寫。
+•  事件為手動送出的合成更新，並非真正持續監控；尚無真實第三方通知。
+•  已標註的工程依賴圖不是任意新產業的自動專業推理，不應誇大跨領域能力。
+十二、接手者應保留的檔案與資訊
+交接時請同時提供 ZIP（完整程式與企劃書）和本文件；先閱讀 ZIP 內 README.md、ARCHITECTURE_AND_HANDOFF.md、VALIDATION_SUMMARY.md，再檢查原始碼與測試。不要僅閱讀本文件就跳過實際重現。
+請保留既有測試做回歸基準，新功能要增加測試；若需要改資料表，提出 migration 方案；更動模型或資料源後，記錄版本差異、失敗案例與不確定性。
+
+十三、直接交給下一個 AI 的接手指令
+以下內容可以直接複製給其他 AI，請他讀取 ZIP 和交接文件後接著做。
+你現在接手我的 RiskScope 跨領域 AI 專業決策與風險分析輔助系統（PoC v0.1）。
+我已提供：完整專案 ZIP、工程交接文件，以及 ZIP 裡的原始企劃書、README、測試與驗證摘要。
+請先完整檢查現有程式與企劃需求，實際執行測試、判斷實作與需求是否一致；不要只看文件後宣稱完成。
+最高優先序：在 Mac 的 Podman 環境完成可重現部署，真正使用 LangGraph 執行並驗證，確認 FastAPI、SQLite、Web UI、資料權限、流程及人工核准都正常。
+第二優先序：在不破壞安全邊界的前提下，強化能持續上下文、主動追問的多輪 AI Agent。需區分 deterministic tools 和 LLM 意見，且不得憑空捏造工程結論。
+持續保護：專案／文件 ACL、撤權後拒讀、來源版本與衝突、未知資料 unknown、重要動作須核准、版本變更後禁止沿用舊核准、事件去重，以及 SQLite 稽核。
+每次改動請提供：改動清單、測試結果、實際操作方式、仍存在的限制，以及更新後的完整可執行專案 ZIP。
+若發現企劃不合理或原版程式有缺陷，請明確指出並提出修正，不要為了聲稱完成而隱藏問題。
+十四、最後交接判定
+可以開始接手開發：是。
+可以宣稱已完成教授指定的 Podman 實際部署驗證：否；必須再測。
+可以宣稱已具備完整多輪自主 LLM Agent 與真實企業跨領域能力：否；目前仍是以合成案例驗證的課程原型。
+這些界線是為了讓後續開發能清楚承接，而不是將未驗證功能當作既有成果。

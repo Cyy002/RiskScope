@@ -1,0 +1,662 @@
+[
+ {
+  "id": "BB07",
+  "domain": "商業決策",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "M7-REJECTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 2,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 6.0,
+  "required_numbers_found": "0/2",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "M7 over-rejection (user-supplied number rejected)",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB08",
+  "domain": "陌生領域(醫藥冷鏈)",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 2,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 6.0,
+  "required_numbers_found": "0/0",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB11",
+  "domain": "系統整合",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 4.0,
+  "required_numbers_found": "0/1",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "hard constraints not engaged",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB12",
+  "domain": "品質可靠度",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 2,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 6.0,
+  "required_numbers_found": "0/2",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB14",
+  "domain": "軟體工程/可靠度",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 2,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 6.0,
+  "required_numbers_found": "0/2",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB15",
+  "domain": "硬體研發",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 2,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 6.0,
+  "required_numbers_found": "0/3",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB16",
+  "domain": "系統整合",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 5,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 9.0,
+  "required_numbers_found": "0/1",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "hard constraints not engaged",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB17",
+  "domain": "軟體工程／成本",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 4.0,
+  "required_numbers_found": "0/1",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "hard constraints not engaged",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB18",
+  "domain": "供應鏈",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 4.0,
+  "required_numbers_found": "0/1",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "hard constraints not engaged",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB19",
+  "domain": "專案管理",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 4.0,
+  "required_numbers_found": "0/1",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "hard constraints not engaged",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB20",
+  "domain": "成本與預算",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "M7-REJECTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 4.0,
+  "required_numbers_found": "0/2",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "M7 over-rejection (user-supplied number rejected)",
+   "hard constraints not engaged",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB21",
+  "domain": "品質可靠度",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 4.0,
+  "required_numbers_found": "0/3",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "hard constraints not engaged",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB22",
+  "domain": "商業決策",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 2,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 6.0,
+  "required_numbers_found": "0/2",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB23",
+  "domain": "跨領域風險（資安＋法規）",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 4.0,
+  "required_numbers_found": "0/2",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "hard constraints not engaged",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB24",
+  "domain": "陌生領域（結構工程）",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 4.0,
+  "required_numbers_found": "0/0",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "hard constraints not engaged"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB25",
+  "domain": "硬體研發（PCB設計）",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 4.0,
+  "required_numbers_found": "0/1",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "hard constraints not engaged",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB26",
+  "domain": "軟體工程／多輪容量規劃",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED",
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 2,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 6.0,
+  "required_numbers_found": "0/2",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB27",
+  "domain": "供應鏈（矛盾文件）",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 2,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 6.0,
+  "required_numbers_found": "0/2",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "contradiction undetected"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB28",
+  "domain": "專案管理（時程緩衝）",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "M7-REJECTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 2,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 6.0,
+  "required_numbers_found": "0/0",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "M7 rejected an ungrounded number (legit or unclear)"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB29",
+  "domain": "商業決策（併購／供應商整合）",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 2,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 6.0,
+  "required_numbers_found": "0/1",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ },
+ {
+  "id": "BB30",
+  "domain": "品質可靠度（多輪／統計顯著性）",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED",
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0.0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 2,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 6.0,
+  "required_numbers_found": "0/2",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent",
+   "numeric derivation absent (required answer not produced)",
+   "professional-knowledge/calculation not applied"
+  ],
+  "critical_failure": false
+ }
+]

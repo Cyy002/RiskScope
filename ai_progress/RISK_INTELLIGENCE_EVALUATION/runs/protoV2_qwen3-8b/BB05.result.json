@@ -1,0 +1,63 @@
+{
+ "id": "BB05",
+ "domain": "供應鏈",
+ "model": "qwen3:8b",
+ "mode": "PROTO_V2_BINDING_VERIFIED",
+ "llm_enabled": true,
+ "turns": [
+  {
+   "user": "客戶要求第 30 天出貨。關鍵零件的交期到底是多久？我們來得及嗎？",
+   "reply": "**核心問題**：確認關鍵零件的交期並評估是否能在客戶要求的30天內完成出貨\n\n**資料衝突（未擅自擇一）**：關鍵零件標準交期：14天（D-QUOTE） vs 35天（D-PO）；關鍵零件交期存在矛盾，標準交期為14天，但更新為35天\n\n**已知事實**：\n- 客戶要求出貨日期為第30天（來源：Q1）\n- 關鍵零件標準交期為14天（來源：Q2）\n- 關鍵零件交期更新為35天（來源：Q3）\n\n**硬限制**：出貨日期不得晚於第30天\n\n**計算（逐項驗證層級已標示；未驗證專業結論）**：\n- 關鍵零件交期：Q3 → **35** 天（輸入對應與算術已核對（專業結論尚未驗證）；輸入：Q3=35天[D-PO]）　關鍵零件的交期\n- 專案工期：關鍵路徑法 → **65**（單位依輸入）；關鍵路徑 T1→T2；浮時 {'T1': 0.0, 'T2': 0.0}（確定性排程演算法；輸入對應已核對；專業結論仍須覆核）\n\n**風險（依重要性）**：\n- [high] 關鍵零件交期延長導致無法如期出貨｜成因鏈：供應商交期更新為35天→導致整體專案延遲→無法滿足客戶30天出貨要求｜依據：根據客戶要求出貨日期與供應商交期更新資訊\n- [medium] 供應鏈資訊不一致導致決策困難｜成因鏈：D-QUOTE與D-PO對關鍵零件交期資訊不一致→導致無法準確評估專案可行性→增加決策風險｜依據：根據文件D-QUOTE與D-PO的資訊差異\n\n**方案比較**：\n- 採用D-PO的35天交期（可行性：conditional；違反限制：出貨日期不得晚於第30天）優點：符合最新供應商資訊；缺點：無法如期出貨；可能影響客戶滿意度；成本影響：未知\n- 採用D-QUOTE的14天交期（可行性：conditional；違反限制：無）優點：符合客戶出貨日期要求；缺點：可能與供應商最新資訊不符；存在供應風險；成本影響：未知\n\n**資訊缺口**：\n- 關鍵零件的實際交期：交期直接影響是否能如期出貨（取得方式：需與供應商確認最新交期，或參考D-PO的更新資訊）\n- 其他非關鍵零件的交期：整體出貨日期可能受其他零件影響（取得方式：需取得完整供應鏈交期資料）\n\n**建議行動**：\n1. 與供應商確認關鍵零件最新交期（需明確關鍵零件交期以評估是否能如期出貨）\n2. 評估其他非關鍵零件交期（整體出貨日期可能受其他零件影響）\n\n**會改變結論的新資訊**：供應商確認關鍵零件交期；其他非關鍵零件交期資料；客戶對出貨日期的彈性空間",
+   "raw_model_json": "{\n  \"core_issue\": \"確認關鍵零件的交期並評估是否能在客戶要求的30天內完成出貨\",\n  \"known_facts\": [\n    {\n      \"text\": \"客戶要求出貨日期為第30天\",\n      \"source\": \"Q1\"\n    },\n    {\n      \"text\": \"關鍵零件標準交期為14天\",\n      \"source\": \"Q2\"\n    },\n    {\n      \"text\": \"關鍵零件交期更新為35天\",\n      \"source\": \"Q3\"\n    }\n  ],\n  \"unknowns\": [\n    {\n      \"what\": \"關鍵零件的實際交期\",\n      \"why_it_matters\": \"交期直接影響是否能如期出貨\",\n      \"how_to_get\": \"需與供應商確認最新交期，或參考D-PO的更新資訊\"\n    },\n    {\n      \"what\": \"其他非關鍵零件的交期\",\n      \"why_it_matters\": \"整體出貨日期可能受其他零件影響\",\n      \"how_to_get\": \"需取得完整供應鏈交期資料\"\n    }\n  ],\n  \"hard_constraints\": [\n    {\n      \"text\": \"出貨日期不得晚於第30天\",\n      \"source\": \"Q1\"\n    }\n  ],\n  \"conflicts\": [\n    {\n      \"text\": \"關鍵零件交期存在矛盾，標準交期為14天，但更新為35天\",\n      \"sources\": [\"Q2\", \"Q3\"]\n    }\n  ],\n  \"calculations\": [\n    {\n      \"name\": \"關鍵零件交期\",\n      \"formula\": \"Q3\",\n      \"inputs\": {\n        \"Q3\": {\n          \"ref\": \"Q3\",\n          \"meaning\": \"關鍵零件交期更新為\",\n          \"unit\": \"天\"\n        }\n      },\n      \"unit\": \"天\",\n      \"meaning\": \"關鍵零件的交期\"\n    },\n    {\n      \"kind\": \"critical_path\",\n      \"name\": \"專案工期\",\n      \"tasks\": [\n        {\n          \"id\": \"T1\",\n          \"duration\": {\n            \"ref\": \"Q3\",\n            \"meaning\": \"關鍵零件交期\",\n            \"unit\": \"天\"\n          },\n          \"after\": []\n        },\n        {\n          \"id\": \"T2\",\n          \"duration\": {\n            \"ref\": \"Q1\",\n            \"meaning\": \"客戶要求出貨日期\",\n            \"unit\": \"天\"\n          },\n          \"after\": [\"T1\"]\n        }\n      ]\n    }\n  ],\n  \"risks\": [\n    {\n      \"id\": \"R1\",\n      \"description\": \"關鍵零件交期延長導致無法如期出貨\",\n      \"cause_chain\": [\n        \"供應商交期更新為35天\",\n        \"導致整體專案延遲\",\n        \"無法滿足客戶30天出貨要求\"\n      ],\n      \"severity\": \"high\",\n      \"severity_basis\": \"根據客戶要求出貨日期與供應商交期更新資訊\"\n    },\n    {\n      \"id\": \"R2\",\n      \"description\": \"供應鏈資訊不一致導致決策困難\",\n      \"cause_chain\": [\n        \"D-QUOTE與D-PO對關鍵零件交期資訊不一致\",\n        \"導致無法準確評估專案可行性\",\n        \"增加決策風險\"\n      ],\n      \"severity\": \"medium\",\n      \"severity_basis\": \"根據文件D-QUOTE與D-PO的資訊差異\"\n    }\n  ],\n  \"options\": [\n    {\n      \"name\": \"採用D-PO的35天交期\",\n      \"feasible\": \"conditional\",\n      \"violates_constraints\": [\"出貨日期不得晚於第30天\"],\n      \"pros\": [\"符合最新供應商資訊\"],\n      \"cons\": [\"無法如期出貨\", \"可能影響客戶滿意度\"],\n      \"cost_impact\": \"未知\"\n    },\n    {\n      \"name\": \"採用D-QUOTE的14天交期\",\n      \"feasible\": \"conditional\",\n      \"violates_constraints\": [],\n      \"pros\": [\"符合客戶出貨日期要求\"],\n      \"cons\": [\"可能與供應商最新資訊不符\", \"存在供應風險\"],\n      \"cost_impact\": \"未知\"\n    }\n  ],\n  \"recommended_actions\": [\n    {\n      \"action\": \"與供應商確認關鍵零件最新交期\",\n      \"priority\": 1,\n      \"reason\": \"需明確關鍵零件交期以評估是否能如期出貨\"\n    },\n    {\n      \"action\": \"評估其他非關鍵零件交期\",\n      \"priority\": 2,\n      \"reason\": \"整體出貨日期可能受其他零件影響\"\n    }\n  ],\n  \"what_would_change_the_decision\": [\n    \"供應商確認關鍵零件交期\",\n    \"其他非關鍵零件交期資料\",\n    \"客戶對出貨日期的彈性空間\"\n  ]\n}",
+   "verification": {
+    "calc": [
+     {
+      "name": "關鍵零件交期",
+      "status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+      "issues": [],
+      "value": 35.0,
+      "levels": {
+       "presence": true,
+       "binding": true,
+       "arithmetic": true,
+       "professional_validity": "not_validated"
+      }
+     },
+     {
+      "name": "專案工期",
+      "kind": "critical_path",
+      "status": "METHOD_CRITICAL_PATH",
+      "value": 65.0,
+      "critical_path": [
+       "T1",
+       "T2"
+      ]
+     }
+    ],
+    "ungrounded_numbers": [],
+    "claim_flags": []
+   },
+   "elapsed_s": 47.2,
+   "llm_state": "CALLED_STRUCTURED",
+   "ledger_size": 3,
+   "conflicts": [
+    {
+     "label": "關鍵零件標準交期",
+     "dimension": "time",
+     "values": [
+      {
+       "value": "14天",
+       "source_id": "D-QUOTE",
+       "version": 1
+      },
+      {
+       "value": "35天",
+       "source_id": "D-PO",
+       "version": 1
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

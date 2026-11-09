@@ -1,0 +1,15 @@
+$ /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/bin/python -m pytest -q -p no:cacheprovider
+.....................................                                    [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:45
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/starlette/testclient.py:45: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_core.py::test_analysis_record_and_status
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/langgraph/cache/base/__init__.py:8: LangChainPendingDeprecationWarning: The default value of `allowed_objects` will change in a future version. Pass an explicit value (e.g., allowed_objects='messages' or allowed_objects='core') to suppress this warning.
+    from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+37 passed, 2 warnings in 0.43s
+
+exit_code=0

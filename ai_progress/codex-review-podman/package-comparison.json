@@ -1,0 +1,42 @@
+{
+  "operation": "expand signed package into fresh temporary directory; do not execute installer scripts",
+  "exit": 0,
+  "stderr": "",
+  "matches": [
+    {
+      "file": "podman",
+      "installed_sha256": "9603079ca32a9fa88f0aa2b3f9e41c9365d7db2dc19c75857a1ec40aee6e5837",
+      "package_matches": [
+        "podman.pkg/Payload/podman/bin/podman"
+      ]
+    },
+    {
+      "file": "vfkit",
+      "installed_sha256": "acd7cb319125bb708857647debb3e7d14db3a5d61a7adcad93610b00408381a2",
+      "package_matches": [
+        "podman.pkg/Payload/podman/bin/vfkit"
+      ]
+    },
+    {
+      "file": "krunkit",
+      "installed_sha256": "fa83de64a6f80ac5780e6aaa0d412044acec816d566a016c4ed8b7de68a494f5",
+      "package_matches": [
+        "podman.pkg/Payload/podman/bin/krunkit"
+      ]
+    },
+    {
+      "file": "gvproxy",
+      "installed_sha256": "2c6debf5a5cc92f0e191659730664323c2078437a17c80609552949e5cb860aa",
+      "package_matches": [
+        "podman.pkg/Payload/podman/bin/gvproxy"
+      ]
+    },
+    {
+      "file": "podman-mac-helper",
+      "installed_sha256": "e26bf83e1286cdb97ccc617e4f7d8b417ce7449259438249c3d65229bc9e5ef3",
+      "package_matches": [
+        "podman.pkg/Payload/podman/bin/podman-mac-helper"
+      ]
+    }
+  ]
+}

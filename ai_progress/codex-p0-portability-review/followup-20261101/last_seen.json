@@ -1,0 +1,5 @@
+{
+  "deploy/riskscope.sh": "79fe86d5611e1cd9bb999769c247c02fa729c06ccd19a05ed9d58baecb59270d",
+  "deploy/riskscope.ps1": "e70e43eaea77879248e54f9729e8800dabd06d53dcfc692778afb17e52e26ceb",
+  "scripts/portable_smoke.py": "566c358a8033e239019fbfa7ee03961ce60dd53f78487dcabff02de038ad64f9"
+}

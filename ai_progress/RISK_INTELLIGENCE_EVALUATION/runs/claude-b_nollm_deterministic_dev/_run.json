@@ -1,0 +1,98 @@
+{
+ "app_hash": "2080e7b3b5c25fab",
+ "llm": false,
+ "model": null,
+ "cases": [
+  [
+   "BB01",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB02",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB03",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB04",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB05",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB06",
+   [
+    "NOT-CALLED(no --llm)",
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB07",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB08",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB09",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB10",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB11",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB12",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB13",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB14",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ],
+  [
+   "BB15",
+   [
+    "NOT-CALLED(no --llm)"
+   ]
+  ]
+ ]
+}

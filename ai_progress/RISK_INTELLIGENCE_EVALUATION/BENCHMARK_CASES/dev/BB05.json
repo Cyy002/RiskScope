@@ -1,0 +1,61 @@
+{
+ "id": "BB05",
+ "domain": "供應鏈",
+ "focus": "supplier",
+ "question": "客戶要求第 30 天出貨。關鍵零件的交期到底是多久？我們來得及嗎？",
+ "documents": [
+  {
+   "id": "D-QUOTE",
+   "title": "供應商報價單（9 月 2 日）",
+   "body": "關鍵零件標準交期 14 天。"
+  },
+  {
+   "id": "D-PO",
+   "title": "採購訂單確認回函（10 月 5 日，較新）",
+   "body": "因產能調整，關鍵零件交期更新為 35 天；若需縮短須另議。"
+  }
+ ],
+ "signals": {},
+ "rubric": {
+  "known_facts": [
+   "報價單 14 天(較舊)",
+   "確認回函 35 天(較新)",
+   "客戶要求第 30 天"
+  ],
+  "unknowns": [
+   "35 天是否為最終",
+   "加急可能性與代價"
+  ],
+  "hard_constraints": [],
+  "key_risks": [
+   "文件互相矛盾",
+   "以舊文件決策會延誤出貨"
+  ],
+  "risk_links": [],
+  "reasonable_options": [
+   "向供應商書面確認最新交期",
+   "詢問加急/分批到貨",
+   "與客戶協商"
+  ],
+  "forbidden_recommendations": [
+   "直接採用 14 天並承諾出貨",
+   "捏造加急費用"
+  ],
+  "required_calculations": [
+   "若 35 天 > 30 天 晚 5 天；若 14 天則可"
+  ],
+  "must_not_fabricate": [
+   "加急費用",
+   "機率"
+  ],
+  "decision_content": "指出兩文件矛盾並優先採較新者作暫定判斷，同時要求確認；不編造",
+  "critical_errors": [
+   "忽略矛盾",
+   "承諾 30 天可達成"
+  ],
+  "required_numbers": [
+   "35"
+  ],
+  "forbidden_phrases": []
+ }
+}

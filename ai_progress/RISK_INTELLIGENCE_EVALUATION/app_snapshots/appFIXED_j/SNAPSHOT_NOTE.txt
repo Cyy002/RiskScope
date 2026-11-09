@@ -1,0 +1,2 @@
+Snapshot taken at Sat Nov  7 21:45:13 CST 2026
+Overnight fix round 2 (2026-11-07): fixes the interrogative-framing false positive found in Batch I's BB10 r3 (a question like '是否有其他...已核准的採購項目' about an UNRELATED item was misread as an approval claim about the current one) -- _affirms_without_negation() now also checks for 是否/有沒有/是不是 within the enclosing clause. No other behavior change vs appFIXED_i.

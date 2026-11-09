@@ -1,0 +1,14 @@
+{
+  "exit_code": 0,
+  "selected_tests": 4,
+  "sqlite_connections_outside_test_fixtures": 0,
+  "distinct_fixture_databases": 4,
+  "fixture_database_relative_paths": [
+    "test_chat_history_persists_rep0/db.sqlite3",
+    "test_fixed_12_cases0/db.sqlite3",
+    "test_numerical_example0/db.sqlite3",
+    "test_user_supplied_value_never0/db.sqlite3"
+  ],
+  "fallback_database_created": false,
+  "fallback_credentials_created": false
+}

@@ -1,0 +1,55 @@
+{
+ "id": "BB15",
+ "domain": "硬體研發",
+ "focus": "custom",
+ "question": "裝置平均耗電 0.5W，需要連續工作 72 小時。我們打算用一顆 3.7V、5000mAh 的電池，可以嗎？",
+ "documents": [
+  {
+   "id": "D-BAT",
+   "title": "電池與負載資料",
+   "body": "電池標稱 3.7V、5000mAh。可用容量約為標稱的 80%（含截止電壓與老化）。平均耗電 0.5W（尖峰未提供）。"
+  }
+ ],
+ "rubric": {
+  "known_facts": [
+   "0.5W",
+   "72h",
+   "3.7V 5000mAh",
+   "可用 80%"
+  ],
+  "unknowns": [
+   "尖峰電流"
+  ],
+  "hard_constraints": [],
+  "key_risks": [
+   "續航僅約 30 小時"
+  ],
+  "risk_links": [],
+  "reasonable_options": [
+   "更大電池(約需 45Wh 標稱以上)",
+   "降低平均功耗",
+   "縮短工作時間要求"
+  ],
+  "forbidden_recommendations": [
+   "判定可行"
+  ],
+  "required_calculations": [
+   "需求 0.5×72=36Wh",
+   "電池 18.5Wh×0.8=14.8Wh，約 29.6 小時 < 72 小時，不足"
+  ],
+  "must_not_fabricate": [
+   "未提供的尖峰/溫度效應數字"
+  ],
+  "decision_content": "算出 14.8Wh vs 36Wh 不足並給出改善方向",
+  "critical_errors": [
+   "判定可行",
+   "單位錯誤"
+  ],
+  "required_numbers": [
+   "36",
+   "14.8",
+   "29.6"
+  ],
+  "forbidden_phrases": []
+ }
+}

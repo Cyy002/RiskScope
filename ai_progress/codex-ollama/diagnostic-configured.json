@@ -1,0 +1,67 @@
+{
+  "mode": "configured",
+  "python": "3.12.15 (main, Oct 14 2026, 00:55:37) [Clang 23.1.3 ]",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "configured_url": "http://127.0.0.1:11434",
+  "configured_model": "qwen3:8b",
+  "calls": [
+    {
+      "url": "http://127.0.0.1:11434/api/generate",
+      "model": "qwen3:8b",
+      "timeout": 20,
+      "stage": "extract",
+      "http_status": 200,
+      "json_keys": [
+        "model",
+        "created_at",
+        "response",
+        "thinking",
+        "done",
+        "done_reason",
+        "context",
+        "total_duration",
+        "load_duration",
+        "prompt_eval_count",
+        "prompt_eval_cached_count",
+        "prompt_eval_duration",
+        "eval_count",
+        "eval_duration"
+      ],
+      "response_type": "str",
+      "response_chars": 2,
+      "thinking_chars": 384,
+      "done": true,
+      "total_duration": 9956239000,
+      "load_duration": 1322039875,
+      "eval_count": 178,
+      "elapsed_seconds": 10.025
+    },
+    {
+      "url": "http://127.0.0.1:11434/api/generate",
+      "model": "qwen3:8b",
+      "timeout": 20,
+      "stage": "reply",
+      "error_type": "ReadTimeout",
+      "elapsed_seconds": 20.004
+    }
+  ],
+  "versions": {
+    "httpx": "0.28.1",
+    "fastapi": "0.128.2",
+    "langgraph": "1.0.0"
+  },
+  "source_hashes": {
+    "app/config.py": "ddcfbc8605e97eaab2e28bf1ffc276fc9e3c4f23f947371caeff97ca2c8c62ff",
+    "app/chat.py": "3e4acbc8e694f47fd1553ff030a7c6f85a059abdf099a6513176c261a12fa25c",
+    "compose.yml": "5fb205f45f52e08729e877119a1b3c76958f754e5290049bb9f87cd8a0db4b85",
+    "Containerfile": "94ba80f4856783de0f643a1e2d1d5de5ebf3c3737940bafec286e93048fc1aa7"
+  },
+  "chat_http_status": 200,
+  "reply_source": "deterministic_template",
+  "reply_chars": 38,
+  "accepted_values": {},
+  "constraint_status": "fail",
+  "decision_status": "requires_human_review",
+  "elapsed_seconds": 30.259,
+  "persisted_reply_source": "deterministic_template"
+}

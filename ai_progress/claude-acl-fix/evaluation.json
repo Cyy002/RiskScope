@@ -1,0 +1,240 @@
+{
+  "scope": "synthetic reference graph only",
+  "cases": [
+    {
+      "case": "T01",
+      "topic": "電源負載超標",
+      "baseline_direct_only": {
+        "true_positive": 1,
+        "predicted": 1,
+        "reference": 4,
+        "recall": 0.25,
+        "precision": 1.0
+      },
+      "multi_hop": {
+        "true_positive": 4,
+        "predicted": 4,
+        "reference": 4,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "constraint_correct": true
+    },
+    {
+      "case": "T02",
+      "topic": "馬達替換與設計裕量",
+      "baseline_direct_only": {
+        "true_positive": 2,
+        "predicted": 2,
+        "reference": 8,
+        "recall": 0.25,
+        "precision": 1.0
+      },
+      "multi_hop": {
+        "true_positive": 8,
+        "predicted": 8,
+        "reference": 8,
+        "recall": 1.0,
+        "precision": 1.0
+      }
+    },
+    {
+      "case": "T03",
+      "topic": "驅動器相容性",
+      "baseline_direct_only": {
+        "true_positive": 1,
+        "predicted": 1,
+        "reference": 4,
+        "recall": 0.25,
+        "precision": 1.0
+      },
+      "multi_hop": {
+        "true_positive": 4,
+        "predicted": 4,
+        "reference": 4,
+        "recall": 1.0,
+        "precision": 1.0
+      }
+    },
+    {
+      "case": "T04",
+      "topic": "韌體保護修訂",
+      "baseline_direct_only": {
+        "true_positive": 1,
+        "predicted": 1,
+        "reference": 3,
+        "recall": 0.3333,
+        "precision": 1.0
+      },
+      "multi_hop": {
+        "true_positive": 3,
+        "predicted": 3,
+        "reference": 3,
+        "recall": 1.0,
+        "precision": 1.0
+      }
+    },
+    {
+      "case": "T05",
+      "topic": "機構干涉",
+      "baseline_direct_only": {
+        "true_positive": 1,
+        "predicted": 1,
+        "reference": 4,
+        "recall": 0.25,
+        "precision": 1.0
+      },
+      "multi_hop": {
+        "true_positive": 4,
+        "predicted": 4,
+        "reference": 4,
+        "recall": 1.0,
+        "precision": 1.0
+      }
+    },
+    {
+      "case": "T06",
+      "topic": "散熱限制",
+      "baseline_direct_only": {
+        "true_positive": 1,
+        "predicted": 1,
+        "reference": 3,
+        "recall": 0.3333,
+        "precision": 1.0
+      },
+      "multi_hop": {
+        "true_positive": 3,
+        "predicted": 3,
+        "reference": 3,
+        "recall": 1.0,
+        "precision": 1.0
+      }
+    },
+    {
+      "case": "T07",
+      "topic": "供應商交期更新",
+      "baseline_direct_only": {
+        "true_positive": 1,
+        "predicted": 1,
+        "reference": 4,
+        "recall": 0.25,
+        "precision": 1.0
+      },
+      "multi_hop": {
+        "true_positive": 4,
+        "predicted": 4,
+        "reference": 4,
+        "recall": 1.0,
+        "precision": 1.0
+      }
+    },
+    {
+      "case": "T08",
+      "topic": "外部資源變更",
+      "baseline_direct_only": {
+        "true_positive": 1,
+        "predicted": 1,
+        "reference": 4,
+        "recall": 0.25,
+        "precision": 1.0
+      },
+      "multi_hop": {
+        "true_positive": 4,
+        "predicted": 4,
+        "reference": 4,
+        "recall": 1.0,
+        "precision": 1.0
+      }
+    },
+    {
+      "case": "T09",
+      "topic": "客戶需求修訂",
+      "baseline_direct_only": {
+        "true_positive": 1,
+        "predicted": 1,
+        "reference": 9,
+        "recall": 0.1111,
+        "precision": 1.0
+      },
+      "multi_hop": {
+        "true_positive": 9,
+        "predicted": 9,
+        "reference": 9,
+        "recall": 1.0,
+        "precision": 1.0
+      }
+    },
+    {
+      "case": "T10",
+      "topic": "整合測試失敗",
+      "baseline_direct_only": {
+        "true_positive": 1,
+        "predicted": 1,
+        "reference": 2,
+        "recall": 0.5,
+        "precision": 1.0
+      },
+      "multi_hop": {
+        "true_positive": 2,
+        "predicted": 2,
+        "reference": 2,
+        "recall": 1.0,
+        "precision": 1.0
+      }
+    },
+    {
+      "case": "T11",
+      "topic": "無關零件負例",
+      "baseline_direct_only": {
+        "true_positive": 0,
+        "predicted": 0,
+        "reference": 0,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "multi_hop": {
+        "true_positive": 0,
+        "predicted": 0,
+        "reference": 0,
+        "recall": 1.0,
+        "precision": 1.0
+      }
+    },
+    {
+      "case": "T12",
+      "topic": "沒有已驗證合格的直接方案",
+      "baseline_direct_only": {
+        "true_positive": 0,
+        "predicted": 0,
+        "reference": 0,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "multi_hop": {
+        "true_positive": 0,
+        "predicted": 0,
+        "reference": 0,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "constraint_correct": true
+    }
+  ],
+  "aggregate": {
+    "baseline_direct_only": {
+      "path_recall": 0.2444,
+      "path_precision": 1.0,
+      "true_positive": 11,
+      "reference": 45,
+      "predicted": 11
+    },
+    "multi_hop": {
+      "path_recall": 1.0,
+      "path_precision": 1.0,
+      "true_positive": 45,
+      "reference": 45,
+      "predicted": 45
+    }
+  },
+  "warning": "此成績測試已人工建立的合成依賴；不可推論真實工程推演、LLM 判斷或商業效益。"
+}

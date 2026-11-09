@@ -1,0 +1,52 @@
+{
+  "scope": "fresh temporary synthetic fixtures only",
+  "probes": {
+    "evaluate_cli_creates_data": {
+      "database_created": true,
+      "credential_file_created": true,
+      "counts": {
+        "users": 3,
+        "documents": 6,
+        "audit": 1
+      },
+      "evaluation_true_positive": 45
+    },
+    "existing_current_database_preserved": {
+      "all_table_digests_unchanged": true,
+      "credentials_unchanged": true,
+      "custom_fact_preserved": true,
+      "session_preserved": true
+    },
+    "evaluate_cli_migrates_existing_data": {
+      "columns_restored_by_evaluator": {
+        "alerts": true,
+        "analyses": true,
+        "sessions": true
+      },
+      "existing_session_preserved": true,
+      "credential_file_unchanged": true
+    },
+    "db_only_override_replaces_default_credentials": {
+      "existing_database_user_hash_unchanged": true,
+      "default_credentials_file_overwritten": true,
+      "credentials_no_longer_match_existing_database": true
+    },
+    "credential_write_failure_not_recovered": {
+      "users_committed_before_failed_credential_write": 3,
+      "retry_credential_file_exists": false,
+      "retry_returns_success_without_usable_credentials_file": true
+    },
+    "partial_existing_users_do_not_trigger_reseed": {
+      "existing_user_preserved": true,
+      "missing_demo_project_not_reseeded": true,
+      "missing_credentials_not_recreated": true
+    }
+  },
+  "source_sha256": {
+    "app/db.py": "2cd3af5db0ba36a20abdf146d6d9368667044be1342033e99f5e2a08a9fba85c",
+    "app/config.py": "ddcfbc8605e97eaab2e28bf1ffc276fc9e3c4f23f947371caeff97ca2c8c62ff",
+    "scripts/evaluate.py": "c5b215013a39770c2d9469cbdc2d5b0388bcc08c9d7ad3646a41ae3012f78691",
+    "tests/conftest.py": "a3c0a3a5ca4cea7447614e1f3f7a270f2b4532c5e2d4f967163e8c94db4f3baa",
+    "app/security.py": "e28756b39dc4f3db35d1270996f143fb7907d1bd2703c5fe217877fb8581447b"
+  }
+}

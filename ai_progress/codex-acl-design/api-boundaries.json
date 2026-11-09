@@ -1,0 +1,49 @@
+{
+  "langgraph": "1.0.0",
+  "source_mutations": false,
+  "scenarios": {
+    "existing_seed_api_only_analysis": {
+      "extra_documents_added": 0,
+      "all_business_updates_via_api": true,
+      "retrieved_documents": [
+        "DOC-AUX",
+        "DOC-MOTOR",
+        "DOC-PLAN"
+      ],
+      "fresh_check_status": "unknown",
+      "old_analysis_http_status": 403,
+      "revoked_evidence_present": false,
+      "old_analysis_in_list": false,
+      "finding_reproduced": false
+    },
+    "existing_alert_then_revocation": {
+      "alerts_before": 1,
+      "alerts_after": 1,
+      "direct_affected_nodes_after": [],
+      "open_alert_count_after": 1,
+      "protected_node_in_old_alert": false,
+      "finding_reproduced": false
+    },
+    "standard_seed_only_alert_gap": {
+      "extra_documents_added": 0,
+      "manager_event_analysis_status": "completed",
+      "engineer_direct_nodes": [],
+      "protected_node_in_alert": false,
+      "finding_reproduced": false
+    },
+    "impact_evidence_without_engineering_checks": {
+      "checks": [],
+      "original_path_sources": [
+        "DOC-PLAN",
+        "DOC-SUPPLIER"
+      ],
+      "fresh_affected_nodes": [
+        "ASSEMBLY-01",
+        "PROCURE-01"
+      ],
+      "old_analysis_http_status": 403,
+      "old_analysis_contains_revoked_source": false,
+      "finding_reproduced": false
+    }
+  }
+}

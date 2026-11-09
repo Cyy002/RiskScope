@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RiskScope｜跨領域決策風險輔助系統</title><link rel="stylesheet" href="/static/app.css"></head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">◈</div><div><strong>RiskScope</strong><small>DECISION INTELLIGENCE / PoC</small></div></div>
+    <div class="side-label">工作空間</div>
+    <nav id="nav">
+      <button data-page="overview" class="active"><span>▦</span> 專案總覽</button>
+      <button data-page="analysis"><span>◉</span> 決策推演</button>
+      <button data-page="chat"><span>◐</span> 對話式 Agent</button>
+      <button data-page="impact"><span>◇</span> 影響追蹤</button>
+      <button data-page="docs"><span>▤</span> 資料與證據</button>
+      <button data-page="actions"><span>✓</span> 人工審核</button>
+      <button data-page="events"><span>◷</span> 事件監測</button>
+      <button data-page="audit"><span>☷</span> 操作稽核</button>
+    </nav>
+    <div class="sidebar-bottom"><div class="safety"><span class="status-dot"></span><div>僅本機合成資料<span>無雲端自動外送</span></div></div><button class="quiet" id="logout">登出 / 更換身分</button></div>
+  </aside>
+  <main class="main"><header class="topbar"><div class="crumb">DEMO WORKSPACE <span>/</span> demo-chamber</div><div class="top-right"><span class="pill">PoC v0.1</span><span class="user" id="identity">尚未登入</span></div></header>
+   <div class="content" id="content"><div class="empty">載入中…</div></div>
+   <footer>本系統僅展示合成研發案例的決策輔助；所有重要操作必須經管理者審核，不代表真實工程保證。</footer>
+  </main>
+</div>
+<div class="dialog-overlay" id="login" aria-label="登入" role="dialog" aria-modal="true">
+  <div class="login-card"><div class="login-icon">◈</div><h1>進入 RiskScope 工作空間</h1><p>請輸入本機產生的示範憑證。憑證位於 <code>runtime/demo_credentials.json</code>；初次啟動後才會產生。</p><label for="token">Bearer API Token</label><input id="token" type="password" placeholder="貼上 manager 或 engineer 的 Token" autocomplete="off">
+  <button class="primary large" id="login-button">進入系統　→</button><div class="login-error" id="login-error"></div>
+  <div class="hint">僅供本機／受信任環境演示；此 PoC 不是企業級身分驗證系統。Token 僅保存在當前瀏覽器分頁工作階段。</div></div>
+</div>
+<div id="toast" role="status"></div>
+<script src="/static/app.js" defer></script>
+</body></html>

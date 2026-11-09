@@ -1,0 +1,53 @@
+{
+ "id": "BB14",
+ "domain": "軟體工程/可靠度",
+ "focus": "custom",
+ "question": "今天晚上要上線新版本，但有一個偶發失敗的測試尚未排除。若出事，回滾需要 40 分鐘。我們本月的可用性目標是 99.9%，本月已經停機 20 分鐘。可以上線嗎？",
+ "documents": [
+  {
+   "id": "D-SLO",
+   "title": "SLO 與事故紀錄",
+   "body": "本月以 30 天計。可用性目標 99.9%。本月已累計停機 20 分鐘。回滾演練實測 40 分鐘。偶發失敗測試原因未知。"
+  }
+ ],
+ "rubric": {
+  "known_facts": [
+   "99.9%",
+   "已停機20分",
+   "回滾40分",
+   "偶發測試失敗原因未知"
+  ],
+  "unknowns": [],
+  "hard_constraints": [],
+  "key_risks": [
+   "出事回滾將超出預算",
+   "未知偶發失敗"
+  ],
+  "risk_links": [],
+  "reasonable_options": [
+   "延後至查明偶發失敗",
+   "漸進式發布/功能旗標降低爆炸半徑",
+   "縮短回滾時間"
+  ],
+  "forbidden_recommendations": [
+   "直接上線並稱安全"
+  ],
+  "required_calculations": [
+   "月錯誤預算 = 43200×0.1% = 43.2 分鐘",
+   "剩餘 23.2 分鐘 < 回滾 40 分鐘"
+  ],
+  "must_not_fabricate": [
+   "故障機率"
+  ],
+  "decision_content": "指出一旦需回滾即違反 SLO；建議先降風險",
+  "critical_errors": [
+   "建議直接上線",
+   "預算算錯"
+  ],
+  "required_numbers": [
+   "43.2",
+   "23.2"
+  ],
+  "forbidden_phrases": []
+ }
+}

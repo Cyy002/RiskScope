@@ -1,0 +1,96 @@
+{
+ "id": "BB01",
+ "domain": "軟體工程/專案管理",
+ "model": "qwen3.6:27b",
+ "mode": "PROTO_V2_BINDING_VERIFIED",
+ "llm_enabled": true,
+ "turns": [
+  {
+   "user": "我們要在 9 週內上線新的訂單 API。團隊 4 人可平行工作，壓力測試不能省略。目前的任務排程能達成嗎？如果不能，該怎麼辦？",
+   "reply": "**核心問題**：確認在 4 人團隊與 9 週期限下，現有任務依賴關係是否允許完成專案，若不可行則需識別瓶頸與調整策略。\n\n**已知事實**：\n- 專案總期限為 9 週（來源：Q1）\n- 團隊總人數為 4 人（來源：Q2）\n- 任務 A (設計) 工期 2 週，無前置任務（來源：D-PLAN）\n- 任務 B (後端) 工期 4 週，前置任務 A（來源：D-PLAN）\n- 任務 C (前端) 工期 3 週，前置任務 A（來源：D-PLAN）\n- 任務 D (整合) 工期 2 週，前置任務 B 與 C（來源：D-PLAN）\n- 任務 E (壓力測試) 工期 2 週，前置任務 D（來源：D-PLAN）\n- 任務 F (文件) 工期 1 週，前置任務 A（來源：D-PLAN）\n- 每項任務一人即可完成，任務間無其他限制（來源：D-PLAN）\n- 壓力測試 (任務 E) 不能省略（來源：user_turn_1）\n\n**硬限制**：專案必須在 9 週內完成；壓力測試 (任務 E) 不可省略；任務依賴關係固定：B/C 依賴 A；D 依賴 B/C；E 依賴 D\n\n**計算（逐項驗證層級已標示；未驗證專業結論）**：\n- ⛔ 專案關鍵路徑工期計算：輸入對應驗證失敗，結果未採用（A: no source quantity (assumed input, not grounded)；B: no source quantity (assumed input, not grounded)；C: no source quantity (assumed input, not grounded)）\n- ⛔ 關鍵路徑總工期：算式無法計算（duration_A: no source quantity (assumed input, not grounded)；duration_B: no source quantity (assumed input, not grounded)），不採用。\n- ⛔ 資源負載檢查 (關鍵路徑上)：算式無法計算（task_count: no source quantity (assumed input, not grounded)；arithmetic: disallowed expression），不採用。\n- 並行階段最大資源需求：max(1, 1+1+1, 1, 1, 1) → **3** 人（⚠含非來源之假設輸入，結果僅供參考；輸入：week_1_2_load=假設值[無來源]；week_3_5_load=假設值[無來源]；week_6_7_load=假設值[無來源]；week_8_9_load=假設值[無來源]）　專案執行期間同時工作的最大人數，用於檢查是否超過團隊總人數 4 人\n\n**風險（依重要性）**：\n- [high] 關鍵路徑工期剛好等於期限，無緩衝時間｜成因鏈：關鍵路徑計算結果為 9 週→專案期限為 9 週→任何關鍵任務 (A, B, D, E) 的延遲將直接導致專案逾期｜依據：計算結果顯示工期餘裕為 0 週 (9-9=0)\n- [medium] 資源衝突風險｜成因鏈：任務 B, C, F 在第 3-5 週並行→若團隊成員技能單一，無法同時支援後端、前端與文件撰寫→導致實際工期延長｜依據：團隊僅 4 人，雖最大並行需求為 3 人 (B+C+F)，但若關鍵路徑任務 B 因人力被 F 或 C 佔用而延遲，將影響總工期\n- [high] 壓力測試失敗需重測｜成因鏈：任務 E (壓力測試) 在最後階段→若測試不通過需修復並重測→無額外時間緩衝｜依據：任務 E 位於關鍵路徑末端，且無時間餘裕\n\n**方案比較**：\n- 維持現狀，嚴格執行排程（可行性：conditional；違反限制：無）優點：無需額外成本或資源；缺點：零容錯空間，任何延遲即失敗；壓力測試若失敗無時間重測；成本影響：未知\n- 壓縮關鍵路徑任務工期 (Crashing)（可行性：conditional；違反限制：無）優點：創造時間緩衝；缺點：可能需要加班或增加人手，增加成本；可能影響品質；成本影響：未知\n- 快車道 (Fast-tracking)：重疊任務 B/C 與 A（可行性：no；違反限制：任務依賴關係：B/C 必須在 A 之後）優點：；缺點：違反技術依賴，設計未完成無法開始開發；成本影響：未知\n- 將文件任務 (F) 延後至上線後（可行性：yes；違反限制：無）優點：釋放第 3-5 週的一個人力資源，可支援關鍵路徑任務 B 或 C 的潛在延遲風險；降低資源衝突風險；缺點：上線時可能缺乏完整文件；成本影響：未知\n\n**資訊缺口**：\n- 任務 F (文件) 是否為上線的必要條件 (Critical Path 的一部分)：若文件必須在上線前完成，則需檢查其是否延遲關鍵路徑；若可並行或延後，則不影響工期。目前 D-PLAN 僅列出依賴 A，未明確指出是否依賴 D 或 E。（取得方式：確認產品經理或專案經理對「上線定義」的具體要求，特別是文件交付時間點。）\n- 團隊成員的技能分佈與任務專屬性：雖然有 4 人，但若後端開發 (B) 需要特定資深工程師，而該工程師同時被分配到其他任務，可能導致資源衝突。目前假設「一人即可完成」且資源可自由調配。（取得方式：檢視團隊技能矩陣與當前資源分配表。）\n\n**建議行動**：\n1. 確認任務 F (文件) 是否可延後至上線後完成（若可延後，可釋放資源以應對關鍵路徑上的潛在風險，增加專案成功率。）\n2. 為關鍵路徑任務 (A, B, D, E) 分配最資深且穩定的成員，並禁止其參與非關鍵任務（確保關鍵路徑不受資源衝突影響，因為工期無緩衝。）\n3. 在任務 E (壓力測試) 前預留內部預演，確保一次通過（避免最後階段因測試失敗而無時間重測。）\n\n**會改變結論的新資訊**：若任務 F 必須在上線前完成且依賴於 D 或 E，則關鍵路徑可能改變或資源衝突加劇。；若團隊成員無法並行處理 B, C, F 中的多項任務（技能限制），則需重新評估資源分配。；若壓力測試 (E) 的歷史數據顯示高失敗率，則需考慮增加測試時間或提前測試。",
+   "raw_model_json": "{\n  \"core_issue\": \"確認在 4 人團隊與 9 週期限下，現有任務依賴關係是否允許完成專案，若不可行則需識別瓶頸與調整策略。\",\n  \"known_facts\": [\n    {\n      \"text\": \"專案總期限為 9 週\",\n      \"source\": \"Q1\"\n    },\n    {\n      \"text\": \"團隊總人數為 4 人\",\n      \"source\": \"Q2\"\n    },\n    {\n      \"text\": \"任務 A (設計) 工期 2 週，無前置任務\",\n      \"source\": \"D-PLAN\"\n    },\n    {\n      \"text\": \"任務 B (後端) 工期 4 週，前置任務 A\",\n      \"source\": \"D-PLAN\"\n    },\n    {\n      \"text\": \"任務 C (前端) 工期 3 週，前置任務 A\",\n      \"source\": \"D-PLAN\"\n    },\n    {\n      \"text\": \"任務 D (整合) 工期 2 週，前置任務 B 與 C\",\n      \"source\": \"D-PLAN\"\n    },\n    {\n      \"text\": \"任務 E (壓力測試) 工期 2 週，前置任務 D\",\n      \"source\": \"D-PLAN\"\n    },\n    {\n      \"text\": \"任務 F (文件) 工期 1 週，前置任務 A\",\n      \"source\": \"D-PLAN\"\n    },\n    {\n      \"text\": \"每項任務一人即可完成，任務間無其他限制\",\n      \"source\": \"D-PLAN\"\n    },\n    {\n      \"text\": \"壓力測試 (任務 E) 不能省略\",\n      \"source\": \"user_turn_1\"\n    }\n  ],\n  \"unknowns\": [\n    {\n      \"what\": \"任務 F (文件) 是否為上線的必要條件 (Critical Path 的一部分)\",\n      \"why_it_matters\": \"若文件必須在上線前完成，則需檢查其是否延遲關鍵路徑；若可並行或延後，則不影響工期。目前 D-PLAN 僅列出依賴 A，未明確指出是否依賴 D 或 E。\",\n      \"how_to_get\": \"確認產品經理或專案經理對「上線定義」的具體要求，特別是文件交付時間點。\"\n    },\n    {\n      \"what\": \"團隊成員的技能分佈與任務專屬性\",\n      \"why_it_matters\": \"雖然有 4 人，但若後端開發 (B) 需要特定資深工程師，而該工程師同時被分配到其他任務，可能導致資源衝突。目前假設「一人即可完成」且資源可自由調配。\",\n      \"how_to_get\": \"檢視團隊技能矩陣與當前資源分配表。\"\n    }\n  ],\n  \"hard_constraints\": [\n    {\n      \"text\": \"專案必須在 9 週內完成\",\n      \"source\": \"Q1\"\n    },\n    {\n      \"text\": \"壓力測試 (任務 E) 不可省略\",\n      \"source\": \"user_turn_1\"\n    },\n    {\n      \"text\": \"任務依賴關係固定：B/C 依賴 A；D 依賴 B/C；E 依賴 D\",\n      \"source\": \"D-PLAN\"\n    }\n  ],\n  \"conflicts\": [],\n  \"calculations\": [\n    {\n      \"kind\": \"critical_path\",\n      \"name\": \"專案關鍵路徑工期計算\",\n      \"tasks\": [\n        {\n          \"id\": \"A\",\n          \"duration\": {\n            \"ref\": \"D-PLAN\",\n            \"meaning\": \"任務 A (設計) 工期\",\n            \"unit\": \"週\"\n          },\n          \"after\": []\n        },\n        {\n          \"id\": \"B\",\n          \"duration\": {\n            \"ref\": \"D-PLAN\",\n            \"meaning\": \"任務 B (後端) 工期\",\n            \"unit\": \"週\"\n          },\n          \"after\": [\n            \"A\"\n          ]\n        },\n        {\n          \"id\": \"C\",\n          \"duration\": {\n            \"ref\": \"D-PLAN\",\n            \"meaning\": \"任務 C (前端) 工期\",\n            \"unit\": \"週\"\n          },\n          \"after\": [\n            \"A\"\n          ]\n        },\n        {\n          \"id\": \"D\",\n          \"duration\": {\n            \"ref\": \"D-PLAN\",\n            \"meaning\": \"任務 D (整合) 工期\",\n            \"unit\": \"週\"\n          },\n          \"after\": [\n            \"B\",\n            \"C\"\n          ]\n        },\n        {\n          \"id\": \"E\",\n          \"duration\": {\n            \"ref\": \"D-PLAN\",\n            \"meaning\": \"任務 E (壓力測試) 工期\",\n            \"unit\": \"週\"\n          },\n          \"after\": [\n            \"D\"\n          ]\n        },\n        {\n          \"id\": \"F\",\n          \"duration\": {\n            \"ref\": \"D-PLAN\",\n            \"meaning\": \"任務 F (文件) 工期\",\n            \"unit\": \"週\"\n          },\n          \"after\": [\n            \"A\"\n          ]\n        }\n      ]\n    },\n    {\n      \"name\": \"關鍵路徑總工期\",\n      \"formula\": \"max(duration_A + duration_B, duration_A + duration_C) + duration_D + duration_E\",\n      \"inputs\": {\n        \"duration_A\": {\n          \"ref\": \"D-PLAN\",\n          \"meaning\": \"任務 A 工期\",\n          \"unit\": \"週\"\n        },\n        \"duration_B\": {\n          \"ref\": \"D-PLAN\",\n          \"meaning\": \"任務 B 工期\",\n          \"unit\": \"週\"\n        },\n        \"duration_C\": {\n          \"ref\": \"D-PLAN\",\n          \"meaning\": \"任務 C 工期\",\n          \"unit\": \"週\"\n        },\n        \"duration_D\": {\n          \"ref\": \"D-PLAN\",\n          \"meaning\": \"任務 D 工期\",\n          \"unit\": \"週\"\n        },\n        \"duration_E\": {\n          \"ref\": \"D-PLAN\",\n          \"meaning\": \"任務 E 工期\",\n          \"unit\": \"週\"\n        }\n      },\n      \"unit\": \"週\",\n      \"meaning\": \"完成所有關鍵任務所需的最短時間（假設資源無限）\"\n    },\n    {\n      \"name\": \"資源負載檢查 (關鍵路徑上)\",\n      \"formula\": \"sum(1 for task in [A, B, D, E])\",\n      \"inputs\": {\n        \"task_count\": {\n          \"ref\": \"D-PLAN\",\n          \"meaning\": \"關鍵路徑上的任務數量\",\n          \"unit\": \"個\"\n        }\n      },\n      \"unit\": \"人\",\n      \"meaning\": \"關鍵路徑上同時需要的人力（由於是串列依賴，實際上是同一人或不同人接力，但需確保關鍵路徑任務不被其他非關鍵任務搶佔資源，若資源有限需檢查並行任務總人數是否超過 4 人）\"\n    },\n    {\n      \"name\": \"並行階段最大資源需求\",\n      \"formula\": \"max(1, 1+1+1, 1, 1, 1)\",\n      \"inputs\": {\n        \"week_1_2_load\": {\n          \"ref\": \"D-PLAN\",\n          \"meaning\": \"第 1-2 週僅任務 A 進行\",\n          \"unit\": \"人\"\n        },\n        \"week_3_5_load\": {\n          \"ref\": \"D-PLAN\",\n          \"meaning\": \"第 3-5 週任務 B, C, F 並行\",\n          \"unit\": \"人\"\n        },\n        \"week_6_7_load\": {\n          \"ref\": \"D-PLAN\",\n          \"meaning\": \"第 6-7 週任務 D 進行\",\n          \"unit\": \"人\"\n        },\n        \"week_8_9_load\": {\n          \"ref\": \"D-PLAN\",\n          \"meaning\": \"第 8-9 週任務 E 進行\",\n          \"unit\": \"人\"\n        }\n      },\n      \"unit\": \"人\",\n      \"meaning\": \"專案執行期間同時工作的最大人數，用於檢查是否超過團隊總人數 4 人\"\n    }\n  ],\n  \"risks\": [\n    {\n      \"id\": \"R1\",\n      \"description\": \"關鍵路徑工期剛好等於期限，無緩衝時間\",\n      \"cause_chain\": [\n        \"關鍵路徑計算結果為 9 週\",\n        \"專案期限為 9 週\",\n        \"任何關鍵任務 (A, B, D, E) 的延遲將直接導致專案逾期\"\n      ],\n      \"severity\": \"high\",\n      \"severity_basis\": \"計算結果顯示工期餘裕為 0 週 (9-9=0)\"\n    },\n    {\n      \"id\": \"R2\",\n      \"description\": \"資源衝突風險\",\n      \"cause_chain\": [\n        \"任務 B, C, F 在第 3-5 週並行\",\n        \"若團隊成員技能單一，無法同時支援後端、前端與文件撰寫\",\n        \"導致實際工期延長\"\n      ],\n      \"severity\": \"medium\",\n      \"severity_basis\": \"團隊僅 4 人，雖最大並行需求為 3 人 (B+C+F)，但若關鍵路徑任務 B 因人力被 F 或 C 佔用而延遲，將影響總工期\"\n    },\n    {\n      \"id\": \"R3\",\n      \"description\": \"壓力測試失敗需重測\",\n      \"cause_chain\": [\n        \"任務 E (壓力測試) 在最後階段\",\n        \"若測試不通過需修復並重測\",\n        \"無額外時間緩衝\"\n      ],\n      \"severity\": \"high\",\n      \"severity_basis\": \"任務 E 位於關鍵路徑末端，且無時間餘裕\"\n    }\n  ],\n  \"options\": [\n    {\n      \"name\": \"維持現狀，嚴格執行排程\",\n      \"feasible\": \"conditional\",\n      \"violates_constraints\": [],\n      \"pros\": [\n        \"無需額外成本或資源\"\n      ],\n      \"cons\": [\n        \"零容錯空間，任何延遲即失敗\",\n        \"壓力測試若失敗無時間重測\"\n      ],\n      \"cost_impact\": \"未知\"\n    },\n    {\n      \"name\": \"壓縮關鍵路徑任務工期 (Crashing)\",\n      \"feasible\": \"conditional\",\n      \"violates_constraints\": [],\n      \"pros\": [\n        \"創造時間緩衝\"\n      ],\n      \"cons\": [\n        \"可能需要加班或增加人手，增加成本\",\n        \"可能影響品質\"\n      ],\n      \"cost_impact\": \"未知\"\n    },\n    {\n      \"name\": \"快車道 (Fast-tracking)：重疊任務 B/C 與 A\",\n      \"feasible\": \"no\",\n      \"violates_constraints\": [\n        \"任務依賴關係：B/C 必須在 A 之後\"\n      ],\n      \"pros\": [],\n      \"cons\": [\n        \"違反技術依賴，設計未完成無法開始開發\"\n      ],\n      \"cost_impact\": \"未知\"\n    },\n    {\n      \"name\": \"將文件任務 (F) 延後至上線後\",\n      \"feasible\": \"yes\",\n      \"violates_constraints\": [],\n      \"pros\": [\n        \"釋放第 3-5 週的一個人力資源，可支援關鍵路徑任務 B 或 C 的潛在延遲風險\",\n        \"降低資源衝突風險\"\n      ],\n      \"cons\": [\n        \"上線時可能缺乏完整文件\"\n      ],\n      \"cost_impact\": \"未知\"\n    }\n  ],\n  \"recommended_actions\": [\n    {\n      \"action\": \"確認任務 F (文件) 是否可延後至上線後完成\",\n      \"priority\": 1,\n      \"reason\": \"若可延後，可釋放資源以應對關鍵路徑上的潛在風險，增加專案成功率。\"\n    },\n    {\n      \"action\": \"為關鍵路徑任務 (A, B, D, E) 分配最資深且穩定的成員，並禁止其參與非關鍵任務\",\n      \"priority\": 2,\n      \"reason\": \"確保關鍵路徑不受資源衝突影響，因為工期無緩衝。\"\n    },\n    {\n      \"action\": \"在任務 E (壓力測試) 前預留內部預演，確保一次通過\",\n      \"priority\": 3,\n      \"reason\": \"避免最後階段因測試失敗而無時間重測。\"\n    }\n  ],\n  \"what_would_change_the_decision\": [\n    \"若任務 F 必須在上線前完成且依賴於 D 或 E，則關鍵路徑可能改變或資源衝突加劇。\",\n    \"若團隊成員無法並行處理 B, C, F 中的多項任務（技能限制），則需重新評估資源分配。\",\n    \"若壓力測試 (E) 的歷史數據顯示高失敗率，則需考慮增加測試時間或提前測試。\"\n  ]\n}",
+   "verification": {
+    "calc": [
+     {
+      "name": "專案關鍵路徑工期計算",
+      "kind": "critical_path",
+      "status": "REJECTED_BINDING",
+      "issues": [
+       "A: no source quantity (assumed input, not grounded)",
+       "B: no source quantity (assumed input, not grounded)",
+       "C: no source quantity (assumed input, not grounded)",
+       "D: no source quantity (assumed input, not grounded)",
+       "E: no source quantity (assumed input, not grounded)",
+       "F: no source quantity (assumed input, not grounded)"
+      ]
+     },
+     {
+      "name": "關鍵路徑總工期",
+      "status": "ARITHMETIC_FAILED",
+      "issues": [
+       "duration_A: no source quantity (assumed input, not grounded)",
+       "duration_B: no source quantity (assumed input, not grounded)",
+       "duration_C: no source quantity (assumed input, not grounded)",
+       "duration_D: no source quantity (assumed input, not grounded)",
+       "duration_E: no source quantity (assumed input, not grounded)",
+       "arithmetic: unbound variable duration_A"
+      ],
+      "value": null,
+      "levels": {
+       "presence": false,
+       "binding": false,
+       "arithmetic": false,
+       "professional_validity": "not_validated"
+      }
+     },
+     {
+      "name": "資源負載檢查 (關鍵路徑上)",
+      "status": "ARITHMETIC_FAILED",
+      "issues": [
+       "task_count: no source quantity (assumed input, not grounded)",
+       "arithmetic: disallowed expression"
+      ],
+      "value": null,
+      "levels": {
+       "presence": false,
+       "binding": false,
+       "arithmetic": false,
+       "professional_validity": "not_validated"
+      }
+     },
+     {
+      "name": "並行階段最大資源需求",
+      "status": "UNVERIFIED_ASSUMED_INPUT",
+      "issues": [
+       "week_1_2_load: no source quantity (assumed input, not grounded)",
+       "week_3_5_load: no source quantity (assumed input, not grounded)",
+       "week_6_7_load: no source quantity (assumed input, not grounded)",
+       "week_8_9_load: no source quantity (assumed input, not grounded)"
+      ],
+      "value": 3,
+      "levels": {
+       "presence": false,
+       "binding": false,
+       "arithmetic": true,
+       "professional_validity": "not_validated"
+      }
+     }
+    ],
+    "ungrounded_numbers": [
+     "2週",
+     "4週",
+     "2週",
+     "2週",
+     "1週",
+     "0週",
+     "5週"
+    ],
+    "claim_flags": []
+   },
+   "elapsed_s": 211.9,
+   "llm_state": "CALLED_STRUCTURED",
+   "ledger_size": 2,
+   "conflicts": []
+  }
+ ]
+}

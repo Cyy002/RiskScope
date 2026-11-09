@@ -1,0 +1,6 @@
+STEP 1/2: FROM localhost/riskscope-poc:0.3
+STEP 2/2: COPY app /app/app
+COMMIT localhost/riskscope-m114-codex:review
+--> 933615c1d454
+Successfully tagged localhost/riskscope-m114-codex:review
+933615c1d454f720aa5461d605872ec6472c2fa7c8fb0f9a24914b5869e9d0f5

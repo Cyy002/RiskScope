@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-11-01T06:40:21.124428+00:00",
+  "host_os": "Darwin",
+  "host_arch": "arm64",
+  "podman_in_path": null,
+  "tested_engine_paths": {
+    "/opt/podman/bin/podman": false,
+    "/opt/homebrew/bin/podman": false,
+    "/usr/local/bin/podman": false,
+    "/Applications/Podman Desktop.app/Contents/Resources/bin/podman": false
+  },
+  "tested_source": "snapshot, not live concurrently edited source",
+  "live_files_changed_since_snapshot": [],
+  "test_counts": {
+    "passed": 5,
+    "failed": 2,
+    "skipped": 1
+  },
+  "real_model_calls": 0,
+  "container_operations": 0,
+  "production_operations": 0,
+  "git_repository": false
+}

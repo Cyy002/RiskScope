@@ -1,0 +1,58 @@
+{
+ "id": "BB01",
+ "domain": "軟體工程/專案管理",
+ "focus": "custom",
+ "question": "我們要在 9 週內上線新的訂單 API。團隊 4 人可平行工作，壓力測試不能省略。目前的任務排程能達成嗎？如果不能，該怎麼辦？",
+ "documents": [
+  {
+   "id": "D-PLAN",
+   "title": "任務清單與工期",
+   "body": "任務（工期，週；前置）：A 設計 2；B 後端 4（A）；C 前端 3（A）；D 整合 2（B 與 C）；E 壓力測試 2（D）；F 文件 1（A）。任務間無其他限制；每項任務一人即可完成。"
+  }
+ ],
+ "rubric": {
+  "known_facts": [
+   "9 週期限",
+   "4 人可平行",
+   "壓力測試不可省"
+  ],
+  "unknowns": [],
+  "hard_constraints": [
+   "9 週期限",
+   "壓力測試 E 不可省略"
+  ],
+  "key_risks": [
+   "關鍵路徑超期 1 週",
+   "後端 B 為瓶頸"
+  ],
+  "risk_links": [
+   "B 延誤直接延後 D、E 與上線"
+  ],
+  "reasonable_options": [
+   "縮短關鍵路徑任務(B/D/E)工期或拆分並行",
+   "縮小 B 範圍",
+   "與利害關係人協商 1 週",
+   "提前啟動壓測準備"
+  ],
+  "forbidden_recommendations": [
+   "省略壓力測試",
+   "宣稱現有排程可達成"
+  ],
+  "required_calculations": [
+   "關鍵路徑 A→B→D→E = 10 週 > 9 週",
+   "C 有 1 週浮時，F 浮時大"
+  ],
+  "must_not_fabricate": [
+   "未提供的人力成本或加班效果天數"
+  ],
+  "decision_content": "明確指出 10 週 > 9 週、無不犧牲條件的完全可行方案；提出針對關鍵路徑的具體選項與各自代價",
+  "critical_errors": [
+   "宣稱 9 週可行",
+   "建議省略壓測"
+  ],
+  "required_numbers": [
+   "10"
+  ],
+  "forbidden_phrases": []
+ }
+}

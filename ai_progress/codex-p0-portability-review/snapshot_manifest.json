@@ -1,0 +1,30 @@
+{
+  "captured_at": "2026-11-01T06:38:55.802078+00:00",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "files_sha256": {
+    "app/db.py": "31f0e39bb53f6402a8727ce24ac9274f965a48ca6858ef0595cc59be09266a36",
+    "app/config.py": "ba1eb7ad8d7627859c3d025c2c2677bd9785a0c5bdc43c66c363a4d6a8d2c9ad",
+    "app/events.py": "46abaca4f23cdf2cc1d5a456c25dc3d08499b3fe43146ffe59ba85221b300327",
+    "app/security.py": "e28756b39dc4f3db35d1270996f143fb7907d1bd2703c5fe217877fb8581447b",
+    "app/analyzer.py": "7235f612683c916fcde654dfcf335328df3b608623b2ca4a1a8f2d68d2896b9f",
+    "app/actions.py": "27a3f781bb54b17506411f8f14d8f85ab4cc72981e1067cbbe0af8553799ecf6",
+    "app/__init__.py": "934c50da81f9660bd4f2d68b4c799a16d2d41321f1768f71c28a4d5d21d47020",
+    "app/api.py": "337d95ea4ad4d844bc022cd74d2bc13f3ddfc45d16f3c7e06149f9611132459d",
+    "app/chat.py": "05bcf37fdd9764421784444f24f6ea75b3ba05368210c3bceb68fb9ee83b1716",
+    "app/llm_client.py": "6cf0592ee3b94adc379c1afc64679c7a02dbec1a1b64db2461c6dfd22ec5e958",
+    "app/retrieval.py": "625c851bf79840e2ce8272b2ac5569f10c7ffe065be8eeff1f2395bfdfcb9908",
+    "app/engineering.py": "9a85d8a9b3e8dbe23265a73e453373224545a65c20c46376dfb32f8d06fadfdb",
+    "app/impact.py": "5b2d198569e1fd1e841b354d7a5f898da6748d2c11f30354d897eb5756b593cc",
+    "app/static/index.html": "71bab95dfb1d6f0dbfa697f9ee273093a2aec346696c48bbed21fed20892a88a",
+    "app/static/app.css": "9c17bc43d45bf523c781f5f047ed63faf87141a9fb416b519b9ad26c548b5ef7",
+    "app/static/app.js": "d0c61c5aaa6ff5b8148877766952be1b2ac472e96dcfd81bb44e1111fc8034df",
+    "Containerfile": "94ba80f4856783de0f643a1e2d1d5de5ebf3c3737940bafec286e93048fc1aa7",
+    "compose.yml": "51fa027c1380492afc713d31cb9a38766689eca0154b49ea5cbd263d1ac9412d",
+    ".env.example": "4fde3c5519ee8bdfcc7c2b3445858a994bddbc24bcf7ec79a03efb221e4f0bb0",
+    ".containerignore": "cdfcf0bff1b88f9d735191a0701fac86abfcc4063a68e4250347e11e444dd786",
+    "requirements.txt": "e4fd677ed63dad521d4486ec543520f8421539c347ed242e2a00dd737a21ff9d",
+    "requirements-langgraph.txt": "7305d51b04eff7a99d9f1a93434b65d78b4c44a0202f543c77dde83f60b8f7ca",
+    "README.md": "dc916a616fddba93b8e9bb0f8ead3e5f3ce7dc93226a0b695bffbc0719c996cb"
+  }
+}

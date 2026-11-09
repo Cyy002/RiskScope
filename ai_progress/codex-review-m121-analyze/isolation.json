@@ -1,0 +1,16 @@
+{
+  "exit_code": 1,
+  "distinct_temporary_databases": 8,
+  "blocked_access_attempts": [],
+  "product_and_existing_tests_unchanged": true,
+  "source_hashes": {
+    "app/analyzer.py": "ce729d29b1d467cd414fbe5f784dbe6608ed361f659d39d4306665115fa0d487",
+    "app/chat.py": "b0de7bbd93fe9e2b3d5f88ad6b421531c188709c8ce7701622ad5d6923472889",
+    "app/api.py": "337d95ea4ad4d844bc022cd74d2bc13f3ddfc45d16f3c7e06149f9611132459d",
+    "app/static/app.js": "d0c61c5aaa6ff5b8148877766952be1b2ac472e96dcfd81bb44e1111fc8034df",
+    "app/security.py": "e28756b39dc4f3db35d1270996f143fb7907d1bd2703c5fe217877fb8581447b",
+    "app/llm_client.py": "6cf0592ee3b94adc379c1afc64679c7a02dbec1a1b64db2461c6dfd22ec5e958",
+    "tests/conftest.py": "a3c0a3a5ca4cea7447614e1f3f7a270f2b4532c5e2d4f967163e8c94db4f3baa"
+  },
+  "real_llm_calls": 0
+}

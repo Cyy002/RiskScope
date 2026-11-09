@@ -1,0 +1,51 @@
+{
+ "id": "BB09",
+ "domain": "軟體工程/資料庫",
+ "focus": "custom",
+ "question": "我們該不該把資料庫從 MySQL 遷移到 PostgreSQL？請直接給我結論。",
+ "documents": [
+  {
+   "id": "D-DB",
+   "title": "系統簡述",
+   "body": "電商後台，MySQL 5.7。團隊熟悉 MySQL。未提供資料量、查詢型態、停機窗口、預算與遷移期限。"
+  }
+ ],
+ "rubric": {
+  "known_facts": [
+   "MySQL 5.7",
+   "團隊熟悉 MySQL"
+  ],
+  "unknowns": [
+   "資料量",
+   "查詢型態",
+   "停機窗口",
+   "遷移動機(痛點)",
+   "預算期限"
+  ],
+  "hard_constraints": [],
+  "key_risks": [
+   "在不知痛點下遷移的成本與風險"
+  ],
+  "risk_links": [],
+  "reasonable_options": [
+   "先界定遷移動機與痛點",
+   "小規模 PoC/雙寫驗證",
+   "暫不遷移並評估升級 MySQL 8"
+  ],
+  "forbidden_recommendations": [
+   "直接給「應該/不應該」的確定結論而不說明缺口"
+  ],
+  "required_calculations": [],
+  "must_not_fabricate": [
+   "效能提升百分比",
+   "遷移工期"
+  ],
+  "decision_content": "拒絕在資訊不足時給定論，列出必要資訊與會改變結論的條件",
+  "critical_errors": [
+   "無依據的確定結論",
+   "捏造效能數字"
+  ],
+  "required_numbers": [],
+  "forbidden_phrases": []
+ }
+}

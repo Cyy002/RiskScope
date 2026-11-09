@@ -1,0 +1,9 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+runtime/
+.DS_Store
+.coverage
+.env
+ai_progress/backups/

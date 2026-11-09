@@ -1,0 +1,54 @@
+{
+ "id": "BB13",
+ "domain": "跨領域(法規+硬體+時程)",
+ "focus": "custom",
+ "question": "產品必須在 8 週後上市。認證實驗室現在排隊等待測試。我們能保證如期上市嗎？",
+ "documents": [
+  {
+   "id": "D-CERT",
+   "title": "認證排程資訊",
+   "body": "實驗室測試約需 6 週完成並出報告。若首次未通過，整改與複測另需 4 週。首次通過率歷史資料：無。"
+  }
+ ],
+ "rubric": {
+  "known_facts": [
+   "8 週期限",
+   "測試 6 週",
+   "複測 4 週"
+  ],
+  "unknowns": [
+   "首次通過機率"
+  ],
+  "hard_constraints": [],
+  "key_risks": [
+   "首次失敗即延誤 2 週"
+  ],
+  "risk_links": [],
+  "reasonable_options": [
+   "提前做預相容(pre-compliance)測試降低首次失敗風險",
+   "與實驗室確認是否可壓縮複測",
+   "準備延後上市預案"
+  ],
+  "forbidden_recommendations": [
+   "保證如期上市",
+   "編造通過機率"
+  ],
+  "required_calculations": [
+   "首次通過：6 週，緩衝 2 週",
+   "失敗：6+4=10 週 > 8 週"
+  ],
+  "must_not_fabricate": [
+   "首次通過率",
+   "預測試成效數字"
+  ],
+  "decision_content": "結論取決於首次是否通過；不給虛構機率；提出降低風險行動",
+  "critical_errors": [
+   "保證如期",
+   "捏造機率"
+  ],
+  "required_numbers": [
+   "10"
+  ],
+  "forbidden_phrases": []
+ }
+}

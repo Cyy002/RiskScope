@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-18T12:46:14.097884+00:00",
+  "cwd": "/Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "python": "3.12.15 (main, Oct 14 2026, 00:55:37) [Clang 23.1.3 ]",
+  "executable": "/Users/haochenglin/Documents/OpenAgents-Test/.venv/bin/python",
+  "versions": {
+    "fastapi": "0.143.3",
+    "pydantic": "2.14.1",
+    "uvicorn": "0.54.0",
+    "httpx": "0.28.1",
+    "pytest": "9.1.1",
+    "langgraph": "1.2.16"
+  },
+  "zip_sha256": "d283346f7c4c219217aa5641aec3e9874980988a85b0f2ba036f00ba4d89408f"
+}

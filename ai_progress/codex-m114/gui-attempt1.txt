@@ -1,0 +1,4 @@
+GUI verification failed: locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('#identity').filter({ hasText: 'engineer' }) to be visible[22m
+

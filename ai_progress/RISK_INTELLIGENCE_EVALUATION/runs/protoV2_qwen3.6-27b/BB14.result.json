@@ -1,0 +1,68 @@
+{
+ "id": "BB14",
+ "domain": "軟體工程/可靠度",
+ "model": "qwen3.6:27b",
+ "mode": "PROTO_V2_BINDING_VERIFIED",
+ "llm_enabled": true,
+ "turns": [
+  {
+   "user": "今天晚上要上線新版本，但有一個偶發失敗的測試尚未排除。若出事，回滾需要 40 分鐘。我們本月的可用性目標是 99.9%，本月已經停機 20 分鐘。可以上線嗎？",
+   "reply": "**核心問題**：在剩餘可用性預算極低且存在未排除的偶發失敗風險下，評估今晚執行新版本上線是否會導致月度可用性目標（99.9%）違約。\n\n**已知事實**：\n- 本月計時週期為 30 天（來源：Q4）\n- 月度可用性目標為 99.9%（來源：Q2）\n- 本月已累計停機時間為 20 分鐘（來源：Q3）\n- 回滾操作實測耗時為 40 分鐘（來源：Q7）\n- 存在一個尚未排除原因的偶發失敗測試（來源：user）\n\n**硬限制**：月度總停機時間不得超過可用性目標允許的上限\n\n**計算（逐項驗證層級已標示；未驗證專業結論）**：\n- 月度最大允許停機時間：days * 24 * 60 * (1 - availability_target) → **-4.27248e+06** 分鐘（輸入對應與算術已核對（專業結論尚未驗證）；輸入：days=30天[D-SLO]；availability_target=99.9%[user_turn_1]）　在滿足 99.9% 可用性目標下，整個月份允許的最大停機總分鐘數\n- ⛔ 剩餘可用性預算：算式無法計算（max_allowed_downtime: no source quantity (assumed input, not grounded)；arithmetic: unbound variable max_allowed_downtime），不採用。\n- 事故發生時的總停機衝擊：rollback_duration → **40** 分鐘（輸入對應與算術已核對（專業結論尚未驗證）；輸入：rollback_duration=40分鐘[D-SLO]）　若上線失敗並觸發回滾，至少增加的停機時間（未包含故障持續時間）\n\n**風險（依重要性）**：\n- [high] 上線觸發偶發失敗，導致回滾，進而使月度停機時間超出 SLO 預算｜成因鏈：新版本上線→偶發失敗被觸發（原因未知）→服務中斷並啟動回滾程序→回滾耗時 40 分鐘→本月已停機 20 分鐘 + 新增 40 分鐘 = 60 分鐘→60 分鐘 > 最大允許停機時間 (43.2 分鐘)→月度可用性目標 (99.9%) 違約｜依據：剩餘可用性預算僅約 23.2 分鐘，而回滾本身即需 40 分鐘，任何故障都將直接導致 SLO 違約，無緩衝空間。\n- [medium] 偶發失敗原因未知，可能導致回滾後問題依然存在或引發新問題｜成因鏈：偶發失敗原因未排除→回滾至舊版本→若問題與環境或數據有關而非代碼，舊版本可能同樣失敗→停機時間進一步延長，遠超 40 分鐘→SLO 嚴重違約且恢復時間不可控｜依據：基於「偶發失敗測試原因未知」的事實，存在回滾無效的潛在風險。\n\n**方案比較**：\n- 按計劃上線（可行性：no；違反限制：若發生故障，將違反月度可用性目標硬限制）優點：推進產品迭代；缺點：極高機率導致 SLO 違約；無剩餘停機預算容錯；未知風險可能導致更長停機；成本影響：未知（潛在業務損失與信譽損害）\n- 延後上線並修復偶發失敗（可行性：yes；違反限制：無）優點：確保 SLO 安全；消除已知風險源；缺點：延遲產品功能發布；需投入開發資源排查問題；成本影響：開發人力成本\n- 灰度發布（Canary Release）（可行性：conditional；違反限制：若灰度期間觸發故障，仍可能消耗剩餘預算）優點：限制故障影響範圍；缺點：剩餘預算僅 23.2 分鐘，即使小範圍故障也可能超標；需要額外的監控與自動化切換機制；成本影響：未知\n\n**資訊缺口**：\n- 偶發失敗的發生機率（Probability of Failure）：無法計算預期停機時間（Expected Downtime），無法量化風險暴露程度。（取得方式：需進行回歸測試統計、歷史數據分析或專家評估。）\n- 偶發失敗若發生，除回滾外的額外停機時間（如偵測時間、自動重試失敗後的延遲）：回滾時間僅是恢復時間的一部分，總停機時間可能更長。（取得方式：檢視監控警報閾值設定與故障檢測平均時間（MTTD）。）\n- 本月剩餘天數的精確小時數：用於精確計算剩餘可用性預算，但由於預算已極度緊繃，此細節對決策影響較小，主要取決於是否發生事故。（取得方式：查閱日曆計算剩餘天數並乘以 24。）\n\n**建議行動**：\n1. 立即暫停今晚的上線計劃（剩餘可用性預算（約 23.2 分鐘）小於回滾所需時間（40 分鐘），任何故障都將直接導致 SLO 違約，風險不可接受。）\n2. 優先排查並修復偶發失敗測試的根本原因（在原因未知的情況下上線等於賭博，且代價是確定的 SLO 違約。）\n3. 重新評估本月 SLO 狀態，確認是否已接近或超過閾值（即使不上線，也需監控當前系統穩定性，確保不發生其他意外停機。）\n\n**會改變結論的新資訊**：若偶發失敗被確認與本次上線無關且已修復，並通過充分回歸測試。；若可用性目標調整為更低標準（如 99.5%（⚠未佐證）），使得剩餘預算大於 40 分鐘。；若能實現秒級自動回滾且無感知停機（即停機時間為 0），則風險大幅降低。",
+   "raw_model_json": "{\n  \"core_issue\": \"在剩餘可用性預算極低且存在未排除的偶發失敗風險下，評估今晚執行新版本上線是否會導致月度可用性目標（99.9%）違約。\",\n  \"known_facts\": [\n    {\n      \"text\": \"本月計時週期為 30 天\",\n      \"source\": \"Q4\"\n    },\n    {\n      \"text\": \"月度可用性目標為 99.9%\",\n      \"source\": \"Q2\"\n    },\n    {\n      \"text\": \"本月已累計停機時間為 20 分鐘\",\n      \"source\": \"Q3\"\n    },\n    {\n      \"text\": \"回滾操作實測耗時為 40 分鐘\",\n      \"source\": \"Q7\"\n    },\n    {\n      \"text\": \"存在一個尚未排除原因的偶發失敗測試\",\n      \"source\": \"user\"\n    }\n  ],\n  \"unknowns\": [\n    {\n      \"what\": \"偶發失敗的發生機率（Probability of Failure）\",\n      \"why_it_matters\": \"無法計算預期停機時間（Expected Downtime），無法量化風險暴露程度。\",\n      \"how_to_get\": \"需進行回歸測試統計、歷史數據分析或專家評估。\"\n    },\n    {\n      \"what\": \"偶發失敗若發生，除回滾外的額外停機時間（如偵測時間、自動重試失敗後的延遲）\",\n      \"why_it_matters\": \"回滾時間僅是恢復時間的一部分，總停機時間可能更長。\",\n      \"how_to_get\": \"檢視監控警報閾值設定與故障檢測平均時間（MTTD）。\"\n    },\n    {\n      \"what\": \"本月剩餘天數的精確小時數\",\n      \"why_it_matters\": \"用於精確計算剩餘可用性預算，但由於預算已極度緊繃，此細節對決策影響較小，主要取決於是否發生事故。\",\n      \"how_to_get\": \"查閱日曆計算剩餘天數並乘以 24。\"\n    }\n  ],\n  \"hard_constraints\": [\n    {\n      \"text\": \"月度總停機時間不得超過可用性目標允許的上限\",\n      \"source\": \"Q2, Q4\"\n    }\n  ],\n  \"conflicts\": [],\n  \"calculations\": [\n    {\n      \"name\": \"月度最大允許停機時間\",\n      \"formula\": \"days * 24 * 60 * (1 - availability_target)\",\n      \"inputs\": {\n        \"days\": {\n          \"ref\": \"Q4\",\n          \"meaning\": \"本月總天數\",\n          \"unit\": \"天\"\n        },\n        \"availability_target\": {\n          \"ref\": \"Q2\",\n          \"meaning\": \"可用性目標比例\",\n          \"unit\": \"無單位\"\n        }\n      },\n      \"unit\": \"分鐘\",\n      \"meaning\": \"在滿足 99.9% 可用性目標下，整個月份允許的最大停機總分鐘數\"\n    },\n    {\n      \"name\": \"剩餘可用性預算\",\n      \"formula\": \"max_allowed_downtime - current_downtime\",\n      \"inputs\": {\n        \"max_allowed_downtime\": {\n          \"ref\": \"calc_1_result\",\n          \"meaning\": \"月度最大允許停機時間（由前一步計算得出）\",\n          \"unit\": \"分鐘\"\n        },\n        \"current_downtime\": {\n          \"ref\": \"Q3\",\n          \"meaning\": \"本月已累計停機時間\",\n          \"unit\": \"分鐘\"\n        }\n      },\n      \"unit\": \"分鐘\",\n      \"meaning\": \"本月剩餘可容忍的停機時間，若超過此數值將違反 SLO\"\n    },\n    {\n      \"name\": \"事故發生時的總停機衝擊\",\n      \"formula\": \"rollback_duration\",\n      \"inputs\": {\n        \"rollback_duration\": {\n          \"ref\": \"Q7\",\n          \"meaning\": \"回滾操作所需時間\",\n          \"unit\": \"分鐘\"\n        }\n      },\n      \"unit\": \"分鐘\",\n      \"meaning\": \"若上線失敗並觸發回滾，至少增加的停機時間（未包含故障持續時間）\"\n    }\n  ],\n  \"risks\": [\n    {\n      \"id\": \"R1\",\n      \"description\": \"上線觸發偶發失敗，導致回滾，進而使月度停機時間超出 SLO 預算\",\n      \"cause_chain\": [\n        \"新版本上線\",\n        \"偶發失敗被觸發（原因未知）\",\n        \"服務中斷並啟動回滾程序\",\n        \"回滾耗時 40 分鐘\",\n        \"本月已停機 20 分鐘 + 新增 40 分鐘 = 60 分鐘\",\n        \"60 分鐘 > 最大允許停機時間 (43.2 分鐘)\",\n        \"月度可用性目標 (99.9%) 違約\"\n      ],\n      \"severity\": \"high\",\n      \"severity_basis\": \"剩餘可用性預算僅約 23.2 分鐘，而回滾本身即需 40 分鐘，任何故障都將直接導致 SLO 違約，無緩衝空間。\"\n    },\n    {\n      \"id\": \"R2\",\n      \"description\": \"偶發失敗原因未知，可能導致回滾後問題依然存在或引發新問題\",\n      \"cause_chain\": [\n        \"偶發失敗原因未排除\",\n        \"回滾至舊版本\",\n        \"若問題與環境或數據有關而非代碼，舊版本可能同樣失敗\",\n        \"停機時間進一步延長，遠超 40 分鐘\",\n        \"SLO 嚴重違約且恢復時間不可控\"\n      ],\n      \"severity\": \"medium\",\n      \"severity_basis\": \"基於「偶發失敗測試原因未知」的事實，存在回滾無效的潛在風險。\"\n    }\n  ],\n  \"options\": [\n    {\n      \"name\": \"按計劃上線\",\n      \"feasible\": \"no\",\n      \"violates_constraints\": [\n        \"若發生故障，將違反月度可用性目標硬限制\"\n      ],\n      \"pros\": [\n        \"推進產品迭代\"\n      ],\n      \"cons\": [\n        \"極高機率導致 SLO 違約\",\n        \"無剩餘停機預算容錯\",\n        \"未知風險可能導致更長停機\"\n      ],\n      \"cost_impact\": \"未知（潛在業務損失與信譽損害）\"\n    },\n    {\n      \"name\": \"延後上線並修復偶發失敗\",\n      \"feasible\": \"yes\",\n      \"violates_constraints\": [],\n      \"pros\": [\n        \"確保 SLO 安全\",\n        \"消除已知風險源\"\n      ],\n      \"cons\": [\n        \"延遲產品功能發布\",\n        \"需投入開發資源排查問題\"\n      ],\n      \"cost_impact\": \"開發人力成本\"\n    },\n    {\n      \"name\": \"灰度發布（Canary Release）\",\n      \"feasible\": \"conditional\",\n      \"violates_constraints\": [\n        \"若灰度期間觸發故障，仍可能消耗剩餘預算\"\n      ],\n      \"pros\": [\n        \"限制故障影響範圍\"\n      ],\n      \"cons\": [\n        \"剩餘預算僅 23.2 分鐘，即使小範圍故障也可能超標\",\n        \"需要額外的監控與自動化切換機制\"\n      ],\n      \"cost_impact\": \"未知\"\n    }\n  ],\n  \"recommended_actions\": [\n    {\n      \"action\": \"立即暫停今晚的上線計劃\",\n      \"priority\": 1,\n      \"reason\": \"剩餘可用性預算（約 23.2 分鐘）小於回滾所需時間（40 分鐘），任何故障都將直接導致 SLO 違約，風險不可接受。\"\n    },\n    {\n      \"action\": \"優先排查並修復偶發失敗測試的根本原因\",\n      \"priority\": 2,\n      \"reason\": \"在原因未知的情況下上線等於賭博，且代價是確定的 SLO 違約。\"\n    },\n    {\n      \"action\": \"重新評估本月 SLO 狀態，確認是否已接近或超過閾值\",\n      \"priority\": 3,\n      \"reason\": \"即使不上線，也需監控當前系統穩定性，確保不發生其他意外停機。\"\n    }\n  ],\n  \"what_would_change_the_decision\": [\n    \"若偶發失敗被確認與本次上線無關且已修復，並通過充分回歸測試。\",\n    \"若可用性目標調整為更低標準（如 99.5%），使得剩餘預算大於 40 分鐘。\",\n    \"若能實現秒級自動回滾且無感知停機（即停機時間為 0），則風險大幅降低。\"\n  ]\n}",
+   "verification": {
+    "calc": [
+     {
+      "name": "月度最大允許停機時間",
+      "status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+      "issues": [],
+      "value": -4272480.0,
+      "levels": {
+       "presence": true,
+       "binding": true,
+       "arithmetic": true,
+       "professional_validity": "not_validated"
+      }
+     },
+     {
+      "name": "剩餘可用性預算",
+      "status": "ARITHMETIC_FAILED",
+      "issues": [
+       "max_allowed_downtime: no source quantity (assumed input, not grounded)",
+       "arithmetic: unbound variable max_allowed_downtime"
+      ],
+      "value": null,
+      "levels": {
+       "presence": false,
+       "binding": false,
+       "arithmetic": false,
+       "professional_validity": "not_validated"
+      }
+     },
+     {
+      "name": "事故發生時的總停機衝擊",
+      "status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+      "issues": [],
+      "value": 40.0,
+      "levels": {
+       "presence": true,
+       "binding": true,
+       "arithmetic": true,
+       "professional_validity": "not_validated"
+      }
+     }
+    ],
+    "ungrounded_numbers": [
+     "23.2分鐘",
+     "23.2分鐘",
+     "23.2分鐘",
+     "99.5%"
+    ],
+    "claim_flags": []
+   },
+   "elapsed_s": 145.9,
+   "llm_state": "CALLED_STRUCTURED",
+   "ledger_size": 7,
+   "conflicts": []
+  }
+ ]
+}

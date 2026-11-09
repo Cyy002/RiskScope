@@ -1,0 +1,84 @@
+[
+ {
+  "id": "BB06",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "6.5"
+  ],
+  "derived_found": [
+   "6.5"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 18.0,
+   "priority": 12.0,
+   "options": 12.0,
+   "constraints": 10,
+   "uncertainty": 8.0,
+   "traceability": 9.0
+  },
+  "total_100": 89.0,
+  "judge_critical": [
+   "第1輪未執行rubric要求的緩衝計算(6-4.5=1.5)，僅做定性描述，導致結論過於模糊且未體現單點估計的風險緩衝概念"
+  ],
+  "critical_failure": true,
+  "justification": "第2輪計算正確且結論符合限制；第1輪雖事實正確，但未執行rubric明確要求的緩衝計算，僅給出模糊的「有可能」，未充分體現單點估計的風險管理深度。"
+ },
+ {
+  "id": "BB14",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "43.2",
+   "23.2"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 5.0,
+   "reasoning": 0,
+   "priority": 5.0,
+   "options": 5.0,
+   "constraints": 0,
+   "uncertainty": 5.0,
+   "traceability": 5.0
+  },
+  "total_100": 25.0,
+  "judge_critical": [
+   "計算錯誤：將99.9%可用性誤算為432分鐘（正確應為43.2分鐘）",
+   "邏輯矛盾：結論稱不可上線，但理由卻推導出停機60分鐘未超標（基於錯誤計算）",
+   "違反Rubric：未指出回滾40分鐘已超過剩餘預算（23.2分鐘）"
+  ],
+  "critical_failure": true,
+  "justification": "核心計算嚴重錯誤（432 vs 43.2），導致風險評估完全失效。雖結論保守，但推理過程自相矛盾且未識別出回滾即違約的關鍵事實，屬致命錯誤。"
+ },
+ {
+  "id": "BB16",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 20,
+   "priority": 15,
+   "options": 10.0,
+   "constraints": 10,
+   "uncertainty": 10,
+   "traceability": 10
+  },
+  "total_100": 95.0,
+  "judge_critical": [],
+  "critical_failure": false,
+  "justification": "正確引用文件數據，嚴格使用降額後的16節點上限進行計算，未犯用32節點判斷之錯，結論與風險評估合理。"
+ }
+]

@@ -1,0 +1,149 @@
+.F.FFF.FF..F...FFFFFFF.F.............                                    [100%]
+=================================== FAILURES ===================================
+______________________ test_A_distinct_capacity_meanings _______________________
+ai_progress/codex-m125-review/review_probes.py:112: in test_A_distinct_capacity_meanings
+    assert semantic_errors(result) == []
+E   AssertionError: assert ['actual capa...ble capacity'] == []
+E     
+E     Left contains 3 more items, first extra item: 'actual capacity mislabelled as supply specification change'
+E     Use -v to get more diff
+_____________________ test_B_no_power_specification_change _____________________
+ai_progress/codex-m125-review/review_probes.py:121: in test_B_no_power_specification_change
+    assert semantic_errors(result) == []
+E   AssertionError: assert ['actual capa...ble capacity'] == []
+E     
+E     Left contains 3 more items, first extra item: 'actual capacity mislabelled as supply specification change'
+E     Use -v to get more diff
+________________ test_C_restatement_is_not_an_unapplied_change _________________
+ai_progress/codex-m125-review/review_probes.py:131: in test_C_restatement_is_not_an_unapplied_change
+    assert semantic_errors(result) == []
+E   AssertionError: assert ['actual capa...ble capacity'] == []
+E     
+E     Left contains 3 more items, first extra item: 'actual capacity mislabelled as supply specification change'
+E     Use -v to get more diff
+______ test_C_M7_rejects_numerically_valid_but_semantically_false_change _______
+ai_progress/codex-m125-review/review_probes.py:139: in test_C_M7_rejects_numerically_valid_but_semantically_false_change
+    assert result['reply_source'] == 'deterministic_template', 'M7 must reject false field/transition meaning, even when all numbers exist'
+E   AssertionError: M7 must reject false field/transition meaning, even when all numbers exist
+E   assert 'llm_phrased' == 'deterministic_template'
+E     
+E     - deterministic_template
+E     + llm_phrased
+___________________ test_D_generalized_capacities[semantics] ___________________
+ai_progress/codex-m125-review/review_probes.py:171: in test_D_generalized_capacities
+    assert semantic_errors(result, '15', '12') == []
+E   AssertionError: assert ['actual capa...ble capacity'] == []
+E     
+E     Left contains 3 more items, first extra item: 'actual capacity mislabelled as supply specification change'
+E     Use -v to get more diff
+____________ test_E_order_and_negation[new-before-old-same-clause] _____________
+ai_progress/codex-m125-review/review_probes.py:183: in test_E_order_and_negation
+    numbers(result, '12', '288', '20', '50')
+ai_progress/codex-m125-review/review_probes.py:82: in numbers
+    assert Decimal(n['total_current_a']) == Decimal(total)
+E   AssertionError: assert Decimal('14') == Decimal('12')
+E    +  where Decimal('14') = Decimal('14')
+E    +  and   Decimal('12') = Decimal('12')
+____________ test_E_restatement_does_not_request_supply_replacement ____________
+ai_progress/codex-m125-review/review_probes.py:191: in test_E_restatement_does_not_request_supply_replacement
+    assert not [r for r in requests if r['fact_key'].startswith('supply') and r.get('mode') in ('replace', 'add')]
+E   AssertionError: assert not [{'fact_key': 'supply_continuous_current', 'mode': 'replace', 'unit': 'A', 'value': '8'}]
+______________ test_previous_turn_motor_and_delta_must_be_visible ______________
+ai_progress/codex-m125-review/review_probes.py:239: in test_previous_turn_motor_and_delta_must_be_visible
+    assert errors == []
+E   AssertionError: assert ['fresh motor...e 48W absent'] == []
+E     
+E     Left contains 3 more items, first extra item: 'fresh motor change still uses document 8A instead of previous-plan 11A'
+E     Use -v to get more diff
+_________________ test_M7_accepts_correct_previous_plan_deltas _________________
+ai_progress/codex-m125-review/review_probes.py:247: in test_M7_accepts_correct_previous_plan_deltas
+    assert result['reply_source'] == 'llm_phrased', 'True deltas need deterministic provenance, not a blanket M7 relaxation'
+E   AssertionError: True deltas need deterministic provenance, not a blanket M7 relaxation
+E   assert 'deterministic_template' == 'llm_phrased'
+E     
+E     - llm_phrased
+E     + deterministic_template
+___ test_fresh_change_uses_physical_value_not_raw_dictionary[decimal-format] ___
+ai_progress/codex-m125-review/review_probes.py:257: in test_fresh_change_uses_physical_value_not_raw_dictionary
+    assert 'supply_continuous_current 由' not in result['reply'], 'Equivalent quantities must not create a fresh change'
+E   AssertionError: Equivalent quantities must not create a fresh change
+E   assert 'supply_cont...us_current 由' not in '提醒：您目前選擇的評估...析結果，不代表最終核准。'
+E     
+E     'supply_continuous_current 由' is contained here:
+E       僅供本次試算比較）：supply_continuous_current 由 10A（文件 DOC-PS）換成 8.0A
+E       - 先前已提供、本輪未變更的條件（仍套用於本次計算）：motor_continuous_current：11A（文件額定 8A）
+E       - 已確認工程條件：持續電流需求超過電源連續額定值
+E       - 新方案計算結果：總電流 14A（電源額定 8A）、總功率 336W（額定上限 192W）
+E       - 對照現有狀態（變更前）：電源額定 10A，新方案總電流 14A，相對現有額定超出 40%；相對新方案本身的額定 8A 超出 75%...
+E     
+E     ...Full output truncated (6 lines hidden), use '-vv' to show
+__ test_fresh_change_uses_physical_value_not_raw_dictionary[equivalent-unit] ___
+ai_progress/codex-m125-review/review_probes.py:257: in test_fresh_change_uses_physical_value_not_raw_dictionary
+    assert 'supply_continuous_current 由' not in result['reply'], 'Equivalent quantities must not create a fresh change'
+E   AssertionError: Equivalent quantities must not create a fresh change
+E   assert 'supply_cont...us_current 由' not in '提醒：您目前選擇的評估...析結果，不代表最終核准。'
+E     
+E     'supply_continuous_current 由' is contained here:
+E       僅供本次試算比較）：supply_continuous_current 由 10A（文件 DOC-PS）換成 8000mA
+E       - 先前已提供、本輪未變更的條件（仍套用於本次計算）：motor_continuous_current：11A（文件額定 8A）
+E       - 已確認工程條件：持續電流需求超過電源連續額定值
+E       - 新方案計算結果：總電流 14A（電源額定 8A）、總功率 336W（額定上限 192W）
+E       - 對照現有狀態（變更前）：電源額定 10A，新方案總電流 14A，相對現有額定超出 40%；相對新方案本身的額定 8A 超出 75%...
+E     
+E     ...Full output truncated (6 lines hidden), use '-vv' to show
+______ test_accepted_restatement_without_mode_does_not_hide_applied_state ______
+ai_progress/codex-m125-review/review_probes.py:269: in test_accepted_restatement_without_mode_does_not_hide_applied_state
+    assert unclaimed == []
+E   AssertionError: assert ['8A'] == []
+E     
+E     Left contains one more item: '8A'
+E     Use -v to get more diff
+________________ test_negation_scoped_to_power_not_whole_clause ________________
+ai_progress/codex-m125-review/review_probes.py:276: in test_negation_scoped_to_power_not_whole_clause
+    numbers(result, '12', '288', '20', '50')
+ai_progress/codex-m125-review/review_probes.py:82: in numbers
+    assert Decimal(n['total_current_a']) == Decimal(total)
+E   AssertionError: assert Decimal('14') == Decimal('12')
+E    +  where Decimal('14') = Decimal('14')
+E    +  and   Decimal('12') = Decimal('12')
+_________________________ test_descriptor_after_value __________________________
+ai_progress/codex-m125-review/review_probes.py:282: in test_descriptor_after_value
+    numbers(result, '14', '336', '40', '75')
+ai_progress/codex-m125-review/review_probes.py:85: in numbers
+    assert f'{actual_pct}%' in result['reply']
+E   AssertionError: assert '75%' in '已記錄您這一輪提供的數值（尚未經管理者正式確認，僅供本次對話試算）：supply_continuous_current=8A；motor_continuous_current=11A\n已完成本輪分析：\n- 您這輪提出的新方案（尚未...nverified；C（調整負載分配／控制）：unverified\n- 建議下一步：馬達啟動電流及驅動器允許峰值是多少？；電源的降額與熱條件是否滿足？\n任何變更仍需人工審核後才能執行；本回覆僅轉述下方確定性分析結果，不代表最終核准。'
+_____________ test_real_supply_replacement_keeps_both_new_ratings ______________
+ai_progress/codex-m125-review/review_probes.py:299: in test_real_supply_replacement_keeps_both_new_ratings
+    assert result['checks'][0]['numbers']['limit_current_a'] == '16'
+E   AssertionError: assert '8' == '16'
+E     
+E     - 16
+E     + 8
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:45
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/starlette/testclient.py:45: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+ai_progress/codex-m125-review/review_probes.py::test_A_arithmetic
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/langgraph/cache/base/__init__.py:8: LangChainPendingDeprecationWarning: The default value of `allowed_objects` will change in a future version. Pass an explicit value (e.g., allowed_objects='messages' or allowed_objects='core') to suppress this warning.
+    from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED ai_progress/codex-m125-review/review_probes.py::test_A_distinct_capacity_meanings
+FAILED ai_progress/codex-m125-review/review_probes.py::test_B_no_power_specification_change
+FAILED ai_progress/codex-m125-review/review_probes.py::test_C_restatement_is_not_an_unapplied_change
+FAILED ai_progress/codex-m125-review/review_probes.py::test_C_M7_rejects_numerically_valid_but_semantically_false_change
+FAILED ai_progress/codex-m125-review/review_probes.py::test_D_generalized_capacities[semantics]
+FAILED ai_progress/codex-m125-review/review_probes.py::test_E_order_and_negation[new-before-old-same-clause]
+FAILED ai_progress/codex-m125-review/review_probes.py::test_E_restatement_does_not_request_supply_replacement
+FAILED ai_progress/codex-m125-review/review_probes.py::test_previous_turn_motor_and_delta_must_be_visible
+FAILED ai_progress/codex-m125-review/review_probes.py::test_M7_accepts_correct_previous_plan_deltas
+FAILED ai_progress/codex-m125-review/review_probes.py::test_fresh_change_uses_physical_value_not_raw_dictionary[decimal-format]
+FAILED ai_progress/codex-m125-review/review_probes.py::test_fresh_change_uses_physical_value_not_raw_dictionary[equivalent-unit]
+FAILED ai_progress/codex-m125-review/review_probes.py::test_accepted_restatement_without_mode_does_not_hide_applied_state
+FAILED ai_progress/codex-m125-review/review_probes.py::test_negation_scoped_to_power_not_whole_clause
+FAILED ai_progress/codex-m125-review/review_probes.py::test_descriptor_after_value
+FAILED ai_progress/codex-m125-review/review_probes.py::test_real_supply_replacement_keeps_both_new_ratings
+15 failed, 22 passed, 2 warnings in 0.89s
+{"source": "completed", "exit_code": 1, "source_unchanged_during_run": true, "temporary_databases": 36, "blocked_access_attempts": [], "real_llm_calls": 0, "tests": ["review_probes.py", "test_llm_value_grounding.py::test_a_fabricated_values_with_no_numbers_in_message_are_rejected", "test_llm_value_grounding.py::test_e_formal_document_value_is_never_overridden_by_user_supplied", "test_llm_approval_linkage.py::test_approved_action_a_does_not_leak_into_discussion_of_unapproved_action_b", "test_llm_approval_linkage.py::test_m7_safety_and_numeric_fallback_still_work_unchanged", "test_session_continuity.py::test_session_transcript_redacts_reply_after_source_revocation", "test_session_continuity.py::test_approval_pipeline_unreachable_from_analyze_or_session", "test_m114_condition_updates.py::test_llm_cannot_omit_the_failed_change_warning", "test_m125_supply_capacity_semantics.py"]}

@@ -1,0 +1,58 @@
+{
+ "id": "BB13",
+ "domain": "跨領域(法規+硬體+時程)",
+ "model": "qwen3:8b",
+ "mode": "PROTO_V2_BINDING_VERIFIED",
+ "llm_enabled": true,
+ "turns": [
+  {
+   "user": "產品必須在 8 週後上市。認證實驗室現在排隊等待測試。我們能保證如期上市嗎？",
+   "reply": "**核心問題**：產品是否能在8週內完成認證實驗室測試並如期上市？\n\n**已知事實**：\n- 產品必須在8週後上市（來源：Q1）\n- 實驗室測試約需6週完成並出報告（來源：D-CERT）\n- 若首次未通過，整改與複測另需4週（來源：D-CERT）\n\n**硬限制**：產品必須在8週後上市\n\n**計算（逐項驗證層級已標示；未驗證專業結論）**：\n- 最優情況下的總工期：Q2 → **6** 週（輸入對應與算術已核對（專業結論尚未驗證）；輸入：Q2=6週[D-CERT]）　若首次測試通過，則總工期為實驗室測試工期\n- 最壞情況下的總工期：Q2 + Q3 → **10** 週（輸入對應與算術已核對（專業結論尚未驗證）；輸入：Q2=6週[D-CERT]；Q3=4週[D-CERT]）　若首次測試未通過，則總工期為實驗室測試工期加上整改與複測工期\n- 專案工期：關鍵路徑法 → **10**（單位依輸入）；關鍵路徑 T1→T2；浮時 {'T1': 0.0, 'T2': 0.0}（確定性排程演算法；輸入對應已核對；專業結論仍須覆核）\n\n**風險（依重要性）**：\n- [high] 測試未通過，導致需進行整改與複測，延誤上市時間｜成因鏈：測試未通過→需整改與複測→增加4週工期｜依據：若測試未通過，將增加4週工期，可能導致無法如期上市\n- [medium] 測試排隊導致測試開始時間延後｜成因鏈：測試排隊→測試開始時間延後→總工期延長｜依據：若測試排隊導致測試開始時間延後，將影響總工期\n\n**方案比較**：\n- 按原計畫進行測試（可行性：yes；違反限制：無）優點：符合原計畫；可如期上市（若測試通過）；缺點：若測試未通過，將延誤上市；需等待測試結果；成本影響：未知\n- 提前進行測試（可行性：conditional；違反限制：無）優點：可提前確認測試結果；減少風險；缺點：可能增加成本；需提前安排資源；成本影響：未知\n\n**資訊缺口**：\n- 首次通過率：若首次未通過，將增加4週的整改與複測時間，影響是否能如期上市（取得方式：需取得歷史資料或與認證實驗室確認首次通過率）\n- 測試是否會因排隊而延誤：若測試排隊導致延誤，將影響是否能如期上市（取得方式：需與認證實驗室確認測試排程與預計開始時間）\n\n**建議行動**：\n1. 與認證實驗室確認測試排程與預計開始時間（以確認測試是否會因排隊而延誤，影響是否能如期上市）\n2. 取得歷史資料或與認證實驗室確認首次通過率（以評估是否需要進行整改與複測，影響是否能如期上市）\n\n**會改變結論的新資訊**：測試是否通過；測試排程是否延誤；首次通過率",
+   "raw_model_json": "{\n  \"core_issue\": \"產品是否能在8週內完成認證實驗室測試並如期上市？\",\n  \"known_facts\": [\n    {\"text\": \"產品必須在8週後上市\", \"source\": \"Q1\"},\n    {\"text\": \"實驗室測試約需6週完成並出報告\", \"source\": \"D-CERT\"},\n    {\"text\": \"若首次未通過，整改與複測另需4週\", \"source\": \"D-CERT\"}\n  ],\n  \"unknowns\": [\n    {\"what\": \"首次通過率\", \"why_it_matters\": \"若首次未通過，將增加4週的整改與複測時間，影響是否能如期上市\", \"how_to_get\": \"需取得歷史資料或與認證實驗室確認首次通過率\"},\n    {\"what\": \"測試是否會因排隊而延誤\", \"why_it_matters\": \"若測試排隊導致延誤，將影響是否能如期上市\", \"how_to_get\": \"需與認證實驗室確認測試排程與預計開始時間\"}\n  ],\n  \"hard_constraints\": [\n    {\"text\": \"產品必須在8週後上市\", \"source\": \"Q1\"}\n  ],\n  \"conflicts\": [],\n  \"calculations\": [\n    {\n      \"name\": \"最優情況下的總工期\",\n      \"formula\": \"Q2\",\n      \"inputs\": {\n        \"Q2\": {\n          \"ref\": \"Q2\",\n          \"meaning\": \"實驗室測試工期\",\n          \"unit\": \"週\"\n        }\n      },\n      \"unit\": \"週\",\n      \"meaning\": \"若首次測試通過，則總工期為實驗室測試工期\"\n    },\n    {\n      \"name\": \"最壞情況下的總工期\",\n      \"formula\": \"Q2 + Q3\",\n      \"inputs\": {\n        \"Q2\": {\n          \"ref\": \"Q2\",\n          \"meaning\": \"實驗室測試工期\",\n          \"unit\": \"週\"\n        },\n        \"Q3\": {\n          \"ref\": \"Q3\",\n          \"meaning\": \"整改與複測工期\",\n          \"unit\": \"週\"\n        }\n      },\n      \"unit\": \"週\",\n      \"meaning\": \"若首次測試未通過，則總工期為實驗室測試工期加上整改與複測工期\"\n    },\n    {\n      \"kind\": \"critical_path\",\n      \"name\": \"專案工期\",\n      \"tasks\": [\n        {\n          \"id\": \"T1\",\n          \"duration\": {\n            \"ref\": \"Q2\",\n            \"meaning\": \"實驗室測試工期\",\n            \"unit\": \"週\"\n          },\n          \"after\": []\n        },\n        {\n          \"id\": \"T2\",\n          \"duration\": {\n            \"ref\": \"Q3\",\n            \"meaning\": \"整改與複測工期\",\n            \"unit\": \"週\"\n          },\n          \"after\": [\"T1\"]\n        }\n      ]\n    }\n  ],\n  \"risks\": [\n    {\n      \"id\": \"R1\",\n      \"description\": \"測試未通過，導致需進行整改與複測，延誤上市時間\",\n      \"cause_chain\": [\"測試未通過→需整改與複測→增加4週工期\"],\n      \"severity\": \"high\",\n      \"severity_basis\": \"若測試未通過，將增加4週工期，可能導致無法如期上市\"\n    },\n    {\n      \"id\": \"R2\",\n      \"description\": \"測試排隊導致測試開始時間延後\",\n      \"cause_chain\": [\"測試排隊→測試開始時間延後→總工期延長\"],\n      \"severity\": \"medium\",\n      \"severity_basis\": \"若測試排隊導致測試開始時間延後，將影響總工期\"\n    }\n  ],\n  \"options\": [\n    {\n      \"name\": \"按原計畫進行測試\",\n      \"feasible\": \"yes\",\n      \"violates_constraints\": [],\n      \"pros\": [\"符合原計畫\", \"可如期上市（若測試通過）\"],\n      \"cons\": [\"若測試未通過，將延誤上市\", \"需等待測試結果\"],\n      \"cost_impact\": \"未知\"\n    },\n    {\n      \"name\": \"提前進行測試\",\n      \"feasible\": \"conditional\",\n      \"violates_constraints\": [],\n      \"pros\": [\"可提前確認測試結果\", \"減少風險\"],\n      \"cons\": [\"可能增加成本\", \"需提前安排資源\"],\n      \"cost_impact\": \"未知\"\n    }\n  ],\n  \"recommended_actions\": [\n    {\n      \"action\": \"與認證實驗室確認測試排程與預計開始時間\",\n      \"priority\": 1,\n      \"reason\": \"以確認測試是否會因排隊而延誤，影響是否能如期上市\"\n    },\n    {\n      \"action\": \"取得歷史資料或與認證實驗室確認首次通過率\",\n      \"priority\": 2,\n      \"reason\": \"以評估是否需要進行整改與複測，影響是否能如期上市\"\n    }\n  ],\n  \"what_would_change_the_decision\": [\"測試是否通過\", \"測試排程是否延誤\", \"首次通過率\"]\n}",
+   "verification": {
+    "calc": [
+     {
+      "name": "最優情況下的總工期",
+      "status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+      "issues": [],
+      "value": 6.0,
+      "levels": {
+       "presence": true,
+       "binding": true,
+       "arithmetic": true,
+       "professional_validity": "not_validated"
+      }
+     },
+     {
+      "name": "最壞情況下的總工期",
+      "status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+      "issues": [],
+      "value": 10.0,
+      "levels": {
+       "presence": true,
+       "binding": true,
+       "arithmetic": true,
+       "professional_validity": "not_validated"
+      }
+     },
+     {
+      "name": "專案工期",
+      "kind": "critical_path",
+      "status": "METHOD_CRITICAL_PATH",
+      "value": 10.0,
+      "critical_path": [
+       "T1",
+       "T2"
+      ]
+     }
+    ],
+    "ungrounded_numbers": [],
+    "claim_flags": []
+   },
+   "elapsed_s": 50.1,
+   "llm_state": "CALLED_STRUCTURED",
+   "ledger_size": 3,
+   "conflicts": []
+  }
+ ]
+}

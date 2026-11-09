@@ -1,0 +1,20 @@
+{
+  "host_ollama_status": "{\"models\":[{\"name\":\"qwen3-coder-gui:64k\",\"model\":\"qwen3-coder-gui:64k\",\"modified_at\":\"2026-10-21T21:58:28.391583391+08:0",
+  "container_dns_resolution": "192.168.127.254",
+  "container_ollama_tags": "200 ['qwen3-coder-gui:64k', 'qwen3.6:27b', 'qwen3-coder:30b', 'qwen3:8b']",
+  "config_py_analysis": {
+    "file": "app/config.py",
+    "allowed_hosts": [
+      "localhost",
+      "127.0.0.1",
+      "::1",
+      "host.containers.internal"
+    ],
+    "critical_limitations": [
+      "Rejects 'host.docker.internal' (used by Docker Desktop on macOS/Windows)",
+      "Rejects container service names (e.g. 'http://ollama:11434' in docker-compose)",
+      "Rejects private/gateway IP addresses (e.g. '10.88.0.1' on Linux rootless or '172.x.x.x' on WSL2)",
+      "Creates a silent fallback to deterministic calculation when model URL is rejected"
+    ]
+  }
+}

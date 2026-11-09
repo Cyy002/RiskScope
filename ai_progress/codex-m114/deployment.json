@@ -1,0 +1,8 @@
+{
+  "image": "localhost/riskscope-m114-codex:review",
+  "container": "riskscope-codex-m114",
+  "volume": "riskscope_codex_m114_isolated",
+  "port": 8001,
+  "build_context": "/var/folders/d5/tstcbmfj3v1b64ldw1jn8tf00000gn/T/riskscope-m114-build-ionjbov4",
+  "production_before": "59413f4214831c052dd5fcf259df7c944bb2b6ea88687a6d986d9c0a9a912ba3 25c1dd4845d16f94dc916e3926226c08cc2bc0385aa81d4a2edc38364201769a 2026-10-20 11:59:55.539422912 +0800 CST running"
+}

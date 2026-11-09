@@ -1,0 +1,43 @@
+{
+ "id": "BB01",
+ "domain": "軟體工程/專案管理",
+ "model": "qwen3:8b",
+ "mode": "PROTO_V2_BINDING_VERIFIED",
+ "llm_enabled": true,
+ "turns": [
+  {
+   "user": "我們要在 9 週內上線新的訂單 API。團隊 4 人可平行工作，壓力測試不能省略。目前的任務排程能達成嗎？如果不能，該怎麼辦？",
+   "reply": "**核心問題**：在9週內上線新的訂單API，是否符合目前的任務排程與團隊規模限制？若無法達成，應提出可行的替代方案。\n\n**已知事實**：\n- 目標為9週內上線，來源：Q1（來源：Q1）\n- 團隊規模為4人，來源：Q2（來源：Q2）\n- 壓力測試不能省略，來源：user（來源：user）\n\n**硬限制**：壓力測試不能省略；團隊規模為4人，可平行工作\n\n**計算（逐項驗證層級已標示；未驗證專業結論）**：\n- ⛔ 專案工期（有任務依賴時必須用此種，不可把工期直接相加）：算式 max(B, C) + D + E + F 的輸入對應驗證失敗，結果未採用（B: declared meaning \"任務B後端開發工期\" does not match the source label/context \"我們要在｜我們要在 9 週內上線新的訂\"；C: declared meaning \"任務C前端開發工期\" does not match the source label/context \"我們要在｜我們要在 9 週內上線新的訂\"；D: declared meaning \"任務D整合工期\" does not match the source label/context \"我們要在｜我們要在 9 週內上線新的訂\"）\n\n**風險（依重要性）**：\n- [high] 專案可能無法在9週內完成｜成因鏈：任務B與C需串行執行→任務D需等待B與C完成→任務E需等待D完成→任務F需等待A完成→總工期超過9週｜依據：根據任務依賴關係與預估工期計算，總工期可能超過9週\n\n**方案比較**：\n- 保持現有排程（可行性：conditional；違反限制：壓力測試不能省略）優點：符合現有任務排程；缺點：可能無法在9週內完成；成本影響：未知\n- 增加團隊人數（可行性：conditional；違反限制：無）優點：可縮短總工期；缺點：需增加人力成本；成本影響：未知\n- 優先執行關鍵任務（可行性：yes；違反限制：無）優點：可提高專案完成機率；缺點：可能影響其他任務進度；成本影響：未知\n\n**資訊缺口**：\n- 各任務的實際工期是否符合預估？：若實際工期超出預估，將影響整體專案完成時間。（取得方式：需實際執行時進行監測與評估。）\n- 任務之間是否存在未明確的依賴關係？：未明確的依賴關係可能導致排程錯誤，影響專案進度。（取得方式：需進一步確認任務間的實際依賴關係。）\n\n**建議行動**：\n1. 確認任務間的實際依賴關係（任務間的依賴關係可能影響總工期計算，需明確後才能評估是否符合9週目標。）\n2. 評估是否可增加團隊人數（若現有團隊規模不足以在9週內完成，增加人數可能是一種可行的解決方案。）\n\n**會改變結論的新資訊**：任務間的實際依賴關係；團隊規模；各任務的實際工期；壓力測試是否可縮短",
+   "raw_model_json": "{\n  \"core_issue\": \"在9週內上線新的訂單API，是否符合目前的任務排程與團隊規模限制？若無法達成，應提出可行的替代方案。\",\n  \"known_facts\": [\n    {\"text\": \"目標為9週內上線，來源：Q1\", \"source\": \"Q1\"},\n    {\"text\": \"團隊規模為4人，來源：Q2\", \"source\": \"Q2\"},\n    {\"text\": \"壓力測試不能省略，來源：user\", \"source\": \"user\"}\n  ],\n  \"unknowns\": [\n    {\"what\": \"各任務的實際工期是否符合預估？\", \"why_it_matters\": \"若實際工期超出預估，將影響整體專案完成時間。\", \"how_to_get\": \"需實際執行時進行監測與評估。\"},\n    {\"what\": \"任務之間是否存在未明確的依賴關係？\", \"why_it_matters\": \"未明確的依賴關係可能導致排程錯誤，影響專案進度。\", \"how_to_get\": \"需進一步確認任務間的實際依賴關係。\"}\n  ],\n  \"hard_constraints\": [\n    {\"text\": \"壓力測試不能省略\", \"source\": \"user\"},\n    {\"text\": \"團隊規模為4人，可平行工作\", \"source\": \"Q2\"}\n  ],\n  \"conflicts\": [],\n  \"calculations\": [\n    {\n      \"name\": \"專案工期（有任務依賴時必須用此種，不可把工期直接相加）\",\n      \"formula\": \"max(B, C) + D + E + F\",\n      \"inputs\": {\n        \"B\": {\"ref\": \"Q1\", \"meaning\": \"任務B後端開發工期\", \"unit\": \"週\"},\n        \"C\": {\"ref\": \"Q1\", \"meaning\": \"任務C前端開發工期\", \"unit\": \"週\"},\n        \"D\": {\"ref\": \"Q1\", \"meaning\": \"任務D整合工期\", \"unit\": \"週\"},\n        \"E\": {\"ref\": \"Q1\", \"meaning\": \"任務E壓力測試工期\", \"unit\": \"週\"},\n        \"F\": {\"ref\": \"Q1\", \"meaning\": \"任務F文件工期\", \"unit\": \"週\"}\n      },\n      \"unit\": \"週\",\n      \"meaning\": \"根據任務依賴關係計算的總專案工期\"\n    }\n  ],\n  \"risks\": [\n    {\n      \"id\": \"R1\",\n      \"description\": \"專案可能無法在9週內完成\",\n      \"cause_chain\": [\"任務B與C需串行執行\", \"任務D需等待B與C完成\", \"任務E需等待D完成\", \"任務F需等待A完成\", \"總工期超過9週\"],\n      \"severity\": \"high\",\n      \"severity_basis\": \"根據任務依賴關係與預估工期計算，總工期可能超過9週\"\n    }\n  ],\n  \"options\": [\n    {\n      \"name\": \"保持現有排程\",\n      \"feasible\": \"conditional\",\n      \"violates_constraints\": [\"壓力測試不能省略\"],\n      \"pros\": [\"符合現有任務排程\"],\n      \"cons\": [\"可能無法在9週內完成\"],\n      \"cost_impact\": \"未知\"\n    },\n    {\n      \"name\": \"增加團隊人數\",\n      \"feasible\": \"conditional\",\n      \"violates_constraints\": [],\n      \"pros\": [\"可縮短總工期\"],\n      \"cons\": [\"需增加人力成本\"],\n      \"cost_impact\": \"未知\"\n    },\n    {\n      \"name\": \"優先執行關鍵任務\",\n      \"feasible\": \"yes\",\n      \"violates_constraints\": [],\n      \"pros\": [\"可提高專案完成機率\"],\n      \"cons\": [\"可能影響其他任務進度\"],\n      \"cost_impact\": \"未知\"\n    }\n  ],\n  \"recommended_actions\": [\n    {\n      \"action\": \"確認任務間的實際依賴關係\",\n      \"priority\": 1,\n      \"reason\": \"任務間的依賴關係可能影響總工期計算，需明確後才能評估是否符合9週目標。\"\n    },\n    {\n      \"action\": \"評估是否可增加團隊人數\",\n      \"priority\": 2,\n      \"reason\": \"若現有團隊規模不足以在9週內完成，增加人數可能是一種可行的解決方案。\"\n    }\n  ],\n  \"what_would_change_the_decision\": [\"任務間的實際依賴關係\", \"團隊規模\", \"各任務的實際工期\", \"壓力測試是否可縮短\"]\n}",
+   "verification": {
+    "calc": [
+     {
+      "name": "專案工期（有任務依賴時必須用此種，不可把工期直接相加）",
+      "status": "REJECTED_BINDING",
+      "issues": [
+       "B: declared meaning \"任務B後端開發工期\" does not match the source label/context \"我們要在｜我們要在 9 週內上線新的訂\"",
+       "C: declared meaning \"任務C前端開發工期\" does not match the source label/context \"我們要在｜我們要在 9 週內上線新的訂\"",
+       "D: declared meaning \"任務D整合工期\" does not match the source label/context \"我們要在｜我們要在 9 週內上線新的訂\"",
+       "E: declared meaning \"任務E壓力測試工期\" does not match the source label/context \"我們要在｜我們要在 9 週內上線新的訂\"",
+       "F: declared meaning \"任務F文件工期\" does not match the source label/context \"我們要在｜我們要在 9 週內上線新的訂\"",
+       "one source quantity bound to 5 different variables (B, C, D, E, F) without an identical declared meaning -- inputs of different items must come from different sources"
+      ],
+      "value": null,
+      "levels": {
+       "presence": true,
+       "binding": false,
+       "arithmetic": true,
+       "professional_validity": "not_validated"
+      }
+     }
+    ],
+    "ungrounded_numbers": [],
+    "claim_flags": []
+   },
+   "elapsed_s": 44.0,
+   "llm_state": "CALLED_STRUCTURED",
+   "ledger_size": 2,
+   "conflicts": []
+  }
+ ]
+}

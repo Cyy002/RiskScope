@@ -1,0 +1,48 @@
+{
+ "id": "BB20",
+ "domain": "成本與預算",
+ "model": "qwen3:8b",
+ "mode": "PROTO_V2_BINDING_VERIFIED",
+ "llm_enabled": true,
+ "turns": [
+  {
+   "user": "這個設備要花80萬元，之後5年每年可以多賺20萬元，總共賺100萬元，比投入的80萬多，所以這個投資划算，對吧？",
+   "reply": "**核心問題**：是否應該投資這台設備，基於其成本與預期收益的評估。\n\n**資料衝突（未擅自擇一）**：收益總額與每年收益的計算方式存在矛盾\n\n**已知事實**：\n- 設備投資成本為80萬元（來源：Q1）\n- 預期5年後的總收益為100萬元（來源：Q4）\n- 每年可多賺20萬元（來源：Q3）\n- 資金成本（折現率）為每年8%（來源：Q6）\n- 所有超過30萬元的設備投資須以淨現值（NPV）評估（來源：Q7）\n\n**硬限制**：所有超過30萬元的設備投資須以淨現值（NPV）評估\n\n**計算（逐項驗證層級已標示；未驗證專業結論）**：\n- ⛔ NPV計算：算式 NPV = (20 * (1 - (1 + 0.08)^-5) / 0.08) - 80 的輸入對應驗證失敗，結果未採用（0.08: declared unit 年 (time) conflicts with source 8% (percent)；arithmetic: invalid syntax (<unknown>, line 1)）\n- 專案工期：關鍵路徑法 → **5**（單位依輸入）；關鍵路徑 T1；浮時 {'T1': 0.0}（確定性排程演算法；輸入對應已核對；專業結論仍須覆核）\n\n**風險（依重要性）**：\n- [high] 投資可能無法達成預期收益｜成因鏈：收益計算方式不清晰→實際收益可能低於預期→NPV可能為負→設備壽命短於預期→總收益減少→NPV可能為負｜依據：根據收益計算方式與設備壽命的不確定性，可能導致NPV為負\n- [medium] NPV計算方式不正確可能導致錯誤決策｜成因鏈：未正確折現收益→NPV計算錯誤→誤判投資價值｜依據：根據財務政策，所有超過30萬元的投資必須使用NPV評估，但收益是否為實值或現值未明確\n\n**方案比較**：\n- 進行投資（可行性：conditional；違反限制：未明確NPV計算方式）優點：預期總收益為100萬元，超過投資成本80萬元；缺點：收益計算方式不清晰，可能導致NPV為負；未明確設備壽命，可能影響總收益；成本影響：未知\n- 不進行投資（可行性：yes；違反限制：無）優點：避免潛在風險，如NPV為負或收益未達預期；缺點：放棄可能的收益，如100萬元總收益；成本影響：未知\n\n**資訊缺口**：\n- 各年份的收益是否為現值或實值：若收益為實值，需折現計算NPV；若為現值，則無需折現（取得方式：需確認收益是實值還是現值，或取得財務部門的說明）\n- 設備的使用壽命是否超過5年：若設備壽命更長，可能影響總收益與NPV計算（取得方式：需取得設備的技術規格或使用壽命資料）\n\n**建議行動**：\n1. 取得財務部門的說明，確認收益是實值還是現值（收益計算方式直接影響NPV計算，進而影響投資決策）\n2. 確認設備的使用壽命是否超過5年（設備壽命影響總收益與NPV計算）\n\n**會改變結論的新資訊**：NPV計算結果；設備使用壽命；收益是否為實值或現值",
+   "raw_model_json": "{\n  \"core_issue\": \"是否應該投資這台設備，基於其成本與預期收益的評估。\",\n  \"known_facts\": [\n    {\"text\": \"設備投資成本為80萬元\", \"source\": \"Q1\"},\n    {\"text\": \"預期5年後的總收益為100萬元\", \"source\": \"Q4\"},\n    {\"text\": \"每年可多賺20萬元\", \"source\": \"Q3\"},\n    {\"text\": \"資金成本（折現率）為每年8%\", \"source\": \"Q6\"},\n    {\"text\": \"所有超過30萬元的設備投資須以淨現值（NPV）評估\", \"source\": \"Q7\"}\n  ],\n  \"unknowns\": [\n    {\"what\": \"各年份的收益是否為現值或實值\", \"why_it_matters\": \"若收益為實值，需折現計算NPV；若為現值，則無需折現\", \"how_to_get\": \"需確認收益是實值還是現值，或取得財務部門的說明\"},\n    {\"what\": \"設備的使用壽命是否超過5年\", \"why_it_matters\": \"若設備壽命更長，可能影響總收益與NPV計算\", \"how_to_get\": \"需取得設備的技術規格或使用壽命資料\"}\n  ],\n  \"hard_constraints\": [\n    {\"text\": \"所有超過30萬元的設備投資須以淨現值（NPV）評估\", \"source\": \"Q7\"}\n  ],\n  \"conflicts\": [\n    {\"text\": \"收益總額與每年收益的計算方式存在矛盾\", \"sources\": [\"Q3\", \"Q4\"]}\n  ],\n  \"calculations\": [\n    {\n      \"name\": \"NPV計算\",\n      \"formula\": \"NPV = (20 * (1 - (1 + 0.08)^-5) / 0.08) - 80\",\n      \"inputs\": {\n        \"20\": {\"ref\": \"Q3\", \"meaning\": \"每年可多賺的金額\", \"unit\": \"萬元\"},\n        \"0.08\": {\"ref\": \"Q6\", \"meaning\": \"資金成本（折現率）\", \"unit\": \"年\"},\n        \"5\": {\"ref\": \"Q2\", \"meaning\": \"設備使用年限\", \"unit\": \"年\"},\n        \"80\": {\"ref\": \"Q1\", \"meaning\": \"設備投資成本\", \"unit\": \"萬元\"}\n      },\n      \"unit\": \"萬元\",\n      \"meaning\": \"設備投資的淨現值（NPV）\"\n    },\n    {\n      \"kind\": \"critical_path\",\n      \"name\": \"專案工期\",\n      \"tasks\": [\n        {\n          \"id\": \"T1\",\n          \"duration\": {\"ref\": \"Q2\", \"meaning\": \"設備使用年限\", \"unit\": \"年\"},\n          \"after\": []\n        }\n      ]\n    }\n  ],\n  \"risks\": [\n    {\n      \"id\": \"R1\",\n      \"description\": \"投資可能無法達成預期收益\",\n      \"cause_chain\": [\"收益計算方式不清晰→實際收益可能低於預期→NPV可能為負\", \"設備壽命短於預期→總收益減少→NPV可能為負\"],\n      \"severity\": \"high\",\n      \"severity_basis\": \"根據收益計算方式與設備壽命的不確定性，可能導致NPV為負\"\n    },\n    {\n      \"id\": \"R2\",\n      \"description\": \"NPV計算方式不正確可能導致錯誤決策\",\n      \"cause_chain\": [\"未正確折現收益→NPV計算錯誤→誤判投資價值\"],\n      \"severity\": \"medium\",\n      \"severity_basis\": \"根據財務政策，所有超過30萬元的投資必須使用NPV評估，但收益是否為實值或現值未明確\"\n    }\n  ],\n  \"options\": [\n    {\n      \"name\": \"進行投資\",\n      \"feasible\": \"conditional\",\n      \"violates_constraints\": [\"未明確NPV計算方式\"],\n      \"pros\": [\"預期總收益為100萬元，超過投資成本80萬元\"],\n      \"cons\": [\"收益計算方式不清晰，可能導致NPV為負\", \"未明確設備壽命，可能影響總收益\"],\n      \"cost_impact\": \"未知\"\n    },\n    {\n      \"name\": \"不進行投資\",\n      \"feasible\": \"yes\",\n      \"violates_constraints\": [],\n      \"pros\": [\"避免潛在風險，如NPV為負或收益未達預期\"],\n      \"cons\": [\"放棄可能的收益，如100萬元總收益\"],\n      \"cost_impact\": \"未知\"\n    }\n  ],\n  \"recommended_actions\": [\n    {\n      \"action\": \"取得財務部門的說明，確認收益是實值還是現值\",\n      \"priority\": 1,\n      \"reason\": \"收益計算方式直接影響NPV計算，進而影響投資決策\"\n    },\n    {\n      \"action\": \"確認設備的使用壽命是否超過5年\",\n      \"priority\": 2,\n      \"reason\": \"設備壽命影響總收益與NPV計算\"\n    }\n  ],\n  \"what_would_change_the_decision\": [\"NPV計算結果\", \"設備使用壽命\", \"收益是否為實值或現值\"]\n}",
+   "verification": {
+    "calc": [
+     {
+      "name": "NPV計算",
+      "status": "REJECTED_BINDING",
+      "issues": [
+       "0.08: declared unit 年 (time) conflicts with source 8% (percent)",
+       "arithmetic: invalid syntax (<unknown>, line 1)"
+      ],
+      "value": null,
+      "levels": {
+       "presence": true,
+       "binding": false,
+       "arithmetic": false,
+       "professional_validity": "not_validated"
+      }
+     },
+     {
+      "name": "專案工期",
+      "kind": "critical_path",
+      "status": "METHOD_CRITICAL_PATH",
+      "value": 5.0,
+      "critical_path": [
+       "T1"
+      ]
+     }
+    ],
+    "ungrounded_numbers": [],
+    "claim_flags": []
+   },
+   "elapsed_s": 55.0,
+   "llm_state": "CALLED_STRUCTURED",
+   "ledger_size": 7,
+   "conflicts": []
+  }
+ ]
+}

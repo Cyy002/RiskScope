@@ -1,0 +1,31 @@
+[
+ {
+  "id": "BB09",
+  "domain": "軟體工程/資料庫",
+  "model": "qwen3:8b",
+  "turn_states": [
+   "ACCEPTED"
+  ],
+  "template_only": true,
+  "manual_review": false,
+  "dims": {
+   "facts": 0.0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 2,
+   "uncertainty": 3,
+   "traceability": 1
+  },
+  "total_100": 6.0,
+  "required_numbers_found": "0/0",
+  "forbidden_hits": [],
+  "root_cause_tags": [
+   "generic advice / fixed 3-option scaffold",
+   "reasoning too shallow",
+   "cannot compare options",
+   "risk ranking absent"
+  ],
+  "critical_failure": false
+ }
+]

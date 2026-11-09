@@ -1,0 +1,38 @@
+{
+ "app_hash": "2080e7b3b5c25fab",
+ "llm": true,
+ "model": "qwen3:8b",
+ "cases": [
+  [
+   "BB02",
+   [
+    "ACCEPTED"
+   ]
+  ],
+  [
+   "BB03",
+   [
+    "ACCEPTED"
+   ]
+  ],
+  [
+   "BB06",
+   [
+    "ACCEPTED",
+    "ACCEPTED"
+   ]
+  ],
+  [
+   "BB09",
+   [
+    "NOT-CALLED/FAILED(timeout)"
+   ]
+  ],
+  [
+   "BB13",
+   [
+    "ACCEPTED"
+   ]
+  ]
+ ]
+}

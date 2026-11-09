@@ -1,0 +1,13 @@
+{
+  "exit_code": 1,
+  "sqlite_connections_confined_to_temporary_directory": true,
+  "runtime_access_attempts": 0,
+  "distinct_temporary_database_paths": 2,
+  "source_hashes": {
+    "app/api.py": "337d95ea4ad4d844bc022cd74d2bc13f3ddfc45d16f3c7e06149f9611132459d",
+    "app/db.py": "7d7c8f377d18ed27d3901e70423eed41fefaadcb9f7c34fc71d5481ce89c353b",
+    "app/static/app.js": "d0c61c5aaa6ff5b8148877766952be1b2ac472e96dcfd81bb44e1111fc8034df",
+    "tests/test_session_continuity.py": "bb235c0ae14c4d17e0a3ba5f7c2d12d7e82f760d47a65fad2554aab055c34b1e",
+    "tests/test_db_credentials_isolation.py": "b5989910c558aa72d1e7f2df5a19cd088a20d99279f49a05b5d3d7a5cdc6bba1"
+  }
+}

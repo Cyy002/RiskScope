@@ -1,0 +1,158 @@
+/Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/langgraph/cache/base/__init__.py:8: LangChainPendingDeprecationWarning: The default value of `allowed_objects` will change in a future version. Pass an explicit value (e.g., allowed_objects='messages' or allowed_objects='core') to suppress this warning.
+  from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
+{
+  "isolation": "AGENT_DB_PATH and AGENT_CREDENTIALS_PATH set to TemporaryDirectory before any app imports; all HTTP post calls mocked",
+  "source_hashes": {
+    "app/api.py": "44e1b4d88d015fac372d86713f54203305571f948899c56fd25e461eddd66624",
+    "app/chat.py": "412639eae77aec4addf048e16b814a92b9b0e493fb49dd4c5e6cd6c7c9fbb1ef",
+    "app/engineering.py": "ccbe4c3c751c895efc18529ef2765eba6391e344ef8959edff5aa38bcbb30eb3",
+    "app/analyzer.py": "b7d326705018141fa663fce13796fd1eeeb71b707a1d3714187cfd5bddecf03a",
+    "app/llm_client.py": "6cf0592ee3b94adc379c1afc64679c7a02dbec1a1b64db2461c6dfd22ec5e958"
+  },
+  "findings": {
+    "history_acl": {
+      "analysis_status_after_revocation": 403,
+      "session_status_after_revocation": 200,
+      "leaked_derived_current": "11A",
+      "leaked_derived_power": "264W",
+      "reply_source": "deterministic_template"
+    },
+    "ungrounded_numeric_extraction": {
+      "user_message": "請分析，不要猜測未提供的規格。",
+      "mock_model_candidate": {
+        "motor_voltage": {
+          "value": "24",
+          "unit": "V"
+        },
+        "motor_continuous_current": {
+          "value": "1",
+          "unit": "A"
+        }
+      },
+      "accepted": {
+        "motor_voltage": {
+          "value": "24",
+          "unit": "V"
+        },
+        "motor_continuous_current": {
+          "value": "1",
+          "unit": "A"
+        }
+      },
+      "constraint_status": "pass",
+      "numbers": {
+        "supply_voltage_v": "24",
+        "motor_voltage_v": "24",
+        "motor_current_a": "1",
+        "other_current_a": "3",
+        "total_current_a": "4",
+        "limit_current_a": "10",
+        "total_power_w": "96",
+        "limit_power_w": "240",
+        "over_current_a": "0"
+      },
+      "evidence": [
+        {
+          "fact_key": "supply_voltage",
+          "source_id": "DOC-PS",
+          "source_version": 1,
+          "value": "24",
+          "unit": "V",
+          "origin": "document",
+          "verified": true
+        },
+        {
+          "fact_key": "supply_continuous_current",
+          "source_id": "DOC-PS",
+          "source_version": 1,
+          "value": "10",
+          "unit": "A",
+          "origin": "document",
+          "verified": true
+        },
+        {
+          "fact_key": "motor_voltage",
+          "value": "24",
+          "unit": "V",
+          "origin": "user_supplied_this_turn",
+          "verified": false
+        },
+        {
+          "fact_key": "motor_continuous_current",
+          "value": "1",
+          "unit": "A",
+          "origin": "user_supplied_this_turn",
+          "verified": false
+        },
+        {
+          "fact_key": "aux_continuous_current",
+          "source_id": "DOC-AUX",
+          "source_version": 1,
+          "value": "3",
+          "unit": "A",
+          "origin": "document",
+          "verified": true
+        }
+      ],
+      "formal_facts_acl_actions_unchanged": true,
+      "decision_status": "requires_human_review",
+      "is_actual_model_attack": false
+    },
+    "unvalidated_prose": {
+      "mock_model_reply": "已確認總電流 1 A、總功率 24 W，已核准可以立即執行。",
+      "returned_reply": "已確認總電流 1 A、總功率 24 W，已核准可以立即執行。",
+      "reply_source": "llm_phrased",
+      "structured_constraint_status": "fail",
+      "structured_numbers": {
+        "supply_voltage_v": "24",
+        "motor_voltage_v": "24",
+        "motor_current_a": "8",
+        "other_current_a": "3",
+        "total_current_a": "11",
+        "limit_current_a": "10",
+        "total_power_w": "264",
+        "limit_power_w": "240",
+        "over_current_a": "1"
+      },
+      "decision_status": "requires_human_review",
+      "formal_facts_acl_actions_unchanged": true,
+      "calls": [
+        {
+          "url": "http://127.0.0.1:11434/api/generate",
+          "model": "qwen3:8b",
+          "think": false,
+          "stream": false,
+          "timeout": 25
+        },
+        {
+          "url": "http://127.0.0.1:11434/api/generate",
+          "model": "qwen3:8b",
+          "think": false,
+          "stream": false,
+          "timeout": 45
+        }
+      ],
+      "is_actual_model_attack": false
+    },
+    "authorization_order": {
+      "http_status": 403,
+      "model_calls_before_denial": 1,
+      "project_data_sent": false
+    }
+  },
+  "current_acl_prompt_filter": {
+    "check_status": "unknown",
+    "private_document_marker_in_model_prompt": false,
+    "private_document_in_context": false
+  },
+  "transport_contracts": {
+    "connection_error": "passed",
+    "timeout": "passed",
+    "model_not_found": "passed",
+    "http_error": "passed",
+    "invalid_json": "passed",
+    "empty_response": "passed",
+    "not_configured": "passed",
+    "non_string_response": "passed"
+  }
+}

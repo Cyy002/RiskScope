@@ -1,0 +1,26 @@
+{
+  "captured_at": "2026-10-21T20:03:05.607079+08:00",
+  "description": "Completed M12.5 disk source snapshot, no running container read",
+  "source_hashes": {
+    "app/db.py": "31f0e39bb53f6402a8727ce24ac9274f965a48ca6858ef0595cc59be09266a36",
+    "app/config.py": "ba1eb7ad8d7627859c3d025c2c2677bd9785a0c5bdc43c66c363a4d6a8d2c9ad",
+    "app/events.py": "46abaca4f23cdf2cc1d5a456c25dc3d08499b3fe43146ffe59ba85221b300327",
+    "app/security.py": "e28756b39dc4f3db35d1270996f143fb7907d1bd2703c5fe217877fb8581447b",
+    "app/analyzer.py": "7235f612683c916fcde654dfcf335328df3b608623b2ca4a1a8f2d68d2896b9f",
+    "app/actions.py": "27a3f781bb54b17506411f8f14d8f85ab4cc72981e1067cbbe0af8553799ecf6",
+    "app/__init__.py": "934c50da81f9660bd4f2d68b4c799a16d2d41321f1768f71c28a4d5d21d47020",
+    "app/api.py": "337d95ea4ad4d844bc022cd74d2bc13f3ddfc45d16f3c7e06149f9611132459d",
+    "app/chat.py": "682e352fd28b8a846264307f36e426705861ebd1ac9aef98e8598fe98cf1c875",
+    "app/llm_client.py": "6cf0592ee3b94adc379c1afc64679c7a02dbec1a1b64db2461c6dfd22ec5e958",
+    "app/retrieval.py": "625c851bf79840e2ce8272b2ac5569f10c7ffe065be8eeff1f2395bfdfcb9908",
+    "app/engineering.py": "09a077784e660d1212baec822b1db71beaeacb8796a68328ffbe3e16c41a306c",
+    "app/impact.py": "5b2d198569e1fd1e841b354d7a5f898da6748d2c11f30354d897eb5756b593cc",
+    "tests/test_m114_condition_updates.py": "64a4948fd58bd73553f1cb392b8a17a68ef00765ea4d31635db5d366758321d1",
+    "tests/conftest.py": "a3c0a3a5ca4cea7447614e1f3f7a270f2b4532c5e2d4f967163e8c94db4f3baa",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_llm_value_grounding.py": "e443e77bed4fc7fa698ed9d1f606af1ed2b6e8bc34ab6b2f04ecf92102e672e8",
+    "tests/test_llm_approval_linkage.py": "f3c1aa92e3b9f7e43e0d48e6ed7806e44d3d0f79c4bd7ee0f4ec738045b9391f",
+    "tests/test_session_continuity.py": "bb235c0ae14c4d17e0a3ba5f7c2d12d7e82f760d47a65fad2554aab055c34b1e",
+    "tests/test_m125_supply_capacity_semantics.py": "69a06df6e3e8a358301d26144e477299c070e5890af788b9dfa356ed66d219e4"
+  }
+}

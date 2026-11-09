@@ -1,0 +1,26 @@
+{
+ "app_hash": "c75c18c6aaa477c9",
+ "llm": true,
+ "model": "qwen3:8b",
+ "cases": [
+  [
+   "BB06",
+   [
+    "ACCEPTED",
+    "ACCEPTED"
+   ]
+  ],
+  [
+   "BB14",
+   [
+    "ACCEPTED"
+   ]
+  ],
+  [
+   "BB16",
+   [
+    "ACCEPTED"
+   ]
+  ]
+ ]
+}

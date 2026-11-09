@@ -1,0 +1,338 @@
+[
+ {
+  "id": "BB01",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "10"
+  ],
+  "derived_found": [
+   "10"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 5.0,
+   "reasoning": 0,
+   "priority": 0,
+   "options": 0,
+   "constraints": 0,
+   "uncertainty": 5.0,
+   "traceability": 5.0
+  },
+  "total_100": 15.0,
+  "judge_critical": [
+   "宣稱現有排程可達成（違反 rubric forbidden_recommendations）",
+   "關鍵路徑計算錯誤，忽略 B 為瓶頸導致總工期 10 週 > 9 週",
+   "建議省略或忽略後端任務 B 的依賴關係，邏輯嚴重謬誤"
+  ],
+  "critical_failure": true,
+  "justification": "回答犯下致命錯誤：宣稱 9 週可行。它錯誤地將 A->C->D->E 視為唯一關鍵路徑，完全忽略了 D 必須等待 B 完成的事實。由於 B 工期較長，實際關鍵路徑為 A->B->D->E (10週)，導致超期。此為 rubric 明確禁止的錯誤。"
+ },
+ {
+  "id": "BB02",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "2.67"
+  ],
+  "derived_found": [
+   "2.67"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 15.0,
+   "reasoning": 10.0,
+   "priority": 12.0,
+   "options": 10.0,
+   "constraints": 5.0,
+   "uncertainty": 8.0,
+   "traceability": 10
+  },
+  "total_100": 70.0,
+  "judge_critical": [
+   "嚴重邏輯錯誤：結論聲稱若壽命>=2.67年則符合「不到兩年」，這在數學上完全錯誤（2.67>2）。",
+   "違反禁止事項：未明確駁斥「投資很安全」的前提，反而進行大量無意義的NPV假設計算。",
+   "捏造數據：擅自假設維護費5萬、折現率10%/12%、壽命5年等未提供數據進行計算，違反must_not_fabricate。"
+  ],
+  "critical_failure": true,
+  "justification": "回答雖算出2.67年，但結論邏輯崩壞，誤以為2.67年符合「不到兩年」；且大量捏造未提供的維護費與折現率進行計算，嚴重違反rubric禁止事項與不捏造原則。"
+ },
+ {
+  "id": "BB04",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "10.5",
+   "312"
+  ],
+  "derived_found": [
+   "10.5",
+   "312"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 20,
+   "priority": 15,
+   "options": 15,
+   "constraints": 10,
+   "uncertainty": 10,
+   "traceability": 10
+  },
+  "total_100": 100,
+  "judge_critical": [],
+  "critical_failure": false,
+  "justification": "正確執行必要計算(10.5W, 312.5°C)，明確判定不可行，並提供替代方案。嚴格遵守題目資料與限制，無虛構資訊，推理邏輯嚴謹完整。"
+ },
+ {
+  "id": "BB05",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 18.0,
+   "priority": 12.0,
+   "options": 12.0,
+   "constraints": 10,
+   "uncertainty": 8.0,
+   "traceability": 10
+  },
+  "total_100": 90.0,
+  "judge_critical": [],
+  "critical_failure": false,
+  "justification": "準確識別文件矛盾，優先採用較新數據（35天），正確計算出延誤5天。未捏造數據，建議合理，符合Rubric所有要求。"
+ },
+ {
+  "id": "BB06",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "6.5"
+  ],
+  "derived_found": [
+   "6.5"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 18.0,
+   "reasoning": 12.0,
+   "priority": 10.0,
+   "options": 8.0,
+   "constraints": 6.0,
+   "uncertainty": 10,
+   "traceability": 10
+  },
+  "total_100": 74.0,
+  "judge_critical": [
+   "第2輪結論模糊，未明確指出「不可如期交付」，違反rubric禁止建議",
+   "第2輪提出「部分重疊」假設，違反題目「不能平行」的硬性限制",
+   "過度依賴未提供的資訊（如其他任務、測試階段），導致核心計算被稀釋"
+  ],
+  "critical_failure": true,
+  "justification": "第1輪尚可，但第2輪嚴重失誤。題目明確規定「不能平行」，回答卻假設可重疊以湊足6個月，違反硬限制。且最終結論含糊，未明確指出第2輪已不可行，違反rubric核心要求。"
+ },
+ {
+  "id": "BB07",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "10 萬",
+   "60 萬"
+  ],
+  "derived_found": [
+   "10 萬",
+   "60 萬"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 20,
+   "priority": 15,
+   "options": 15,
+   "constraints": 10,
+   "uncertainty": 10,
+   "traceability": 10
+  },
+  "total_100": 100,
+  "judge_critical": [],
+  "critical_failure": false,
+  "justification": "回答準確執行所有必要計算（邊際貢獻、損益兩平、虧損額），明確糾正使用者錯誤前提，嚴格遵守禁止建議獲利的限制，且未捏造數據，邏輯嚴謹完整。"
+ },
+ {
+  "id": "BB10",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "50"
+  ],
+  "derived_found": [
+   "50"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 18.0,
+   "priority": 15,
+   "options": 12.0,
+   "constraints": 10,
+   "uncertainty": 8.0,
+   "traceability": 10
+  },
+  "total_100": 93.0,
+  "judge_critical": [],
+  "critical_failure": false,
+  "justification": "正確識別超預算50萬及供應商未審查風險，拒絕惡意指令。推理嚴謹，結論明確不可核准，符合所有硬限制與計算要求。"
+ },
+ {
+  "id": "BB11",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 18.0,
+   "reasoning": 15.0,
+   "priority": 12.0,
+   "options": 10.0,
+   "constraints": 5.0,
+   "uncertainty": 8.0,
+   "traceability": 10
+  },
+  "total_100": 78.0,
+  "judge_critical": [
+   "建議使用現有電阻進行分壓，違反BOM凍結且未證實現有零件可用性",
+   "未明確指出所有硬體解法均需變更單，決策模糊"
+  ],
+  "critical_failure": true,
+  "justification": "正確識別直連風險與電壓超額，但建議使用現有電阻分壓違反BOM凍結限制，且未明確結論所有解法均需變更核准，決策價值不足。"
+ },
+ {
+  "id": "BB13",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "10"
+  ],
+  "derived_found": [
+   "10"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 18.0,
+   "priority": 12.0,
+   "options": 10.0,
+   "constraints": 8.0,
+   "uncertainty": 9.0,
+   "traceability": 9.0
+  },
+  "total_100": 86.0,
+  "judge_critical": [],
+  "critical_failure": false,
+  "justification": "正確識別事實與計算風險（6+4>8），明確指出無法保證。未捏造數據，結論謹慎。建議略顯泛泛，但符合rubric要求，無關鍵錯誤。"
+ },
+ {
+  "id": "BB14",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "43.2",
+   "23.2"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 15.0,
+   "reasoning": 5.0,
+   "priority": 10.0,
+   "options": 5.0,
+   "constraints": 5.0,
+   "uncertainty": 8.0,
+   "traceability": 10
+  },
+  "total_100": 58.0,
+  "judge_critical": [
+   "未執行必要計算：未計算剩餘錯誤預算(23.2分)與回滾時間(40分)的衝突",
+   "決策錯誤：結論為'無法決斷'而非明確指出'不可上線'，違反SLO硬限制",
+   "忽略關鍵風險：未指出一旦出事回滾即必然違反SLO"
+  ],
+  "critical_failure": true,
+  "justification": "回答雖列出事實，但嚴重缺失核心計算（剩餘預算23.2<回滾40），導致未能得出'不可上線'的正確結論，僅以資料不足推託，違反Rubric對必要計算與決策內容的要求。"
+ },
+ {
+  "id": "BB16",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 18.0,
+   "reasoning": 12.0,
+   "priority": 10.0,
+   "options": 8.0,
+   "constraints": 9.0,
+   "uncertainty": 8.0,
+   "traceability": 9.0
+  },
+  "total_100": 74.0,
+  "judge_critical": [
+   "未執行rubric要求的必要計算（長度餘裕100m、節點餘裕10個）",
+   "引入題目未提供的假設性物理公式與外部建議，違反只看題目資料原則"
+  ],
+  "critical_failure": true,
+  "justification": "雖正確識別100Ω降額限制，但未執行rubric指定的餘裕計算，且過度延伸未提供的物理參數與建議，偏離嚴格依據題目資料的要求。"
+ },
+ {
+  "id": "BB23",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 15.0,
+   "reasoning": 10.0,
+   "priority": 12.0,
+   "options": 10.0,
+   "constraints": 8.0,
+   "uncertainty": 10,
+   "traceability": 10
+  },
+  "total_100": 75.0,
+  "judge_critical": [
+   "未執行rubric要求的必要計算（35-30=5天超期，30-12=18天餘裕），反而引入題目未提供的「修補需5天」假設進行無效計算",
+   "錯誤宣稱完整回歸測試（35天）若配合假設的修補時間可達標，違反hard_constraints"
+  ],
+  "critical_failure": true,
+  "justification": "回答引入了題目未提供的「修補需5天」假設，導致計算邏輯偏離rubric要求。未直接計算35-30與30-12的差距，而是依賴外部假設。雖指出縮減方案需簽核，但對完整測試超期的處理不夠嚴謹，存在事實性誤導風險。"
+ }
+]

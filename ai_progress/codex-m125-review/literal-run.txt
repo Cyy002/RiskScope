@@ -1,0 +1,24 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________________ test_literal_three_turn_initial_conditions __________________
+ai_progress/codex-m125-review/review_probes.py:315: in test_literal_three_turn_initial_conditions
+    numbers(a, '14', '336', '40', '75')
+ai_progress/codex-m125-review/review_probes.py:82: in numbers
+    assert Decimal(n['total_current_a']) == Decimal(total)
+E   AssertionError: assert Decimal('11') == Decimal('14')
+E    +  where Decimal('11') = Decimal('11')
+E    +  and   Decimal('14') = Decimal('14')
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:45
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/starlette/testclient.py:45: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+ai_progress/codex-m125-review/review_probes.py::test_literal_three_turn_initial_conditions
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/langgraph/cache/base/__init__.py:8: LangChainPendingDeprecationWarning: The default value of `allowed_objects` will change in a future version. Pass an explicit value (e.g., allowed_objects='messages' or allowed_objects='core') to suppress this warning.
+    from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED ai_progress/codex-m125-review/review_probes.py::test_literal_three_turn_initial_conditions
+1 failed, 2 warnings in 0.22s
+{"source": "completed", "exit_code": 1, "source_unchanged_during_run": true, "temporary_databases": 1, "blocked_access_attempts": [], "real_llm_calls": 0, "tests": ["/Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/ai_progress/codex-m125-review/review_probes.py::test_literal_three_turn_initial_conditions"]}

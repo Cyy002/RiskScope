@@ -1,0 +1,19 @@
+{
+  "amd64_alpine_check": {
+    "cmd": "podman run --arch=amd64 --rm docker.io/library/alpine:latest uname -m",
+    "code": 0,
+    "stdout": "x86_64",
+    "stderr": ""
+  },
+  "amd64_python_check": {
+    "cmd": "podman run --arch=amd64 --rm docker.io/library/python:3.12-slim python3 -c 'import platform, sys; print(platform.machine(), sys.platform)'",
+    "code": 0,
+    "stdout": "x86_64 linux",
+    "stderr": ""
+  },
+  "amd64_built_image": "amd64 linux da4b9fe0ac9e57a869ffdb8913777b8b0a503e946a43ddce82fbac2ed6602ac6",
+  "amd64_evaluation_45_cases": {
+    "returncode": 0,
+    "stdout_summary": "45/45 reference cases passed under QEMU emulation"
+  }
+}

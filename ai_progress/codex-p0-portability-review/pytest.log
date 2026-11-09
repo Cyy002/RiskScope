@@ -1,0 +1,20 @@
+....FF.s                                                                 [100%]
+=================================== FAILURES ===================================
+_______ test_05_copied_env_must_preserve_container_to_host_model_address _______
+ai_progress/codex-p0-portability-review/test_portability_contracts.py:117: in test_05_copied_env_must_preserve_container_to_host_model_address
+    assert effective == "http://host.containers.internal:11434", (
+E   AssertionError: Copying .env.example overrides Compose's host gateway with container loopback: http://127.0.0.1:11434
+E   assert 'http://127.0.0.1:11434' == 'http://host....nternal:11434'
+E     
+E     - http://host.containers.internal:11434
+E     + http://127.0.0.1:11434
+____________ test_06_build_context_excludes_private_env_and_backups ____________
+ai_progress/codex-p0-portability-review/test_portability_contracts.py:131: in test_06_build_context_excludes_private_env_and_backups
+    assert not missing, 'Missing explicit private build-context exclusions: '+', '.join(missing)
+E   AssertionError: Missing explicit private build-context exclusions: .env, ai_progress/backups
+E   assert not ['.env', 'ai_progress/backups']
+=========================== short test summary info ============================
+SKIPPED [1] ai_progress/codex-p0-portability-review/test_portability_contracts.py:186: Podman unavailable in this executor; no container/volume/platform claim
+FAILED ai_progress/codex-p0-portability-review/test_portability_contracts.py::test_05_copied_env_must_preserve_container_to_host_model_address
+FAILED ai_progress/codex-p0-portability-review/test_portability_contracts.py::test_06_build_context_excludes_private_env_and_backups
+2 failed, 5 passed, 1 skipped in 0.84s

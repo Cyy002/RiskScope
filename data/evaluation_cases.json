@@ -1,0 +1,14 @@
+[
+  {"id":"T01","topic":"電源負載超標","root":"PS-01","reference_terminal_paths":[["PS-01","WIRING-01","ASSEMBLY-01","TEST-01","RELEASE-01"]],"expected_constraint":"fail"},
+  {"id":"T02","topic":"馬達替換與設計裕量","root":"M-02","reference_terminal_paths":[["M-02","DRIVER-01","FIRMWARE-01","TEST-01","RELEASE-01"],["M-02","MECH-01","THERMAL-01","TEST-01","RELEASE-01"]]},
+  {"id":"T03","topic":"驅動器相容性","root":"DRIVER-02","reference_terminal_paths":[["DRIVER-02","DRIVER-01","FIRMWARE-01","TEST-01","RELEASE-01"]]},
+  {"id":"T04","topic":"韌體保護修訂","root":"FW-REQ-01","reference_terminal_paths":[["FW-REQ-01","FIRMWARE-01","TEST-01","RELEASE-01"]]},
+  {"id":"T05","topic":"機構干涉","root":"MECH-CLEARANCE-01","reference_terminal_paths":[["MECH-CLEARANCE-01","MECH-01","THERMAL-01","TEST-01","RELEASE-01"]]},
+  {"id":"T06","topic":"散熱限制","root":"THERMAL-LIMIT-01","reference_terminal_paths":[["THERMAL-LIMIT-01","THERMAL-01","TEST-01","RELEASE-01"]]},
+  {"id":"T07","topic":"供應商交期更新","root":"SUPPLIER-01","reference_terminal_paths":[["SUPPLIER-01","PROCURE-01","ASSEMBLY-01","TEST-01","RELEASE-01"]]},
+  {"id":"T08","topic":"外部資源變更","root":"EXTERNAL-01","reference_terminal_paths":[["EXTERNAL-01","PROCURE-01","ASSEMBLY-01","TEST-01","RELEASE-01"]]},
+  {"id":"T09","topic":"客戶需求修訂","root":"REQ-01","reference_terminal_paths":[["REQ-01","M-02","DRIVER-01","FIRMWARE-01","TEST-01","RELEASE-01"],["REQ-01","M-02","MECH-01","THERMAL-01","TEST-01","RELEASE-01"]]},
+  {"id":"T10","topic":"整合測試失敗","root":"TEST-FAIL-01","reference_terminal_paths":[["TEST-FAIL-01","TEST-01","RELEASE-01"]]},
+  {"id":"T11","topic":"無關零件負例","root":"ISOLATED-01","reference_terminal_paths":[]},
+  {"id":"T12","topic":"沒有已驗證合格的直接方案","root":"ISOLATED-02","reference_terminal_paths":[],"expected_constraint":"fail","no_proven_qualified_option":true}
+]

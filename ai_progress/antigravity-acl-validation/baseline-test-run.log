@@ -1,0 +1,269 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.15, pytest-9.0.2, pluggy-1.7.0
+rootdir: /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent
+plugins: langsmith-0.14.11, anyio-4.15.1
+collected 6 items
+
+tests/test_acl_regression.py FFFF..                                      [100%]
+
+=================================== FAILURES ===================================
+___ test_stored_analysis_detail_and_list_blocked_on_fact_evidence_revocation ___
+
+c = <starlette.testclient.TestClient object at 0x10cc0d550>
+manager = {'Authorization': 'Bearer <redacted-ephemeral-test-token>'}
+engineer = {'Authorization': 'Bearer <redacted-ephemeral-test-token>'}
+
+    @pytest.mark.acl_regression
+    def test_stored_analysis_detail_and_list_blocked_on_fact_evidence_revocation(c, manager, engineer):
+        """
+        Scenario 1 & 2:
+        - Fact evidence (DOC-PS) used by check_constraints but pushed out of top-8 retrieval.
+        - Revoking DOC-PS must cause GET /analyses/{id} to return 403 Forbidden.
+        - The response must NOT leak DOC-PS or derived numbers (10 A, 240 W).
+        - GET /analyses (list) must NOT include this analysis ID.
+        """
+        _add_distractor_documents(8, "search_keyword")
+    
+        analysis_resp = c.post(
+            f"{ROOT}/analyze",
+            headers=engineer,
+            json={"question": "search_keyword", "focus": "motor_upgrade"},
+        )
+        assert analysis_resp.status_code == 200
+        analysis = analysis_resp.json()
+        analysis_id = analysis["analysis_id"]
+    
+        retrieved = [doc["id"] for doc in analysis.get("documents", [])]
+        tool_sources = {
+            evidence["source_id"]
+            for check in analysis.get("checks", [])
+            for evidence in check.get("evidence", [])
+            if "source_id" in evidence
+        }
+    
+        assert "DOC-PS" in tool_sources, "DOC-PS must be utilized as tool fact evidence"
+        assert "DOC-PS" not in retrieved, "DOC-PS must be excluded from top-8 retrieved documents"
+    
+        # Revoke engineer access to DOC-PS
+        revoke_resp = c.patch(
+            f"{ROOT}/documents/DOC-PS/access",
+            headers=manager,
+            json={"user_id": "engineer", "enabled": False},
+        )
+        assert revoke_resp.status_code == 200
+    
+        # 1. Detail endpoint verification
+        detail_resp = c.get(f"{ROOT}/analyses/{analysis_id}", headers=engineer)
+>       assert detail_resp.status_code == 403, (
+            f"Expected 403 Forbidden on revoked fact evidence, got {detail_resp.status_code}. "
+            f"Response body: {detail_resp.text[:300]}"
+        )
+E       AssertionError: Expected 403 Forbidden on revoked fact evidence, got 200. Response body: {"analysis_id":"ab0f4206-6703-4ea8-9894-08ffb75e7e58","assumptions":["馬達與其他負載同時持續運作；數值為指定合成工況的連續值"],"checks":[{"assumptions":["馬達與其他負載同時持續運作；數值為指定合成工況的連續值"],"evidence":[{"fact_key":"supply_voltage","source_id":"DOC-PS","source_version":1,"unit":"V","value":"24"},{"fact_key":"supply_continuous_curren
+E       assert 200 == 403
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/test_acl_regression.py:79: AssertionError
+____ test_stored_analysis_detail_blocked_on_impact_path_evidence_revocation ____
+
+c = <starlette.testclient.TestClient object at 0x10cbc7860>
+manager = {'Authorization': 'Bearer <redacted-ephemeral-test-token>'}
+engineer = {'Authorization': 'Bearer <redacted-ephemeral-test-token>'}
+
+    @pytest.mark.acl_regression
+    def test_stored_analysis_detail_blocked_on_impact_path_evidence_revocation(c, manager, engineer):
+        """
+        Scenario 3:
+        - Impact path evidence (DOC-PLAN) used in dependency traversal when engineering checks are empty.
+        - Revoking DOC-PLAN must cause GET /analyses/{id} to return 403 Forbidden.
+        - Must not leak path evidence or DOC-PLAN identifier.
+        """
+        _add_distractor_documents(8, "targettopic")
+    
+        analysis_resp = c.post(
+            f"{ROOT}/analyze",
+            headers=engineer,
+            json={"question": "targettopic", "focus": "supplier"},
+        )
+        assert analysis_resp.status_code == 200
+        analysis = analysis_resp.json()
+        analysis_id = analysis["analysis_id"]
+    
+        retrieved = [doc["id"] for doc in analysis.get("documents", [])]
+        impact_sources = {
+            evidence["source_id"]
+            for impact in analysis.get("impacts", [])
+            for path in impact.get("paths", [])
+            for evidence in path.get("evidence", [])
+            if "source_id" in evidence
+        }
+    
+        assert "DOC-PLAN" in impact_sources, "DOC-PLAN must be in impact path evidence"
+        assert "DOC-PLAN" not in retrieved, "DOC-PLAN must be excluded from top-8 retrieved documents"
+    
+        # Revoke engineer access to DOC-PLAN
+        assert c.patch(
+            f"{ROOT}/documents/DOC-PLAN/access",
+            headers=manager,
+            json={"user_id": "engineer", "enabled": False},
+        ).status_code == 200
+    
+        # Detail endpoint must reject
+        detail_resp = c.get(f"{ROOT}/analyses/{analysis_id}", headers=engineer)
+>       assert detail_resp.status_code == 403, (
+            f"Expected 403 Forbidden on revoked impact evidence, got {detail_resp.status_code}"
+        )
+E       AssertionError: Expected 403 Forbidden on revoked impact evidence, got 200
+E       assert 200 == 403
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/test_acl_regression.py:135: AssertionError
+_____ test_alerts_endpoint_respects_acl_when_revoked_after_event_creation ______
+
+c = <starlette.testclient.TestClient object at 0x10cc0c260>
+manager = {'Authorization': 'Bearer <redacted-ephemeral-test-token>'}
+engineer = {'Authorization': 'Bearer <redacted-ephemeral-test-token>'}
+
+    @pytest.mark.acl_regression
+    def test_alerts_endpoint_respects_acl_when_revoked_after_event_creation(c, manager, engineer):
+        """
+        Scenario 4:
+        - Event is created FIRST while engineer technically had membership.
+        - Alert is persisted.
+        - Manager then revokes DOC-SUPPLIER and DOC-PLAN from engineer.
+        - Engineer queries GET /alerts.
+        - Engineer MUST NOT see downstream nodes derived from DOC-SUPPLIER/DOC-PLAN (e.g. PROCURE-01, ASSEMBLY-01).
+        """
+        # 1. Trigger manager event before revocation
+        event_resp = c.post(
+            f"{ROOT}/events",
+            headers=manager,
+            json={
+                "external_event_id": "event-before-revocation",
+                "signal_key": "supplier_lead_days",
+                "value": "18",
+            },
+        )
+        assert event_resp.status_code == 200
+        assert event_resp.json().get("analysis_status") == "completed"
+    
+        # 2. Revoke supplier and plan document access
+        for doc_id in ("DOC-SUPPLIER", "DOC-PLAN"):
+            assert c.patch(
+                f"{ROOT}/documents/{doc_id}/access",
+                headers=manager,
+                json={"user_id": "engineer", "enabled": False},
+            ).status_code == 200
+    
+        # 3. Direct impact query returns empty
+        impact_resp = c.get(f"{ROOT}/impact/SUPPLIER-01", headers=engineer)
+        assert impact_resp.status_code == 200
+        assert impact_resp.json()["affected_nodes"] == []
+    
+        # 4. Alerts query must NOT disclose protected dependency nodes
+        alerts_resp = c.get(f"{ROOT}/alerts", headers=engineer)
+        assert alerts_resp.status_code == 200
+        protected_nodes = ["PROCURE-01", "ASSEMBLY-01", "RELEASE-01", "TEST-01"]
+        for alert in alerts_resp.json().get("alerts", []):
+            body = alert.get("body", "")
+            for node in protected_nodes:
+>               assert node not in body, (
+                    f"Historical alert leaked node '{node}' after document revocation. Body: {body}"
+                )
+E               AssertionError: Historical alert leaked node 'PROCURE-01' after document revocation. Body: supplier_lead_days: 7 → 18。已重新分析 ed2438bd-06c1-43bc-abf1-5be2a084e681；可能受影響節點：ASSEMBLY-01, PROCURE-01, RELEASE-01, TEST-01。影響不是已證明延期。
+E               assert 'PROCURE-01' not in 'supplier_le...1。影響不是已證明延期。'
+E                 
+E                 'PROCURE-01' is contained here:
+E                   EMBLY-01, PROCURE-01, RELEASE-01, TEST-01。影響不是已證明延期。
+E                 ?           ++++++++++
+
+tests/test_acl_regression.py:184: AssertionError
+_____ test_alerts_endpoint_respects_acl_when_revoked_before_event_creation _____
+
+c = <starlette.testclient.TestClient object at 0x10d24b290>
+manager = {'Authorization': 'Bearer <redacted-ephemeral-test-token>'}
+engineer = {'Authorization': 'Bearer <redacted-ephemeral-test-token>'}
+
+    @pytest.mark.acl_regression
+    def test_alerts_endpoint_respects_acl_when_revoked_before_event_creation(c, manager, engineer):
+        """
+        Scenario 5:
+        - Manager revokes DOC-SUPPLIER and DOC-PLAN from engineer FIRST.
+        - Event is triggered by manager.
+        - Engineer queries GET /alerts.
+        - Engineer MUST NOT receive alert details or nodes derived from unauthorized documents.
+        """
+        for doc_id in ("DOC-SUPPLIER", "DOC-PLAN"):
+            assert c.patch(
+                f"{ROOT}/documents/{doc_id}/access",
+                headers=manager,
+                json={"user_id": "engineer", "enabled": False},
+            ).status_code == 200
+    
+        event_resp = c.post(
+            f"{ROOT}/events",
+            headers=manager,
+            json={
+                "external_event_id": "event-after-revocation",
+                "signal_key": "supplier_lead_days",
+                "value": "18",
+            },
+        )
+        assert event_resp.status_code == 200
+    
+        alerts_resp = c.get(f"{ROOT}/alerts", headers=engineer)
+        assert alerts_resp.status_code == 200
+        protected_nodes = ["PROCURE-01", "ASSEMBLY-01", "RELEASE-01", "TEST-01"]
+        for alert in alerts_resp.json().get("alerts", []):
+            body = alert.get("body", "")
+            for node in protected_nodes:
+>               assert node not in body, (
+                    f"Alert leaked node '{node}' when generated after revocation. Body: {body}"
+                )
+E               AssertionError: Alert leaked node 'PROCURE-01' when generated after revocation. Body: supplier_lead_days: 7 → 18。已重新分析 5c8f7d99-3396-4140-9d79-26956ac5c561；可能受影響節點：ASSEMBLY-01, PROCURE-01, RELEASE-01, TEST-01。影響不是已證明延期。
+E               assert 'PROCURE-01' not in 'supplier_le...1。影響不是已證明延期。'
+E                 
+E                 'PROCURE-01' is contained here:
+E                   EMBLY-01, PROCURE-01, RELEASE-01, TEST-01。影響不是已證明延期。
+E                 ?           ++++++++++
+
+tests/test_acl_regression.py:222: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:45
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/starlette/testclient.py:45: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_acl_regression.py:38
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_acl_regression.py:38: PytestUnknownMarkWarning: Unknown pytest.mark.acl_regression - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.acl_regression
+
+tests/test_acl_regression.py:95
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_acl_regression.py:95: PytestUnknownMarkWarning: Unknown pytest.mark.acl_regression - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.acl_regression
+
+tests/test_acl_regression.py:141
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_acl_regression.py:141: PytestUnknownMarkWarning: Unknown pytest.mark.acl_regression - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.acl_regression
+
+tests/test_acl_regression.py:189
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_acl_regression.py:189: PytestUnknownMarkWarning: Unknown pytest.mark.acl_regression - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.acl_regression
+
+tests/test_acl_regression.py:227
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_acl_regression.py:227: PytestUnknownMarkWarning: Unknown pytest.mark.acl_regression - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.acl_regression
+
+tests/test_acl_regression.py:272
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_acl_regression.py:272: PytestUnknownMarkWarning: Unknown pytest.mark.acl_regression - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.acl_regression
+
+tests/test_acl_regression.py::test_stored_analysis_detail_and_list_blocked_on_fact_evidence_revocation
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/langgraph/cache/base/__init__.py:8: LangChainPendingDeprecationWarning: The default value of `allowed_objects` will change in a future version. Pass an explicit value (e.g., allowed_objects='messages' or allowed_objects='core') to suppress this warning.
+    from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_acl_regression.py::test_stored_analysis_detail_and_list_blocked_on_fact_evidence_revocation
+FAILED tests/test_acl_regression.py::test_stored_analysis_detail_blocked_on_impact_path_evidence_revocation
+FAILED tests/test_acl_regression.py::test_alerts_endpoint_respects_acl_when_revoked_after_event_creation
+FAILED tests/test_acl_regression.py::test_alerts_endpoint_respects_acl_when_revoked_before_event_creation
+=================== 4 failed, 2 passed, 8 warnings in 0.17s ====================

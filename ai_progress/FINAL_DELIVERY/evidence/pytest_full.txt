@@ -1,0 +1,54 @@
+........................................................................ [ 37%]
+........................................................................ [ 74%]
+..................................................                       [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:45
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/starlette/testclient.py:45: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_acl_regression.py:38
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_acl_regression.py:38: PytestUnknownMarkWarning: Unknown pytest.mark.acl_regression - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.acl_regression
+
+tests/test_acl_regression.py:95
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_acl_regression.py:95: PytestUnknownMarkWarning: Unknown pytest.mark.acl_regression - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.acl_regression
+
+tests/test_acl_regression.py:141
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_acl_regression.py:141: PytestUnknownMarkWarning: Unknown pytest.mark.acl_regression - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.acl_regression
+
+tests/test_acl_regression.py:189
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_acl_regression.py:189: PytestUnknownMarkWarning: Unknown pytest.mark.acl_regression - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.acl_regression
+
+tests/test_acl_regression.py:227
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_acl_regression.py:227: PytestUnknownMarkWarning: Unknown pytest.mark.acl_regression - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.acl_regression
+
+tests/test_acl_regression.py:272
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_acl_regression.py:272: PytestUnknownMarkWarning: Unknown pytest.mark.acl_regression - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.acl_regression
+
+tests/test_p1_multi_turn.py:64
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_p1_multi_turn.py:64: PytestUnknownMarkWarning: Unknown pytest.mark.p1_agent - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.p1_agent
+
+tests/test_p1_multi_turn.py:112
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_p1_multi_turn.py:112: PytestUnknownMarkWarning: Unknown pytest.mark.p1_agent - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.p1_agent
+
+tests/test_p1_multi_turn.py:171
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_p1_multi_turn.py:171: PytestUnknownMarkWarning: Unknown pytest.mark.p1_agent - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.p1_agent
+
+tests/test_p1_multi_turn.py:224
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/tests/test_p1_multi_turn.py:224: PytestUnknownMarkWarning: Unknown pytest.mark.p1_agent - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.p1_agent
+
+tests/test_acl_regression.py::test_stored_analysis_detail_and_list_blocked_on_fact_evidence_revocation
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/langgraph/cache/base/__init__.py:8: LangChainPendingDeprecationWarning: The default value of `allowed_objects` will change in a future version. Pass an explicit value (e.g., allowed_objects='messages' or allowed_objects='core') to suppress this warning.
+    from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+194 passed, 12 warnings in 6.84s

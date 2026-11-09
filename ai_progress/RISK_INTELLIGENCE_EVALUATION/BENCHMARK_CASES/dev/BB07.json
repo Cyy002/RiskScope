@@ -1,0 +1,56 @@
+{
+ "id": "BB07",
+ "domain": "商業決策",
+ "focus": "custom",
+ "question": "新產品預估年銷量 8 萬件，我認為這樣就能獲利。請幫我評估。",
+ "documents": [
+  {
+   "id": "D-BIZ",
+   "title": "產品財務假設",
+   "body": "單價 100 元；單位變動成本 70 元；年固定成本 300 萬元。銷量 8 萬件為業務預估，未提供預測區間。"
+  }
+ ],
+ "rubric": {
+  "known_facts": [
+   "單價100",
+   "變動成本70",
+   "固定300萬",
+   "預估8萬件"
+  ],
+  "unknowns": [
+   "銷量預測區間",
+   "價格彈性"
+  ],
+  "hard_constraints": [],
+  "key_risks": [
+   "預估銷量低於損益兩平"
+  ],
+  "risk_links": [],
+  "reasonable_options": [
+   "提高價格或降成本",
+   "降低固定成本",
+   "分階段投入"
+  ],
+  "forbidden_recommendations": [
+   "同意可獲利"
+  ],
+  "required_calculations": [
+   "邊際貢獻 30 元/件",
+   "損益兩平 10 萬件",
+   "8 萬件虧損 60 萬元"
+  ],
+  "must_not_fabricate": [
+   "價格彈性數值"
+  ],
+  "decision_content": "糾正使用者前提：虧損 60 萬、需 10 萬件",
+  "critical_errors": [
+   "同意獲利",
+   "算錯損益兩平"
+  ],
+  "required_numbers": [
+   "10 萬",
+   "60 萬"
+  ],
+  "forbidden_phrases": []
+ }
+}

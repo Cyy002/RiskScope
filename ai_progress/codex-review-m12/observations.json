@@ -1,0 +1,214 @@
+{
+  "authorized_seven_days": {
+    "reply": "目前專案訊號記錄供應商交期為7天；不代表已算出延期天數。",
+    "reply_source": "llm_phrased",
+    "diagnostic": {
+      "status": "success"
+    },
+    "facts": [
+      {
+        "claim": "已知專案訊號：supplier_lead_days = 7",
+        "basis": "tool:project_signals",
+        "sources": []
+      }
+    ]
+  },
+  "missing_seven_days": {
+    "reply": "目前仍缺少以下資訊，需要管理者或工程師補充授權或規格、或直接在對話中提供數值後，用同一個 session_id 再次送出問題才能繼續：\n- 規格定量判斷：本焦點沒有預先驗證的確定性工程規則，僅能回報文件與已知依賴\n- 專案訊號：test_pass：目前標記為未知，需要管理者或工程師確認後才能納入分析\n建議追問：此變更涉及哪些量測規格、必要限制與正式測試結果？；test_pass 目前的實際狀況與數值為何？\n以下是目前可提供的初步分析（本焦點沒有確定性工程規則，以下內容皆為尚待驗證的假設，不代表最終結論）：\n- 主要風險：R-UNVALIDATED-ANALYSIS：本焦點沒有預先驗證的確定性工程規則，以上方案與後果推論僅供參考，須經人工驗證，不可視為已確認結論。；R-IMPACT-SUPPLIER-01：SUPPLIER-01 的變更需檢視下游依賴\n- 方案狀態：G-A（維持原計畫，承擔目前已知的下游風險）：unverified；G-B（調整受影響節點的時程或範圍以降低風險）：conflicts_with_stated_constraint；G-C（尋找替代資源或路徑，避開目前的限制）：unverified\n任何變更仍需人工審核後才能執行；本回覆僅轉述下方確定性分析結果，不代表最終核准。",
+    "reply_source": "deterministic_template",
+    "diagnostic": {
+      "status": "rejected_inconsistent",
+      "detail": "提到了工期、天數或金額等數量（7天），系統沒有可信來源，可能是虛構內容"
+    },
+    "facts": []
+  },
+  "chinese_digits": {
+    "reply": "目前仍缺少以下資訊，需要管理者或工程師補充授權或規格、或直接在對話中提供數值後，用同一個 session_id 再次送出問題才能繼續：\n- 規格定量判斷：本焦點沒有預先驗證的確定性工程規則，僅能回報文件與已知依賴\n- 專案訊號：test_pass：目前標記為未知，需要管理者或工程師確認後才能納入分析\n建議追問：此變更涉及哪些量測規格、必要限制與正式測試結果？；test_pass 目前的實際狀況與數值為何？\n以下是目前可提供的初步分析（本焦點沒有確定性工程規則，以下內容皆為尚待驗證的假設，不代表最終結論）：\n- 分析依據：已知專案訊號：supplier_lead_days = 7\n- 主要風險：R-UNVALIDATED-ANALYSIS：本焦點沒有預先驗證的確定性工程規則，以上方案與後果推論僅供參考，須經人工驗證，不可視為已確認結論。；R-IMPACT-SUPPLIER-01：SUPPLIER-01 的變更需檢視下游依賴\n- 方案狀態：G-A（維持原計畫，承擔目前已知的下游風險）：unverified；G-B（調整受影響節點的時程或範圍以降低風險）：conflicts_with_stated_constraint；G-C（尋找替代資源或路徑，避開目前的限制）：unverified\n任何變更仍需人工審核後才能執行；本回覆僅轉述下方確定性分析結果，不代表最終核准。",
+    "reply_source": "deterministic_template",
+    "diagnostic": {
+      "status": "rejected_inconsistent",
+      "detail": "提到了工期、天數或金額等數量（十二天），系統沒有可信來源，可能是虛構內容"
+    },
+    "facts": [
+      {
+        "claim": "已知專案訊號：supplier_lead_days = 7",
+        "basis": "tool:project_signals",
+        "sources": []
+      }
+    ]
+  },
+  "english_units": {
+    "reply": "目前仍缺少以下資訊，需要管理者或工程師補充授權或規格、或直接在對話中提供數值後，用同一個 session_id 再次送出問題才能繼續：\n- 規格定量判斷：本焦點沒有預先驗證的確定性工程規則，僅能回報文件與已知依賴\n- 專案訊號：test_pass：目前標記為未知，需要管理者或工程師確認後才能納入分析\n建議追問：此變更涉及哪些量測規格、必要限制與正式測試結果？；test_pass 目前的實際狀況與數值為何？\n以下是目前可提供的初步分析（本焦點沒有確定性工程規則，以下內容皆為尚待驗證的假設，不代表最終結論）：\n- 分析依據：已知專案訊號：supplier_lead_days = 7\n- 主要風險：R-UNVALIDATED-ANALYSIS：本焦點沒有預先驗證的確定性工程規則，以上方案與後果推論僅供參考，須經人工驗證，不可視為已確認結論。；R-IMPACT-SUPPLIER-01：SUPPLIER-01 的變更需檢視下游依賴\n- 方案狀態：G-A（維持原計畫，承擔目前已知的下游風險）：unverified；G-B（調整受影響節點的時程或範圍以降低風險）：conflicts_with_stated_constraint；G-C（尋找替代資源或路徑，避開目前的限制）：unverified\n任何變更仍需人工審核後才能執行；本回覆僅轉述下方確定性分析結果，不代表最終核准。",
+    "reply_source": "deterministic_template",
+    "diagnostic": {
+      "status": "rejected_inconsistent",
+      "detail": "提到了工期、天數或金額等數量（12days），系統沒有可信來源，可能是虛構內容"
+    },
+    "facts": [
+      {
+        "claim": "已知專案訊號：supplier_lead_days = 7",
+        "basis": "tool:project_signals",
+        "sources": []
+      }
+    ]
+  },
+  "unlisted_units": {
+    "reply": "目前仍缺少以下資訊，需要管理者或工程師補充授權或規格、或直接在對話中提供數值後，用同一個 session_id 再次送出問題才能繼續：\n- 規格定量判斷：本焦點沒有預先驗證的確定性工程規則，僅能回報文件與已知依賴\n- 專案訊號：test_pass：目前標記為未知，需要管理者或工程師確認後才能納入分析\n建議追問：此變更涉及哪些量測規格、必要限制與正式測試結果？；test_pass 目前的實際狀況與數值為何？\n以下是目前可提供的初步分析（本焦點沒有確定性工程規則，以下內容皆為尚待驗證的假設，不代表最終結論）：\n- 分析依據：已知專案訊號：supplier_lead_days = 7\n- 主要風險：R-UNVALIDATED-ANALYSIS：本焦點沒有預先驗證的確定性工程規則，以上方案與後果推論僅供參考，須經人工驗證，不可視為已確認結論。；R-IMPACT-SUPPLIER-01：SUPPLIER-01 的變更需檢視下游依賴\n- 方案狀態：G-A（維持原計畫，承擔目前已知的下游風險）：unverified；G-B（調整受影響節點的時程或範圍以降低風險）：conflicts_with_stated_constraint；G-C（尋找替代資源或路徑，避開目前的限制）：unverified\n任何變更仍需人工審核後才能執行；本回覆僅轉述下方確定性分析結果，不代表最終核准。",
+    "reply_source": "deterministic_template",
+    "diagnostic": {
+      "status": "rejected_inconsistent",
+      "detail": "提到了工期、天數或金額等數量（2月），系統沒有可信來源，可能是虛構內容"
+    },
+    "facts": [
+      {
+        "claim": "已知專案訊號：supplier_lead_days = 7",
+        "basis": "tool:project_signals",
+        "sources": []
+      }
+    ]
+  },
+  "chinese_percentage": {
+    "reply": "目前仍缺少以下資訊，需要管理者或工程師補充授權或規格、或直接在對話中提供數值後，用同一個 session_id 再次送出問題才能繼續：\n- 規格定量判斷：本焦點沒有預先驗證的確定性工程規則，僅能回報文件與已知依賴\n- 專案訊號：test_pass：目前標記為未知，需要管理者或工程師確認後才能納入分析\n建議追問：此變更涉及哪些量測規格、必要限制與正式測試結果？；test_pass 目前的實際狀況與數值為何？\n以下是目前可提供的初步分析（本焦點沒有確定性工程規則，以下內容皆為尚待驗證的假設，不代表最終結論）：\n- 分析依據：已知專案訊號：supplier_lead_days = 7\n- 主要風險：R-UNVALIDATED-ANALYSIS：本焦點沒有預先驗證的確定性工程規則，以上方案與後果推論僅供參考，須經人工驗證，不可視為已確認結論。；R-IMPACT-SUPPLIER-01：SUPPLIER-01 的變更需檢視下游依賴\n- 方案狀態：G-A（維持原計畫，承擔目前已知的下游風險）：unverified；G-B（調整受影響節點的時程或範圍以降低風險）：conflicts_with_stated_constraint；G-C（尋找替代資源或路徑，避開目前的限制）：unverified\n任何變更仍需人工審核後才能執行；本回覆僅轉述下方確定性分析結果，不代表最終核准。",
+    "reply_source": "deterministic_template",
+    "diagnostic": {
+      "status": "rejected_inconsistent",
+      "detail": "提到的百分比沒有對應到系統計算的比例來源，可能是虛構的比例"
+    },
+    "facts": [
+      {
+        "claim": "已知專案訊號：supplier_lead_days = 7",
+        "basis": "tool:project_signals",
+        "sources": []
+      }
+    ]
+  },
+  "fullwidth_percent": {
+    "reply": "目前仍缺少以下資訊，需要管理者或工程師補充授權或規格、或直接在對話中提供數值後，用同一個 session_id 再次送出問題才能繼續：\n- 規格定量判斷：本焦點沒有預先驗證的確定性工程規則，僅能回報文件與已知依賴\n- 專案訊號：test_pass：目前標記為未知，需要管理者或工程師確認後才能納入分析\n建議追問：此變更涉及哪些量測規格、必要限制與正式測試結果？；test_pass 目前的實際狀況與數值為何？\n以下是目前可提供的初步分析（本焦點沒有確定性工程規則，以下內容皆為尚待驗證的假設，不代表最終結論）：\n- 分析依據：已知專案訊號：supplier_lead_days = 7\n- 主要風險：R-UNVALIDATED-ANALYSIS：本焦點沒有預先驗證的確定性工程規則，以上方案與後果推論僅供參考，須經人工驗證，不可視為已確認結論。；R-IMPACT-SUPPLIER-01：SUPPLIER-01 的變更需檢視下游依賴\n- 方案狀態：G-A（維持原計畫，承擔目前已知的下游風險）：unverified；G-B（調整受影響節點的時程或範圍以降低風險）：conflicts_with_stated_constraint；G-C（尋找替代資源或路徑，避開目前的限制）：unverified\n任何變更仍需人工審核後才能執行；本回覆僅轉述下方確定性分析結果，不代表最終核准。",
+    "reply_source": "deterministic_template",
+    "diagnostic": {
+      "status": "rejected_inconsistent",
+      "detail": "提到的百分比沒有對應到系統計算的比例來源，可能是虛構的比例"
+    },
+    "facts": [
+      {
+        "claim": "已知專案訊號：supplier_lead_days = 7",
+        "basis": "tool:project_signals",
+        "sources": []
+      }
+    ]
+  },
+  "borrowed_percentage": {
+    "text": "供應商延誤機率為40%。",
+    "accepted": false,
+    "reason": "提到的百分比沒有對應到系統計算的比例來源，可能是虛構的比例",
+    "expected_accepted": false
+  },
+  "rounded_fabrication": {
+    "text": "相對現有額定超出40.4%。",
+    "accepted": false,
+    "reason": "提到的百分比 40.4% 與確定性計算結果不一致，可能是虛構或四捨五入後的比例",
+    "expected_accepted": false
+  },
+  "valid_fractional_percentage": {
+    "text": "相對現有額定超出40.6%。",
+    "accepted": true,
+    "reason": null,
+    "expected_accepted": true
+  },
+  "qualitative_fabrication": {
+    "reply": "目前仍缺少以下資訊，需要管理者或工程師補充授權或規格、或直接在對話中提供數值後，用同一個 session_id 再次送出問題才能繼續：\n- 規格定量判斷：本焦點沒有預先驗證的確定性工程規則，僅能回報文件與已知依賴\n- 專案訊號：test_pass：目前標記為未知，需要管理者或工程師確認後才能納入分析\n建議追問：此變更涉及哪些量測規格、必要限制與正式測試結果？；test_pass 目前的實際狀況與數值為何？\n以下是目前可提供的初步分析（本焦點沒有確定性工程規則，以下內容皆為尚待驗證的假設，不代表最終結論）：\n- 分析依據：已知專案訊號：supplier_lead_days = 7\n- 主要風險：R-UNVALIDATED-ANALYSIS：本焦點沒有預先驗證的確定性工程規則，以上方案與後果推論僅供參考，須經人工驗證，不可視為已確認結論。；R-IMPACT-SUPPLIER-01：SUPPLIER-01 的變更需檢視下游依賴\n- 方案狀態：G-A（維持原計畫，承擔目前已知的下游風險）：unverified；G-B（調整受影響節點的時程或範圍以降低風險）：conflicts_with_stated_constraint；G-C（尋找替代資源或路徑，避開目前的限制）：unverified\n任何變更仍需人工審核後才能執行；本回覆僅轉述下方確定性分析結果，不代表最終核准。",
+    "reply_source": "deterministic_template",
+    "diagnostic": {
+      "status": "rejected_inconsistent",
+      "detail": "聲稱驗證或測試已完成／通過，但目前已知的驗證訊號並非 pass，系統沒有對應的確定性驗證結果"
+    },
+    "facts": [
+      {
+        "claim": "已知專案訊號：supplier_lead_days = 7",
+        "basis": "tool:project_signals",
+        "sources": []
+      }
+    ],
+    "formal_tables_unchanged": true
+  },
+  "reply_context": {
+    "current_question_present": true,
+    "deadline_constraint_present": true,
+    "substitution_constraint_present": true,
+    "documents_in_result": 5,
+    "document_excerpts_in_prompt": false,
+    "decision_context": {
+      "question": "關鍵供應商交貨延遲；品質優先，客戶交期絕不能延後，禁止未驗證替代件。",
+      "focus": "supplier",
+      "priorities": [
+        "品質",
+        "交期",
+        "成本"
+      ]
+    }
+  },
+  "fixed_options": {
+    "options_identical": false,
+    "consequences_identical": false,
+    "options": [
+      {
+        "id": "G-A",
+        "title": "維持原計畫，承擔目前已知的下游風險",
+        "hard_constraint": "unverified",
+        "comment": "目前已知可能受影響的節點：ASSEMBLY-01、PROCURE-01、RELEASE-01、TEST-01；此選項尚未經人工驗證，是否可接受仍需管理者確認。",
+        "consequences": {
+          "品質": "未提供可驗證的品質影響數據，需另行確認",
+          "交期": "未提供工期或緩衝資料，需另行確認",
+          "成本": "未提供成本資料，需另行確認",
+          "技術可行性": "unverified"
+        }
+      },
+      {
+        "id": "G-B",
+        "title": "調整受影響節點的時程或範圍以降低風險",
+        "hard_constraint": "conflicts_with_stated_constraint",
+        "comment": "系統沒有工期、成本或機率的確定性數據，不會自行推算；需要管理者或工程師提供實際可調整的時程／範圍資料。 使用者已明確表示交期不能延後，此方案（調整時程）與此限制衝突，須先取得例外授權才能考慮。",
+        "consequences": {
+          "品質": "未提供可驗證的品質影響數據，需另行確認",
+          "交期": "未提供工期或緩衝資料，需另行確認",
+          "成本": "未提供成本資料，需另行確認",
+          "技術可行性": "conflicts_with_stated_constraint"
+        }
+      },
+      {
+        "id": "G-C",
+        "title": "尋找替代資源或路徑，避開目前的限制",
+        "hard_constraint": "conflicts_with_stated_constraint",
+        "comment": "是否存在可行的替代方案、其代價為何，需要進一步確認；系統未掌握具體替代方案的可行性證據。 使用者已明確表示禁止更換供應商／替代件，此方案與此限制衝突，須先取得例外授權才能考慮。",
+        "consequences": {
+          "品質": "未提供可驗證的品質影響數據，需另行確認",
+          "交期": "未提供工期或緩衝資料，需另行確認",
+          "成本": "未提供成本資料，需另行確認",
+          "技術可行性": "conflicts_with_stated_constraint"
+        }
+      }
+    ]
+  },
+  "signal_followup": {
+    "turn": 2,
+    "facts_unchanged": true,
+    "unknowns_unchanged": true,
+    "options_unchanged": false,
+    "unclaimed_change_intents": [],
+    "previous_constraint_in_reply_prompt": false,
+    "reply": "您提出的交期／訊號更新尚未套用，以下分析仍使用現有已知數值（目前系統不支援透過對話直接修改 project_signals）。如需正式更新，請洽管理者透過「事件監測」頁面提交異動後再重新分析。\n\n尚待驗證，請補充資訊。"
+  },
+  "mismatch": {
+    "warning": "提醒：您目前選擇的評估情境是「馬達升級與負載」，但本次訊息內容看起來與此情境無關，系統已暫停針對此情境的分析。如果這是您想分析的情境，請在訊息中補充相關內容後重新送出；如果不是，請改選正確的「評估情境」後再重新送出。",
+    "numbers": null,
+    "reply": "提醒：您目前選擇的評估情境是「馬達升級與負載」，但本次訊息內容看起來與此情境無關，系統已暫停針對此情境的分析。如果這是您想分析的情境，請在訊息中補充相關內容後重新送出；如果不是，請改選正確的「評估情境」後再重新送出。\n\n目前仍缺少以下資訊，需要管理者或工程師補充授權或規格、或直接在對話中提供數值後，用同一個 session_id 再次送出問題才能繼續：\n- 情境與問題可能不符：系統偵測到目前選擇的評估情境可能與訊息內容不符，已暫停自動分析，請先確認情境是否正確，或改選符合的情境後再重新送出"
+  },
+  "acl_controls": {
+    "project_reader_sees_public_signals": true,
+    "other_project_and_confidential_document_hidden": true,
+    "reader_cannot_write_signals": true,
+    "document_revocation_redacts_old_history_and_paths": true,
+    "membership_revocation_blocks_new_and_old_reads": true,
+    "document_revocation_does_not_revoke_public_signal": true
+  }
+}

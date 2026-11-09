@@ -1,0 +1,37 @@
+.containerignore: OK
+.gitignore: OK
+ARCHITECTURE_AND_HANDOFF.md: OK
+Containerfile: OK
+EVALUATION_REPORT.json: OK
+README.md: OK
+VALIDATION_SUMMARY.md: OK
+app/__init__.py: OK
+app/actions.py: OK
+app/analyzer.py: OK
+app/api.py: OK
+app/config.py: OK
+app/db.py: OK
+app/engineering.py: OK
+app/events.py: OK
+app/impact.py: OK
+app/retrieval.py: OK
+app/security.py: OK
+app/static/app.css: OK
+app/static/app.js: OK
+app/static/index.html: OK
+compose.yml: OK
+data/evaluation_cases.json: OK
+previews/analysis.png: OK
+previews/dashboard.png: OK
+references/跨領域AI專業決策與風險分析輔助系統_企劃書.docx: OK
+requirements-dev.txt: OK
+requirements-langgraph.txt: OK
+requirements.txt: OK
+scripts/__init__.py: OK
+scripts/evaluate.py: OK
+scripts/init_demo.py: OK
+tests/__init__.py: OK
+tests/conftest.py: OK
+tests/test_core.py: OK
+
+exit_code=0

@@ -1,0 +1,70 @@
+{
+ "id": "BB03",
+ "domain": "品質可靠度",
+ "model": "qwen3:8b",
+ "mode": "PROTO_V2_BINDING_VERIFIED",
+ "llm_enabled": true,
+ "turns": [
+  {
+   "user": "設備由電源、控制板、馬達三個模組串聯組成，任一個故障整機即停機。客戶要求連續運轉 1000 小時的可靠度至少 95%。我們能達成嗎？",
+   "reply": "**核心問題**：設備是否能在1000小時內達到至少95%的可靠度，以確保連續運轉？\n\n**已知事實**：\n- 電源的MTBF為10000小時（來源：Q3）\n- 控制板的MTBF為20000小時（來源：Q4）\n- 馬達的MTBF為40000小時（來源：Q5）\n- 客戶要求連續運轉1000小時的可靠度至少為95%（來源：Q1, Q2）\n\n**硬限制**：系統必須在1000小時內達到至少95%的可靠度\n\n**計算（逐項驗證層級已標示；未驗證專業結論）**：\n- 電源在1000小時的可靠度：exp(-1/Q3 * 1000) → **0.9048** 無單位（輸入對應與算術已核對（專業結論尚未驗證）；輸入：Q3=10000小時[D-REL]）　電源在1000小時內的可靠度\n- 控制板在1000小時的可靠度：exp(-1/Q4 * 1000) → **0.9512** 無單位（輸入對應與算術已核對（專業結論尚未驗證）；輸入：Q4=20000小時[D-REL]）　控制板在1000小時內的可靠度\n- 馬達在1000小時的可靠度：exp(-1/Q5 * 1000) → **0.9753** 無單位（輸入對應與算術已核對（專業結論尚未驗證）；輸入：Q5=40000小時[D-REL]）　馬達在1000小時內的可靠度\n- 系統在1000小時的可靠度：關鍵路徑法 → **1095**（單位依輸入）；關鍵路徑 R1→R2；浮時 {'R1': 0.0, 'R2': 0.0}（確定性排程演算法；輸入對應已核對；專業結論仍須覆核）\n\n**風險（依重要性）**：\n- [high] 系統可靠度不足95%｜成因鏈：模組MTBF不足→計算誤差→系統可靠度計算不正確｜依據：客戶要求可靠度至少為95%，若無法達成，將導致設備無法符合需求\n\n**方案比較**：\n- 使用現有模組組裝設備（可行性：conditional；違反限制：系統可靠度不足95%）優點：成本低；開發時間短；缺點：無法達成客戶可靠度要求；成本影響：未知\n- 提升模組MTBF（可行性：yes；違反限制：無）優點：提高系統可靠度；符合客戶需求；缺點：成本增加；開發時間延長；成本影響：未知\n\n**資訊缺口**：\n- 各模組在1000小時內的可靠度：需要計算各模組在1000小時內的可靠度，以評估整體系統可靠度（取得方式：使用指數分佈公式計算可靠度：R(t) = exp(-λt)，其中λ = 1/MTBF）\n- 系統在1000小時內的可靠度：系統可靠度是各模組可靠度的乘積，需確認是否達成95%的目標（取得方式：計算各模組可靠度後相乘）\n\n**建議行動**：\n1. 計算各模組在1000小時內的可靠度，並評估系統可靠度（這是評估是否達成客戶要求的關鍵步驟）\n\n**會改變結論的新資訊**：各模組在1000小時內的可靠度；系統可靠度計算結果；是否能提升模組MTBF",
+   "raw_model_json": "{\n  \"core_issue\": \"設備是否能在1000小時內達到至少95%的可靠度，以確保連續運轉？\",\n  \"known_facts\": [\n    {\"text\": \"電源的MTBF為10000小時\", \"source\": \"Q3\"},\n    {\"text\": \"控制板的MTBF為20000小時\", \"source\": \"Q4\"},\n    {\"text\": \"馬達的MTBF為40000小時\", \"source\": \"Q5\"},\n    {\"text\": \"客戶要求連續運轉1000小時的可靠度至少為95%\", \"source\": \"Q1, Q2\"}\n  ],\n  \"unknowns\": [\n    {\"what\": \"各模組在1000小時內的可靠度\", \"why_it_matters\": \"需要計算各模組在1000小時內的可靠度，以評估整體系統可靠度\", \"how_to_get\": \"使用指數分佈公式計算可靠度：R(t) = exp(-λt)，其中λ = 1/MTBF\"},\n    {\"what\": \"系統在1000小時內的可靠度\", \"why_it_matters\": \"系統可靠度是各模組可靠度的乘積，需確認是否達成95%的目標\", \"how_to_get\": \"計算各模組可靠度後相乘\"}\n  ],\n  \"hard_constraints\": [\n    {\"text\": \"系統必須在1000小時內達到至少95%的可靠度\", \"source\": \"Q1, Q2\"}\n  ],\n  \"conflicts\": [],\n  \"calculations\": [\n    {\n      \"name\": \"電源在1000小時的可靠度\",\n      \"formula\": \"exp(-1/Q3 * 1000)\",\n      \"inputs\": {\n        \"Q3\": {\"ref\": \"Q3\", \"meaning\": \"電源的MTBF\", \"unit\": \"小時\"}\n      },\n      \"unit\": \"無單位\",\n      \"meaning\": \"電源在1000小時內的可靠度\"\n    },\n    {\n      \"name\": \"控制板在1000小時的可靠度\",\n      \"formula\": \"exp(-1/Q4 * 1000)\",\n      \"inputs\": {\n        \"Q4\": {\"ref\": \"Q4\", \"meaning\": \"控制板的MTBF\", \"unit\": \"小時\"}\n      },\n      \"unit\": \"無單位\",\n      \"meaning\": \"控制板在1000小時內的可靠度\"\n    },\n    {\n      \"name\": \"馬達在1000小時的可靠度\",\n      \"formula\": \"exp(-1/Q5 * 1000)\",\n      \"inputs\": {\n        \"Q5\": {\"ref\": \"Q5\", \"meaning\": \"馬達的MTBF\", \"unit\": \"小時\"}\n      },\n      \"unit\": \"無單位\",\n      \"meaning\": \"馬達在1000小時內的可靠度\"\n    },\n    {\n      \"kind\": \"critical_path\",\n      \"name\": \"系統在1000小時的可靠度\",\n      \"tasks\": [\n        {\n          \"id\": \"R1\",\n          \"duration\": {\"ref\": \"Q1\", \"meaning\": \"客戶要求連續運轉1000小時\", \"unit\": \"小時\"},\n          \"after\": []\n        },\n        {\n          \"id\": \"R2\",\n          \"duration\": {\"ref\": \"Q2\", \"meaning\": \"可靠度至少為95%\", \"unit\": \"無單位\"},\n          \"after\": [\"R1\"]\n        }\n      ]\n    }\n  ],\n  \"risks\": [\n    {\n      \"id\": \"R1\",\n      \"description\": \"系統可靠度不足95%\",\n      \"cause_chain\": [\"模組MTBF不足\", \"計算誤差\", \"系統可靠度計算不正確\"],\n      \"severity\": \"high\",\n      \"severity_basis\": \"客戶要求可靠度至少為95%，若無法達成，將導致設備無法符合需求\"\n    }\n  ],\n  \"options\": [\n    {\n      \"name\": \"使用現有模組組裝設備\",\n      \"feasible\": \"conditional\",\n      \"violates_constraints\": [\"系統可靠度不足95%\"],\n      \"pros\": [\"成本低\", \"開發時間短\"],\n      \"cons\": [\"無法達成客戶可靠度要求\"],\n      \"cost_impact\": \"未知\"\n    },\n    {\n      \"name\": \"提升模組MTBF\",\n      \"feasible\": \"yes\",\n      \"violates_constraints\": [],\n      \"pros\": [\"提高系統可靠度\", \"符合客戶需求\"],\n      \"cons\": [\"成本增加\", \"開發時間延長\"],\n      \"cost_impact\": \"未知\"\n    }\n  ],\n  \"recommended_actions\": [\n    {\n      \"action\": \"計算各模組在1000小時內的可靠度，並評估系統可靠度\",\n      \"priority\": 1,\n      \"reason\": \"這是評估是否達成客戶要求的關鍵步驟\"\n    }\n  ],\n  \"what_would_change_the_decision\": [\"各模組在1000小時內的可靠度\", \"系統可靠度計算結果\", \"是否能提升模組MTBF\"]\n}",
+   "verification": {
+    "calc": [
+     {
+      "name": "電源在1000小時的可靠度",
+      "status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+      "issues": [],
+      "value": 0.9048374180359595,
+      "levels": {
+       "presence": true,
+       "binding": true,
+       "arithmetic": true,
+       "professional_validity": "not_validated"
+      }
+     },
+     {
+      "name": "控制板在1000小時的可靠度",
+      "status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+      "issues": [],
+      "value": 0.951229424500714,
+      "levels": {
+       "presence": true,
+       "binding": true,
+       "arithmetic": true,
+       "professional_validity": "not_validated"
+      }
+     },
+     {
+      "name": "馬達在1000小時的可靠度",
+      "status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+      "issues": [],
+      "value": 0.9753099120283326,
+      "levels": {
+       "presence": true,
+       "binding": true,
+       "arithmetic": true,
+       "professional_validity": "not_validated"
+      }
+     },
+     {
+      "name": "系統在1000小時的可靠度",
+      "kind": "critical_path",
+      "status": "METHOD_CRITICAL_PATH",
+      "value": 1095.0,
+      "critical_path": [
+       "R1",
+       "R2"
+      ]
+     }
+    ],
+    "ungrounded_numbers": [],
+    "claim_flags": []
+   },
+   "elapsed_s": 50.3,
+   "llm_state": "CALLED_STRUCTURED",
+   "ledger_size": 5,
+   "conflicts": []
+  }
+ ]
+}

@@ -1,0 +1,39 @@
+FFFFF                                                                    [100%]
+=================================== FAILURES ===================================
+____________ test_host_network_must_not_escape_reserved_port_guard _____________
+ai_progress/codex-p0-portability-review/followup-20261101/test_deploy_guards.py:60: in test_host_network_must_not_escape_reserved_port_guard
+    assert not unsafe, 'Guard accepted RS_PORT=8100 but emitted host network with default app :8000'
+E   AssertionError: Guard accepted RS_PORT=8100 but emitted host network with default app :8000
+E   assert not [['run', '-d', '--name', 'riskscope-portable', '--restart=unless-stopped', '--network=host', ...]]
+_________ test_build_must_not_overwrite_protected_production_image_tag _________
+ai_progress/codex-p0-portability-review/followup-20261101/test_deploy_guards.py:66: in test_build_must_not_overwrite_protected_production_image_tag
+    assert not any(c and c[0]=='build' for c in commands), 'Reserved production image tag reached podman build'
+E   AssertionError: Reserved production image tag reached podman build
+E   assert not True
+E    +  where True = any(<generator object test_build_must_not_overwrite_protected_production_image_tag.<locals>.<genexpr> at 0x10ce51e50>)
+___________ test_failed_restart_must_not_leave_plaintext_credentials ___________
+ai_progress/codex-p0-portability-review/followup-20261101/test_deploy_guards.py:76: in test_failed_restart_must_not_leave_plaintext_credentials
+    assert not exposed, 'Restart failure leaves plaintext credential file; permissions='+mode
+E   AssertionError: Restart failure leaves plaintext credential file; permissions=0o644
+E   assert not True
+___________ test_purge_must_not_remove_an_unowned_arbitrary_workload ___________
+ai_progress/codex-p0-portability-review/followup-20261101/test_deploy_guards.py:82: in test_purge_must_not_remove_an_unowned_arbitrary_workload
+    assert not destructive, 'Purge blindly trusts RS_NAME/RS_VOLUME without ownership verification'
+E   AssertionError: Purge blindly trusts RS_NAME/RS_VOLUME without ownership verification
+E   assert not [['rm', '-f', 'unrelated-workload'], ['volume', 'rm', 'unrelated-data']]
+_________ test_smoke_fallback_must_not_report_overall_real_agent_pass __________
+ai_progress/codex-p0-portability-review/followup-20261101/test_deploy_guards.py:112: in test_smoke_fallback_must_not_report_overall_real_agent_pass
+    assert 'RESULT: PASS' not in output.getvalue(), 'No real LLM succeeded, but smoke final result is PASS'
+E   AssertionError: No real LLM succeeded, but smoke final result is PASS
+E   assert 'RESULT: PASS' not in 'PASS health...T: PASS []\n'
+E     
+E     'RESULT: PASS' is contained here:
+E       igured'}}
+E       RESULT: PASS []
+=========================== short test summary info ============================
+FAILED ai_progress/codex-p0-portability-review/followup-20261101/test_deploy_guards.py::test_host_network_must_not_escape_reserved_port_guard
+FAILED ai_progress/codex-p0-portability-review/followup-20261101/test_deploy_guards.py::test_build_must_not_overwrite_protected_production_image_tag
+FAILED ai_progress/codex-p0-portability-review/followup-20261101/test_deploy_guards.py::test_failed_restart_must_not_leave_plaintext_credentials
+FAILED ai_progress/codex-p0-portability-review/followup-20261101/test_deploy_guards.py::test_purge_must_not_remove_an_unowned_arbitrary_workload
+FAILED ai_progress/codex-p0-portability-review/followup-20261101/test_deploy_guards.py::test_smoke_fallback_must_not_report_overall_real_agent_pass
+5 failed in 0.77s

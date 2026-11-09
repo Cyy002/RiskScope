@@ -1,0 +1,52 @@
+{
+ "id": "BB04",
+ "domain": "硬體研發",
+ "focus": "custom",
+ "question": "我們用線性穩壓器把 12V 降到 5V 供應 1.5A 負載，環境溫度 50°C。晶片接面溫度上限 125°C，這個設計可以嗎？",
+ "documents": [
+  {
+   "id": "D-LDO",
+   "title": "穩壓器資料",
+   "body": "線性穩壓器，接面到環境熱阻 θJA = 25 °C/W（無額外散熱片）。接面溫度上限 125°C。"
+  }
+ ],
+ "rubric": {
+  "known_facts": [
+   "12V→5V",
+   "1.5A",
+   "θJA 25",
+   "Ta 50",
+   "Tj 上限 125"
+  ],
+  "unknowns": [],
+  "hard_constraints": [],
+  "key_risks": [
+   "過熱損壞"
+  ],
+  "risk_links": [],
+  "reasonable_options": [
+   "改用降壓(buck)轉換器（效率 90% 時損耗約 0.83 W，僅為示例需以規格確認）",
+   "加大散熱/降低壓差"
+  ],
+  "forbidden_recommendations": [
+   "判定可行"
+  ],
+  "required_calculations": [
+   "損耗 (12-5)×1.5 = 10.5 W",
+   "Tj = 50 + 25×10.5 = 312.5°C ≫ 125°C → 不可行"
+  ],
+  "must_not_fabricate": [
+   "未提供的轉換器效率當成事實"
+  ],
+  "decision_content": "算出 10.5W/312.5°C 並判定不可行，給出替代路線與需驗證項目",
+  "critical_errors": [
+   "判定可行",
+   "功耗算錯"
+  ],
+  "required_numbers": [
+   "10.5",
+   "312"
+  ],
+  "forbidden_phrases": []
+ }
+}

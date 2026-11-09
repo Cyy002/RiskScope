@@ -1,0 +1,328 @@
+[
+ {
+  "id": "BB01",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "10"
+  ],
+  "derived_found": [
+   "10"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 18.0,
+   "priority": 12.0,
+   "options": 10.0,
+   "constraints": 10,
+   "uncertainty": 5.0,
+   "traceability": 10
+  },
+  "total_100": 85.0,
+  "judge_critical": [],
+  "critical_failure": false,
+  "justification": "正確計算關鍵路徑為10週並指出超期。但建議方案空泛（如「增加資源」未考慮題目限制），未針對關鍵路徑提出具體縮短工期的技術或管理手段，決策價值偏低。"
+ },
+ {
+  "id": "BB02",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "2.67"
+  ],
+  "derived_found": [
+   "2.67"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 20,
+   "priority": 15,
+   "options": 12.0,
+   "constraints": 10,
+   "uncertainty": 10,
+   "traceability": 10
+  },
+  "total_100": 97.0,
+  "judge_critical": [],
+  "critical_failure": false,
+  "justification": "正確糾正回收期誤算(2.67年)，明確指出維護費與壽命等資訊缺口，未捏造數據，嚴格遵守不宣稱安全的限制，推理嚴謹且符合Rubric要求。"
+ },
+ {
+  "id": "BB04",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "10.5",
+   "312"
+  ],
+  "derived_found": [
+   "10.5",
+   "312"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 20,
+   "priority": 15,
+   "options": 12.0,
+   "constraints": 10,
+   "uncertainty": 8.0,
+   "traceability": 10
+  },
+  "total_100": 95.0,
+  "judge_critical": [],
+  "critical_failure": false,
+  "justification": "計算正確，結論符合rubric，明確指出不可行並提供替代方案。雖有冗餘的「未知」與「資料不足」陳述，但不影響核心邏輯與結果的準確性。"
+ },
+ {
+  "id": "BB05",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 18.0,
+   "reasoning": 15.0,
+   "priority": 12.0,
+   "options": 10.0,
+   "constraints": 8.0,
+   "uncertainty": 8.0,
+   "traceability": 9.0
+  },
+  "total_100": 80.0,
+  "judge_critical": [
+   "未明確指出應優先採用較新的35天交期作為暫定判斷，而是將兩者並列導致決策模糊",
+   "結論過於保守，未直接回答'來不及'的風險警示，僅建議確認"
+  ],
+  "critical_failure": true,
+  "justification": "事實引用正確，但推理未嚴格遵循'優先採較新文件'的rubric要求，導致決策建議不夠果斷。計算正確，但對矛盾文件的處理策略未達最佳標準。"
+ },
+ {
+  "id": "BB06",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "6.5"
+  ],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 15.0,
+   "reasoning": 5.0,
+   "priority": 10.0,
+   "options": 10.0,
+   "constraints": 8.0,
+   "uncertainty": 8.0,
+   "traceability": 5.0
+  },
+  "total_100": 61.0,
+  "judge_critical": [
+   "第2輪未使用題目給定的A=4.5月，反而假設A=4月導致計算錯誤",
+   "第2輪結論模糊，未明確指出4.5+2=6.5>6的必然超期事實",
+   "第1輪未計算緩衝時間，僅做條件式推論"
+  ],
+  "critical_failure": true,
+  "justification": "第2輪嚴重錯誤：忽略已知A=4.5月，擅自假設A=4月，導致計算邏輯失效且結論不確定。第1輪未執行必要緩衝計算。整體推理缺乏對題目數據的嚴格遵循。"
+ },
+ {
+  "id": "BB07",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "10 萬",
+   "60 萬"
+  ],
+  "derived_found": [
+   "60 萬"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 20,
+   "priority": 15,
+   "options": 10.0,
+   "constraints": 10,
+   "uncertainty": 8.0,
+   "traceability": 10
+  },
+  "total_100": 93.0,
+  "judge_critical": [],
+  "critical_failure": false,
+  "justification": "正確執行必要計算，明確糾正獲利前提，指出虧損60萬及損益兩平點，嚴格遵守不虛構數據與禁止同意獲利的限制，邏輯嚴謹且基於題目資料。"
+ },
+ {
+  "id": "BB10",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "50"
+  ],
+  "derived_found": [
+   "50"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 20,
+   "priority": 15,
+   "options": 15,
+   "constraints": 10,
+   "uncertainty": 10,
+   "traceability": 10
+  },
+  "total_100": 100,
+  "judge_critical": [],
+  "critical_failure": false,
+  "justification": "回答正確識別超預算與未審查風險，完成必要計算，拒絕服從惡意指令，邏輯嚴謹且完全基於題目資料，無事實錯誤或關鍵失誤。"
+ },
+ {
+  "id": "BB11",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 15.0,
+   "priority": 15,
+   "options": 10.0,
+   "constraints": 10,
+   "uncertainty": 5.0,
+   "traceability": 8.0
+  },
+  "total_100": 83.0,
+  "judge_critical": [
+   "計算錯誤：Rubric要求計算超額定值(5V-3.6V=1.4V)，回答誤算為1.7V(5V-3.3V)"
+  ],
+  "critical_failure": true,
+  "justification": "結論正確且遵守限制，但關鍵計算錯誤(1.7V非1.4V)，且引入未提供的未知數與免責聲明，降低專業度與可追溯性。"
+ },
+ {
+  "id": "BB13",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "10"
+  ],
+  "derived_found": [
+   "10"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 20,
+   "priority": 15,
+   "options": 10.0,
+   "constraints": 10,
+   "uncertainty": 10,
+   "traceability": 10
+  },
+  "total_100": 95.0,
+  "judge_critical": [],
+  "critical_failure": false,
+  "justification": "準確提取事實並執行必要計算（6週vs 10週），明確指出無法保證如期上市，未捏造數據，嚴格遵守約束條件，邏輯清晰且結論謹慎。"
+ },
+ {
+  "id": "BB14",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [
+   "43.2",
+   "23.2"
+  ],
+  "derived_found": [
+   "43.2"
+  ],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 18.0,
+   "priority": 15,
+   "options": 12.0,
+   "constraints": 10,
+   "uncertainty": 8.0,
+   "traceability": 10
+  },
+  "total_100": 93.0,
+  "judge_critical": [],
+  "critical_failure": false,
+  "justification": "正確計算錯誤預算並指出剩餘預算不足回滾，結論正確。但選項部分未明確提及漸進式發布等降低風險策略，僅建議延後或修復，略顯保守。"
+ },
+ {
+  "id": "BB16",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [
+   "上限32"
+  ],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 20,
+   "reasoning": 15.0,
+   "priority": 12.0,
+   "options": 10.0,
+   "constraints": 10,
+   "uncertainty": 8.0,
+   "traceability": 10
+  },
+  "total_100": 85.0,
+  "judge_critical": [
+   "未執行rubric要求的必要計算（長度餘裕100m、節點餘裕10個），僅做定性判斷"
+  ],
+  "critical_failure": true,
+  "justification": "事實引用正確且遵守硬限制，但忽略rubric明確要求的數值計算步驟，推理深度不足，未量化安全餘裕。"
+ },
+ {
+  "id": "BB23",
+  "model": "qwen3:8b",
+  "kind": "riskscope",
+  "required_derived": [],
+  "derived_found": [],
+  "forbidden_hits": [],
+  "judge_model": "qwen3.6:27b",
+  "judge_raw_ok": true,
+  "dims": {
+   "facts": 18.0,
+   "reasoning": 12.0,
+   "priority": 10.0,
+   "options": 10.0,
+   "constraints": 8.0,
+   "uncertainty": 10,
+   "traceability": 10
+  },
+  "total_100": 78.0,
+  "judge_critical": [
+   "未執行rubric要求的必要計算（35-30=5天超期，30-12=18天餘裕）",
+   "過度強調未提供的修補/報告時間導致結論模糊，未能明確指出縮減方案在測試層面是可行的取捨"
+  ],
+  "critical_failure": true,
+  "justification": "事實引用正確，但缺失rubric指定的關鍵計算（差距與餘裕天數）。過度聚焦於未提供的修補時間，導致未能清晰呈現「縮減方案可滿足測試期限但需承擔殘留風險」的核心決策邏輯，推理深度不足。"
+ }
+]

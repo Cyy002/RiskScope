@@ -1,0 +1,323 @@
+{
+ "summary": {
+  "run": "ai_progress/RISK_INTELLIGENCE_EVALUATION/runs/proto_qwen3-8b",
+  "calculations": 35,
+  "v1_stamped_verified": 21,
+  "v1_arithmetic_errors(eager-pow bug etc.)": 14,
+  "new_status_counts": {
+   "REJECTED_BINDING": 13,
+   "INPUTS_BOUND_AND_ARITHMETIC_CHECKED": 13,
+   "UNVERIFIED_ASSUMED_INPUT": 7,
+   "ARITHMETIC_FAILED": 2
+  },
+  "wrong_or_ambiguous_binding_rate": 0.371,
+  "assumed_input_rate": 0.2,
+  "false_verified_rate_of_v1_stamps": 0.381
+ },
+ "rows": [
+  {
+   "case": "BB01",
+   "name": "總工期",
+   "v1_stamped": true,
+   "new_status": "REJECTED_BINDING",
+   "issues": [
+    "one source quantity bound to 4 different variables (A, B, D, E) without an identical declared meaning -- inputs of different items must come from different sources"
+   ]
+  },
+  {
+   "case": "BB01",
+   "name": "平行執行節省時間",
+   "v1_stamped": true,
+   "new_status": "REJECTED_BINDING",
+   "issues": [
+    "one source quantity bound to 5 different variables (A, B, C, D, E) without an identical declared meaning -- inputs of different items must come from different sources"
+   ]
+  },
+  {
+   "case": "BB02",
+   "name": "投資回收期",
+   "v1_stamped": true,
+   "new_status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+   "issues": []
+  },
+  {
+   "case": "BB03",
+   "name": "R1",
+   "v1_stamped": false,
+   "new_status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+   "issues": []
+  },
+  {
+   "case": "BB03",
+   "name": "R2",
+   "v1_stamped": false,
+   "new_status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+   "issues": []
+  },
+  {
+   "case": "BB03",
+   "name": "R3",
+   "v1_stamped": false,
+   "new_status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+   "issues": []
+  },
+  {
+   "case": "BB03",
+   "name": "R_total",
+   "v1_stamped": false,
+   "new_status": "UNVERIFIED_ASSUMED_INPUT",
+   "issues": [
+    "R1: no source quantity (assumed input, not grounded)",
+    "R2: no source quantity (assumed input, not grounded)",
+    "R3: no source quantity (assumed input, not grounded)"
+   ]
+  },
+  {
+   "case": "BB04",
+   "name": "功耗 P",
+   "v1_stamped": true,
+   "new_status": "REJECTED_BINDING",
+   "issues": [
+    "one source quantity bound to 2 different variables (V_in, V_out) without an identical declared meaning -- inputs of different items must come from different sources"
+   ]
+  },
+  {
+   "case": "BB04",
+   "name": "接面溫度 Tj",
+   "v1_stamped": false,
+   "new_status": "UNVERIFIED_ASSUMED_INPUT",
+   "issues": [
+    "P: no source quantity (assumed input, not grounded)",
+    "arithmetic: unbound variable P"
+   ]
+  },
+  {
+   "case": "BB05",
+   "name": "總出貨時間",
+   "v1_stamped": false,
+   "new_status": "UNVERIFIED_ASSUMED_INPUT",
+   "issues": [
+    "Q4: no source quantity (assumed input, not grounded)",
+    "arithmetic: unbound variable Q4"
+   ]
+  },
+  {
+   "case": "BB06",
+   "name": "時間差異",
+   "v1_stamped": true,
+   "new_status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+   "issues": []
+  },
+  {
+   "case": "BB06",
+   "name": "總開發時間",
+   "v1_stamped": true,
+   "new_status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+   "issues": []
+  },
+  {
+   "case": "BB06",
+   "name": "時間差異",
+   "v1_stamped": true,
+   "new_status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+   "issues": []
+  },
+  {
+   "case": "BB07",
+   "name": "總收入",
+   "v1_stamped": false,
+   "new_status": "REJECTED_BINDING",
+   "issues": [
+    "Q1: ambiguous binding, value matches 2 source quantities (D-BIZ:銷量, user_turn_1:新產品預估年銷量)"
+   ]
+  },
+  {
+   "case": "BB07",
+   "name": "總變動成本",
+   "v1_stamped": false,
+   "new_status": "REJECTED_BINDING",
+   "issues": [
+    "Q1: ambiguous binding, value matches 2 source quantities (D-BIZ:銷量, user_turn_1:新產品預估年銷量)"
+   ]
+  },
+  {
+   "case": "BB07",
+   "name": "總成本",
+   "v1_stamped": false,
+   "new_status": "REJECTED_BINDING",
+   "issues": [
+    "Q1: ambiguous binding, value matches 2 source quantities (D-BIZ:銷量, user_turn_1:新產品預估年銷量)"
+   ]
+  },
+  {
+   "case": "BB07",
+   "name": "營業利潤",
+   "v1_stamped": false,
+   "new_status": "REJECTED_BINDING",
+   "issues": [
+    "Q1: ambiguous binding, value matches 2 source quantities (D-BIZ:銷量, user_turn_1:新產品預估年銷量)"
+   ]
+  },
+  {
+   "case": "BB10",
+   "name": "預算餘額與申請金額差異",
+   "v1_stamped": false,
+   "new_status": "REJECTED_BINDING",
+   "issues": [
+    "Q2: ambiguous binding, value matches 2 source quantities (D-REQ:申請金額, user_turn_1:這筆)"
+   ]
+  },
+  {
+   "case": "BB11",
+   "name": "電壓差",
+   "v1_stamped": true,
+   "new_status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+   "issues": []
+  },
+  {
+   "case": "BB13",
+   "name": "總測試與整改時間",
+   "v1_stamped": true,
+   "new_status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+   "issues": []
+  },
+  {
+   "case": "BB14",
+   "name": "本月可用性達成率",
+   "v1_stamped": true,
+   "new_status": "REJECTED_BINDING",
+   "issues": [
+    "Q3: ambiguous binding, value matches 2 source quantities (D-SLO:本月已累計停機, user_turn_1:本月已經停機)"
+   ]
+  },
+  {
+   "case": "BB14",
+   "name": "回滾所需時間與演練時間差異",
+   "v1_stamped": true,
+   "new_status": "REJECTED_BINDING",
+   "issues": [
+    "Q1: ambiguous binding, value matches 2 source quantities (D-SLO:回滾演練實測, user_turn_1:回滾需要)",
+    "Q7: ambiguous binding, value matches 2 source quantities (D-SLO:回滾演練實測, user_turn_1:回滾需要)",
+    "one source quantity bound to 2 different variables (Q1, Q7) without an identical declared meaning -- inputs of different items must come from different sources"
+   ]
+  },
+  {
+   "case": "BB16",
+   "name": "節點數是否在限制內",
+   "v1_stamped": false,
+   "new_status": "ARITHMETIC_FAILED",
+   "issues": [
+    "arithmetic: disallowed expression"
+   ]
+  },
+  {
+   "case": "BB16",
+   "name": "匯流排長度是否在限制內",
+   "v1_stamped": false,
+   "new_status": "ARITHMETIC_FAILED",
+   "issues": [
+    "arithmetic: disallowed expression"
+   ]
+  },
+  {
+   "case": "BB17",
+   "name": "月費增長率",
+   "v1_stamped": true,
+   "new_status": "REJECTED_BINDING",
+   "issues": [
+    "Q7: ambiguous binding, value matches 2 source quantities (DOC-CLOUD-BILL:0萬、6.9萬、, user_turn_1:目前月費)"
+   ]
+  },
+  {
+   "case": "BB17",
+   "name": "全年費用預測",
+   "v1_stamped": true,
+   "new_status": "REJECTED_BINDING",
+   "issues": [
+    "Q7: ambiguous binding, value matches 2 source quantities (DOC-CLOUD-BILL:0萬、6.9萬、, user_turn_1:目前月費)"
+   ]
+  },
+  {
+   "case": "BB17",
+   "name": "月費增長後全年費用",
+   "v1_stamped": true,
+   "new_status": "REJECTED_BINDING",
+   "issues": [
+    "Q7: ambiguous binding, value matches 2 source quantities (DOC-CLOUD-BILL:0萬、6.9萬、, user_turn_1:目前月費)",
+    "Q1: no source quantity (assumed input, not grounded)"
+   ]
+  },
+  {
+   "case": "BB20",
+   "name": "每年20萬元的現值",
+   "v1_stamped": true,
+   "new_status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+   "issues": []
+  },
+  {
+   "case": "BB20",
+   "name": "總共賺取100萬元的現值",
+   "v1_stamped": true,
+   "new_status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+   "issues": []
+  },
+  {
+   "case": "BB20",
+   "name": "設備投資的總現值",
+   "v1_stamped": true,
+   "new_status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+   "issues": []
+  },
+  {
+   "case": "BB21",
+   "name": "RPN_A",
+   "v1_stamped": true,
+   "new_status": "UNVERIFIED_ASSUMED_INPUT",
+   "issues": [
+    "S_A: no source quantity (assumed input, not grounded)",
+    "O_A: no source quantity (assumed input, not grounded)",
+    "D_A: no source quantity (assumed input, not grounded)"
+   ]
+  },
+  {
+   "case": "BB21",
+   "name": "RPN_B",
+   "v1_stamped": true,
+   "new_status": "UNVERIFIED_ASSUMED_INPUT",
+   "issues": [
+    "S_B: no source quantity (assumed input, not grounded)",
+    "O_B: no source quantity (assumed input, not grounded)",
+    "D_B: no source quantity (assumed input, not grounded)"
+   ]
+  },
+  {
+   "case": "BB21",
+   "name": "RPN_C",
+   "v1_stamped": true,
+   "new_status": "UNVERIFIED_ASSUMED_INPUT",
+   "issues": [
+    "S_C: no source quantity (assumed input, not grounded)",
+    "O_C: no source quantity (assumed input, not grounded)",
+    "D_C: no source quantity (assumed input, not grounded)"
+   ]
+  },
+  {
+   "case": "BB23",
+   "name": "總體所需時間",
+   "v1_stamped": false,
+   "new_status": "UNVERIFIED_ASSUMED_INPUT",
+   "issues": [
+    "T_repair: no source quantity (assumed input, not grounded)",
+    "T_report: no source quantity (assumed input, not grounded)",
+    "arithmetic: invalid syntax (<unknown>, line 1)"
+   ]
+  },
+  {
+   "case": "BB27",
+   "name": "交貨期差異",
+   "v1_stamped": true,
+   "new_status": "INPUTS_BOUND_AND_ARITHMETIC_CHECKED",
+   "issues": []
+  }
+ ]
+}

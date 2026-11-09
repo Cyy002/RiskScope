@@ -1,0 +1,2 @@
+Snapshot taken at Sat Nov  7 20:20:59 CST 2026
+Overnight fix round (2026-11-07): soft_flags for numeric citations (no longer hard-reject), schedule-conflict prominent banner instead of silent fallback, 8B/27B free-form timeout bumped to 180s/300s, electrical-field extraction skipped for non-motor_upgrade focus, CJK-numeral grounding fix, duplicate percent-sign bugfix.

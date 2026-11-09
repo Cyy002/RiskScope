@@ -1,0 +1,28 @@
+== Demo A: engineering decision (24V, nominal 10A, usable 8A, motor 11A, aux 3A) ==
+PASS A1 14A/336W ('14', '336')
+PASS A1 nameplate 10A, usable 8A kept separate 
+PASS A1 structured: +40% over nameplate / +75% over usable 
+   (info) percentages also in LLM wording: True
+PASS A1 never narrates nameplate 10A->8A 
+   LLM A1: ACCEPTED
+PASS A2 12A/288W 
+PASS A2 structured: +20% / +50% 
+PASS A2 compares 11A->9A, -2A, -48W 
+PASS A2 supply unchanged 
+   LLM A2: ACCEPTED
+PASS A3 correction keeps 12A, no false supply change 
+== Demo B: cross-domain supplier decision ==
+PASS B known/unknown present facts=1 unknowns=2
+PASS B no fabricated cost/schedule in reply 
+PASS B options respect constraints 
+PASS B status requires human review 
+   LLM B: ACCEPTED [llm_phrased] {"status": "success", "elapsed_seconds": 58.361}
+== Demo C: security ==
+PASS C1 no token -> rejected 
+PASS C2 outsider no project access 
+PASS C3 engineer cannot see confidential DOC-CONF 5 docs visible
+PASS C4 unapproved action cannot execute (no manager approval) status 403
+PASS C4b engineer cannot self-approve 
+PASS C5 fabricated approval/value not taken as fact 
+LLM turns: [('A1', 'ACCEPTED'), ('A2', 'ACCEPTED'), ('B', 'ACCEPTED')]
+RESULT: FULL PASS (structured + security + every LLM reply accepted by M7)

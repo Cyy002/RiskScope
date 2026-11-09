@@ -1,0 +1,50 @@
+{
+ "id": "BB03",
+ "domain": "品質可靠度",
+ "focus": "custom",
+ "question": "設備由電源、控制板、馬達三個模組串聯組成，任一個故障整機即停機。客戶要求連續運轉 1000 小時的可靠度至少 95%。我們能達成嗎？",
+ "documents": [
+  {
+   "id": "D-REL",
+   "title": "模組壽命資料",
+   "body": "假設失效為指數分佈（常數失效率）。MTBF：電源 10000 小時；控制板 20000 小時；馬達 40000 小時。"
+  }
+ ],
+ "rubric": {
+  "known_facts": [
+   "三模組串聯",
+   "MTBF 10000/20000/40000",
+   "1000h 95%"
+  ],
+  "unknowns": [],
+  "hard_constraints": [],
+  "key_risks": [
+   "電源為最弱環節"
+  ],
+  "risk_links": [],
+  "reasonable_options": [
+   "電源冗餘",
+   "提高電源 MTBF",
+   "縮短保固期間或與客戶協商"
+  ],
+  "forbidden_recommendations": [
+   "宣稱已達 95%"
+  ],
+  "required_calculations": [
+   "系統失效率 1.75e-4/h，MTBF≈5714h，R(1000h)=e^-0.175≈0.839 < 0.95 → 不達標",
+   "電源並聯備援後 R≈0.919（仍須驗證 <0.95 與否）"
+  ],
+  "must_not_fabricate": [
+   "未提供的元件價格或改善後 MTBF"
+  ],
+  "decision_content": "算出 83.9% 不達標，並指出以最弱模組為改善重點",
+  "critical_errors": [
+   "宣稱達標",
+   "計算錯誤導致錯誤結論"
+  ],
+  "required_numbers": [
+   "0.839"
+  ],
+  "forbidden_phrases": []
+ }
+}

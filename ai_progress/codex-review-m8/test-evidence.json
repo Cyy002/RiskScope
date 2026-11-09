@@ -1,0 +1,267 @@
+{
+  "pytest_exit_code": 1,
+  "pytest_invocations": 1,
+  "test_file": "tests/test_m8_scenario_planning.py",
+  "sqlite_paths_confined_to_temporary_directory": true,
+  "distinct_temporary_database_paths": 6,
+  "blocked_access_attempts": [],
+  "reviewed_source_files_unchanged": true,
+  "source_hashes": {
+    "app/chat.py": "93be24f999649220a91a6122e278d9e17a0e57612e39d02a0ec4b4f58fc62b9b",
+    "app/engineering.py": "fcf48243d25dbfd929d1b86c527bf4cecf754e49236d3dfc1206432979dbfe84",
+    "app/analyzer.py": "b7d326705018141fa663fce13796fd1eeeb71b707a1d3714187cfd5bddecf03a",
+    "app/static/app.js": "d0c61c5aaa6ff5b8148877766952be1b2ac472e96dcfd81bb44e1111fc8034df",
+    "tests/conftest.py": "a3c0a3a5ca4cea7447614e1f3f7a270f2b4532c5e2d4f967163e8c94db4f3baa",
+    "tests/test_m8_scenario_planning.py": "45b42369cb908312be1541d9aa1610be8d55397f3c80c08c64c8766c871d9d7b",
+    "tests/test_session_continuity.py": "bb235c0ae14c4d17e0a3ba5f7c2d12d7e82f760d47a65fad2554aab055c34b1e"
+  },
+  "chat_responses": [
+    {
+      "session_id": "m8-a",
+      "http_status": 200,
+      "detail": null,
+      "session": {
+        "id": "m8-a",
+        "turn": 1,
+        "previously_unresolved": [],
+        "now_resolved": [],
+        "still_unknown": [],
+        "status": "closed"
+      },
+      "numbers": {
+        "supply_voltage_v": "24",
+        "motor_voltage_v": "24",
+        "motor_current_a": "11",
+        "other_current_a": "3",
+        "total_current_a": "14",
+        "limit_current_a": "8",
+        "total_power_w": "336",
+        "limit_power_w": "192",
+        "over_current_a": "6"
+      },
+      "proposed_evidence": [
+        {
+          "fact_key": "supply_continuous_current",
+          "value": "8",
+          "unit": "A",
+          "origin": "proposed_change",
+          "verified": false,
+          "change_mode": "replace",
+          "baseline_value": "10",
+          "baseline_unit": "A",
+          "baseline_source_id": "DOC-PS",
+          "baseline_source_version": 1,
+          "added_value": null,
+          "added_unit": null
+        },
+        {
+          "fact_key": "motor_continuous_current",
+          "value": "11",
+          "unit": "A",
+          "origin": "proposed_change",
+          "verified": false,
+          "change_mode": "replace",
+          "baseline_value": "8",
+          "baseline_unit": "A",
+          "baseline_source_id": "DOC-MOTOR",
+          "baseline_source_version": 1,
+          "added_value": null,
+          "added_unit": null
+        }
+      ]
+    },
+    {
+      "session_id": "m8-b",
+      "http_status": 200,
+      "detail": null,
+      "session": {
+        "id": "m8-b",
+        "turn": 1,
+        "previously_unresolved": [],
+        "now_resolved": [],
+        "still_unknown": [],
+        "status": "closed"
+      },
+      "numbers": {
+        "supply_voltage_v": "24",
+        "motor_voltage_v": "24",
+        "motor_current_a": "8",
+        "other_current_a": "3",
+        "total_current_a": "11",
+        "limit_current_a": "10",
+        "total_power_w": "264",
+        "limit_power_w": "240",
+        "over_current_a": "1"
+      },
+      "proposed_evidence": []
+    },
+    {
+      "session_id": "m8-c",
+      "http_status": 200,
+      "detail": null,
+      "session": {
+        "id": "m8-c",
+        "turn": 1,
+        "previously_unresolved": [],
+        "now_resolved": [],
+        "still_unknown": [],
+        "status": "closed"
+      },
+      "numbers": {
+        "supply_voltage_v": "24",
+        "motor_voltage_v": "24",
+        "motor_current_a": "8",
+        "other_current_a": "5",
+        "total_current_a": "13",
+        "limit_current_a": "10",
+        "total_power_w": "312",
+        "limit_power_w": "240",
+        "over_current_a": "3"
+      },
+      "proposed_evidence": [
+        {
+          "fact_key": "aux_continuous_current",
+          "value": "5",
+          "unit": "A",
+          "origin": "proposed_change",
+          "verified": false,
+          "change_mode": "add",
+          "baseline_value": "3",
+          "baseline_unit": "A",
+          "baseline_source_id": "DOC-AUX",
+          "baseline_source_version": 1,
+          "added_value": "2",
+          "added_unit": "A"
+        }
+      ]
+    },
+    {
+      "session_id": "m8-d",
+      "http_status": 200,
+      "detail": null,
+      "session": {
+        "id": "m8-d",
+        "turn": 1,
+        "previously_unresolved": [],
+        "now_resolved": [],
+        "still_unknown": [
+          "連續功率檢核"
+        ],
+        "status": "open"
+      },
+      "numbers": null,
+      "proposed_evidence": [
+        {
+          "fact_key": "motor_continuous_current",
+          "value": "11",
+          "unit": "A",
+          "origin": "proposed_change",
+          "verified": false,
+          "change_mode": "replace",
+          "baseline_value": "8",
+          "baseline_unit": "A",
+          "baseline_source_id": "DOC-MOTOR",
+          "baseline_source_version": 1,
+          "added_value": null,
+          "added_unit": null
+        }
+      ]
+    },
+    {
+      "session_id": "m8-e",
+      "http_status": 200,
+      "detail": null,
+      "session": {
+        "id": "m8-e",
+        "turn": 1,
+        "previously_unresolved": [],
+        "now_resolved": [],
+        "still_unknown": [],
+        "status": "closed"
+      },
+      "numbers": {
+        "supply_voltage_v": "24",
+        "motor_voltage_v": "24",
+        "motor_current_a": "11",
+        "other_current_a": "3",
+        "total_current_a": "14",
+        "limit_current_a": "10",
+        "total_power_w": "336",
+        "limit_power_w": "240",
+        "over_current_a": "4"
+      },
+      "proposed_evidence": [
+        {
+          "fact_key": "motor_continuous_current",
+          "value": "11",
+          "unit": "A",
+          "origin": "proposed_change",
+          "verified": false,
+          "change_mode": "replace",
+          "baseline_value": "8",
+          "baseline_unit": "A",
+          "baseline_source_id": "DOC-MOTOR",
+          "baseline_source_version": 1,
+          "added_value": null,
+          "added_unit": null
+        }
+      ]
+    },
+    {
+      "session_id": "m8-e",
+      "http_status": 409,
+      "detail": "此對話已結束；請使用新的 session_id 開始新的對話",
+      "session": null,
+      "numbers": null,
+      "proposed_evidence": []
+    },
+    {
+      "session_id": "m8-f",
+      "http_status": 200,
+      "detail": null,
+      "session": {
+        "id": "m8-f",
+        "turn": 1,
+        "previously_unresolved": [],
+        "now_resolved": [],
+        "still_unknown": [],
+        "status": "closed"
+      },
+      "numbers": {
+        "supply_voltage_v": "24",
+        "motor_voltage_v": "24",
+        "motor_current_a": "11",
+        "other_current_a": "3",
+        "total_current_a": "14",
+        "limit_current_a": "10",
+        "total_power_w": "336",
+        "limit_power_w": "240",
+        "over_current_a": "4"
+      },
+      "proposed_evidence": [
+        {
+          "fact_key": "motor_continuous_current",
+          "value": "11",
+          "unit": "A",
+          "origin": "proposed_change",
+          "verified": false,
+          "change_mode": "replace",
+          "baseline_value": "8",
+          "baseline_unit": "A",
+          "baseline_source_id": "DOC-MOTOR",
+          "baseline_source_version": 1,
+          "added_value": null,
+          "added_unit": null
+        }
+      ]
+    },
+    {
+      "session_id": "m8-f",
+      "http_status": 409,
+      "detail": "此對話已結束；請使用新的 session_id 開始新的對話",
+      "session": null,
+      "numbers": null,
+      "proposed_evidence": []
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+[
+ {
+  "turn": 1,
+  "badge": "LLM_ACCEPTED",
+  "has14A": true,
+  "has12A": false,
+  "falseNameplateChange": false
+ },
+ {
+  "turn": 2,
+  "badge": "LLM_ACCEPTED",
+  "has14A": true,
+  "has12A": true,
+  "falseNameplateChange": false
+ },
+ {
+  "turn": 3,
+  "badge": "LLM_ACCEPTED",
+  "has14A": false,
+  "has12A": true,
+  "falseNameplateChange": false
+ }
+]

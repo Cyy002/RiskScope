@@ -1,0 +1,42 @@
+# M12.5 完成版逐項結果
+
+| 測試 | 結果 |
+|---|---|
+| test_A_arithmetic | PASS |
+| test_A_distinct_capacity_meanings | FAIL |
+| test_B_motor_only_arithmetic | PASS |
+| test_B_no_power_specification_change | FAIL |
+| test_C_restatement_is_not_an_unapplied_change | FAIL |
+| test_C_M7_rejects_numerically_valid_but_semantically_false_change | FAIL |
+| test_D_generalized_capacities[arithmetic] | PASS |
+| test_D_generalized_capacities[semantics] | FAIL |
+| test_E_order_and_negation[new-before-old-same-clause] | FAIL |
+| test_E_order_and_negation[new-before-old-separate-clause] | PASS |
+| test_E_order_and_negation[negated-supply-only-motor] | PASS |
+| test_E_restatement_does_not_request_supply_replacement | FAIL |
+| test_E_negated_motor_change_preserves_active_plan | PASS |
+| test_F_scenario_never_writes_formal_facts_or_actions | PASS |
+| test_three_turn_arithmetic_and_no_false_unclaimed | PASS |
+| test_previous_turn_motor_and_delta_must_be_visible | FAIL |
+| test_M7_accepts_correct_previous_plan_deltas | FAIL |
+| test_fresh_change_uses_physical_value_not_raw_dictionary[decimal-format] | FAIL |
+| test_fresh_change_uses_physical_value_not_raw_dictionary[equivalent-unit] | FAIL |
+| test_accepted_restatement_without_mode_does_not_hide_applied_state | FAIL |
+| test_negation_scoped_to_power_not_whole_clause | FAIL |
+| test_descriptor_after_value | FAIL |
+| test_real_supply_change_still_applies | PASS |
+| test_real_supply_replacement_keeps_both_new_ratings | FAIL |
+| test_a_fabricated_values_with_no_numbers_in_message_are_rejected | PASS |
+| test_e_formal_document_value_is_never_overridden_by_user_supplied | PASS |
+| test_approved_action_a_does_not_leak_into_discussion_of_unapproved_action_b | PASS |
+| test_m7_safety_and_numeric_fallback_still_work_unchanged | PASS |
+| test_session_transcript_redacts_reply_after_source_revocation | PASS |
+| test_approval_pipeline_unreachable_from_analyze_or_session | PASS |
+| test_llm_cannot_omit_the_failed_change_warning | PASS |
+| test_a_then_corrected_motor_keeps_supply_as_a_standing_condition | PASS |
+| test_explicit_restatement_of_both_values_is_not_a_conflicting_request | PASS |
+| test_cross_clause_actual_capacity_still_recognized_on_first_mention | PASS |
+| test_generic_values_not_hardcoded_to_10_and_8 | PASS |
+| test_negated_supply_change_produces_no_request | PASS |
+| test_formal_facts_table_never_touched_by_the_scenario_dialogue | PASS |
+| test_literal_three_turn_initial_conditions | FAIL |

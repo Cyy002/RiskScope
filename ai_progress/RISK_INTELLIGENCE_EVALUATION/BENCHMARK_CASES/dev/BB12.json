@@ -1,0 +1,49 @@
+{
+ "id": "BB12",
+ "domain": "品質可靠度",
+ "focus": "custom",
+ "question": "進料檢驗每批抽 50 個，允收條件是不良數 ≤ 1。若某批實際不良率是 2%，這個抽樣計畫能擋下它嗎？客戶要求至少 90% 的機率擋下 2% 不良的批。",
+ "documents": [
+  {
+   "id": "D-SAMP",
+   "title": "抽樣計畫",
+   "body": "批量大，視為二項分佈近似。抽樣 n=50，允收數 c=1。"
+  }
+ ],
+ "rubric": {
+  "known_facts": [
+   "n=50",
+   "c=1",
+   "不良率2%",
+   "要求擋下機率≥90%"
+  ],
+  "unknowns": [],
+  "hard_constraints": [],
+  "key_risks": [
+   "不良品流入產線"
+  ],
+  "risk_links": [],
+  "reasonable_options": [
+   "加大樣本數或 c=0",
+   "改採更嚴抽樣方案並重新計算 OC 曲線"
+  ],
+  "forbidden_recommendations": [
+   "宣稱可擋下"
+  ],
+  "required_calculations": [
+   "允收機率 = 0.98^50 + 50×0.02×0.98^49 ≈ 0.736，擋下機率≈26.4% < 90% → 不符"
+  ],
+  "must_not_fabricate": [
+   "未計算的新樣本數當成已驗證"
+  ],
+  "decision_content": "算出擋下機率約 26% 不符 90%，給出以 OC 曲線重新設計的方向",
+  "critical_errors": [
+   "宣稱符合"
+  ],
+  "required_numbers": [
+   "73.6",
+   "26.4"
+  ],
+  "forbidden_phrases": []
+ }
+}

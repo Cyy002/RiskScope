@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.224" timestamp="2026-10-21T20:04:56.503851+08:00" hostname="Mac"><testcase classname="ai_progress.codex-m125-review.review_probes" name="test_literal_three_turn_initial_conditions" time="0.096"><failure message="AssertionError: assert Decimal('11') == Decimal('14')&#10; +  where Decimal('11') = Decimal('11')&#10; +  and   Decimal('14') = Decimal('14')">ai_progress/codex-m125-review/review_probes.py:315: in test_literal_three_turn_initial_conditions
+    numbers(a, '14', '336', '40', '75')
+ai_progress/codex-m125-review/review_probes.py:82: in numbers
+    assert Decimal(n['total_current_a']) == Decimal(total)
+E   AssertionError: assert Decimal('11') == Decimal('14')
+E    +  where Decimal('11') = Decimal('11')
+E    +  and   Decimal('14') = Decimal('14')</failure></testcase></testsuite></testsuites>

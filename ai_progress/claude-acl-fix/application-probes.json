@@ -1,0 +1,69 @@
+{
+  "langgraph_version": "1.0.0",
+  "scenarios": {
+    "graph_smoke": {
+      "http_status": 200,
+      "orchestration": "langgraph",
+      "numbers": {
+        "supply_voltage_v": "24",
+        "motor_voltage_v": "24",
+        "motor_current_a": "8",
+        "other_current_a": "3",
+        "total_current_a": "11",
+        "limit_current_a": "10",
+        "total_power_w": "264",
+        "limit_power_w": "240",
+        "over_current_a": "1"
+      },
+      "option_a": "blocked",
+      "decision_status": "requires_human_review",
+      "local_llm": "disabled",
+      "tool_calls": [
+        "get_context",
+        "check_constraints",
+        "trace_impact",
+        "trace_impact"
+      ],
+      "credentials_mode": "0o600"
+    },
+    "stored_analysis_acl_gap": {
+      "fixture": "8 extra authorized synthetic documents; original product code unchanged",
+      "retrieved_documents": [
+        "DOC-P0-00",
+        "DOC-P0-01",
+        "DOC-P0-02",
+        "DOC-P0-03",
+        "DOC-P0-04",
+        "DOC-P0-05",
+        "DOC-P0-06",
+        "DOC-P0-07"
+      ],
+      "tool_evidence_documents": [
+        "DOC-AUX",
+        "DOC-MOTOR",
+        "DOC-PS"
+      ],
+      "revoked_document": "DOC-PS",
+      "fresh_check_status": "unknown",
+      "stored_analysis_http_status": 403,
+      "revoked_source_still_in_response": false,
+      "expected": "403 or sanitized response without revoked evidence",
+      "finding_reproduced": false
+    },
+    "alert_acl_gap": {
+      "revoked_documents": [
+        "DOC-SUPPLIER",
+        "DOC-PLAN"
+      ],
+      "engineer_direct_affected_nodes": [],
+      "manager_event_analysis_status": "completed",
+      "engineer_alerts_http_status": 200,
+      "engineer_alert_bodies": [
+        "supplier_lead_days: 7 → 18。已重新分析 f79f743e-9d9f-4dad-acbb-96336fc74d59；影響不是已證明延期。可能受影響節點：因目前來源權限不足無法顯示。"
+      ],
+      "expected": "No dependency-derived nodes from sources engineer cannot read",
+      "finding_reproduced": false
+    }
+  },
+  "status": "verification completed; security findings require independent review"
+}

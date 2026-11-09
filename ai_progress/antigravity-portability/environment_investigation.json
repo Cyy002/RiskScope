@@ -1,0 +1,62 @@
+{
+  "investigated_at": "2026-11-01T14:45:31+0800",
+  "investigator": "antigravity",
+  "host_platform": "darwin",
+  "host_architecture": "arm64",
+  "podman_binary_path": "/Users/haochenglin/.local/podman/bin/podman",
+  "podman_version": {
+    "Client": {
+      "APIVersion": "6.1.4",
+      "Version": "6.1.4",
+      "GoVersion": "go1.26.8",
+      "GitCommit": "464c15fec06f0074c916f9eff87c4806869c2833",
+      "BuiltTime": "Tue Oct 13 04:53:47 2026",
+      "Built": 1791838427,
+      "BuildOrigin": "pkginstaller",
+      "OsArch": "darwin/arm64",
+      "Os": "darwin"
+    },
+    "Server": {
+      "APIVersion": "6.1.4",
+      "Version": "6.1.4",
+      "GoVersion": "go1.26.9-X:nodwarf5",
+      "GitCommit": "464c15fec06f0074c916f9eff87c4806869c2833",
+      "BuiltTime": "Mon Oct 12 08:00:00 2026",
+      "Built": 1791763200,
+      "OsArch": "linux/arm64",
+      "Os": "linux"
+    }
+  },
+  "podman_machine": {
+    "ConfigDir": {
+      "Path": "/Users/haochenglin/.config/containers/podman/machine/applehv"
+    },
+    "ConnectionInfo": {
+      "PodmanSocket": {
+        "Path": "/var/folders/d5/tstcbmfj3v1b64ldw1jn8tf00000gn/T/podman/riskscope-machine-api.sock"
+      },
+      "PodmanPipe": null
+    },
+    "Created": "2026-10-19T15:20:45.945516+08:00",
+    "LastUp": "0001-01-01T00:00:00Z",
+    "Name": "riskscope-machine",
+    "Resources": {
+      "CPUs": 4,
+      "DiskSize": 20,
+      "Memory": 4096,
+      "USBs": []
+    },
+    "SSHConfig": {
+      "IdentityPath": "/Users/haochenglin/.local/share/containers/podman/machine/machine",
+      "Port": 61795,
+      "RemoteUsername": "core"
+    },
+    "State": "running",
+    "UserModeNetworking": true,
+    "Rootful": false,
+    "Rosetta": false
+  },
+  "guest_kernel_and_os": "Linux localhost.localdomain 7.2.5-200.fc44.aarch64 #1 SMP PREEMPT_DYNAMIC Fri Sep 11 15:07:33 UTC 2026 aarch64 GNU/Linux\nNAME=\"Fedora Linux\"\nVERSION=\"44.20260913.3.2 (CoreOS)\"\nRELEASE_TYPE=stable\nID=fedora\nVERSION_ID=44\nVERSION_CODENAME=\"\"\nPRETTY_NAME=\"Fedora CoreOS 44.20260913.3.2\"\nANSI_COLOR=\"0;38;2;60;110;180\"\nLOGO=fedora-logo-icon\nCPE_NAME=\"cpe:/o:fedoraproject:fedora:44\"\nHOME_URL=\"https://getfedora.org/coreos/\"\nDOCUMENTATION_URL=\"https://docs.fedoraproject.org/en-US/fedora-coreos/\"\nSUPPORT_URL=\"https://github.com/coreos/fedora-coreos-tracker/\"\nBUG_REPORT_URL=\"https://github.com/coreos/fedora-coreos-tracker/\"\nREDHAT_BUGZILLA_PRODUCT=\"Fedora\"\nREDHAT_BUGZILLA_PRODUCT_VERSION=44\nREDHAT_SUPPORT_PRODUCT=\"Fedora\"\nREDHAT_SUPPORT_PRODUCT_VERSION=44\nSUPPORT_END=2027-05-19\nVARIANT=\"Podman Machine OS\"\nVARIANT_ID=podman-machine-os\nOSTREE_VERSION='44.20260913.3.2'\nIMAGE_VERSION='44.20260913.3.2'",
+  "binfmt_misc_emulation": "total 0\ndrwxr-xr-x. 2 root root 0 Nov  1 14:36 .\ndr-xr-xr-x. 1 root root 0 Nov  1 14:35 ..\n-rw-r--r--. 1 root root 0 Nov  1 14:36 qemu-aarch64_be\n-rw-r--r--. 1 root root 0 Nov  1 14:36 qemu-i386\n-rw-r--r--. 1 root root 0 Nov  1 14:36 qemu-i486\n-rw-r--r--. 1 root root 0 Nov  1 14:36 qemu-x86_64\n--w-------. 1 root root 0 Nov  1 14:36 register\n-rw-r--r--. 1 root root 0 Nov  1 14:36 status\nenabled\nenabled\ninterpreter /usr/bin/qemu-x86_64-static\nflags: POCF\noffset 0\nmagic 7f454c4602010100000000000000000002003e00\nmask fffffffffffefe00fffffffffffffffffeffffff",
+  "virtiofs_mounts": "a2a0ee2c717462feb1de2f5afd59de5fd2d8 on /Users type virtiofs (rw,relatime,context=system_u:object_r:nfs_t:s0)\n9ddeaea5d41a791d2cc3bcc676b9645fee0e on /etc/containers type virtiofs (rw,relatime,context=system_u:object_r:nfs_t:s0)\n71708eb255bc230cd7c91dd26f7667a7b938 on /private type virtiofs (rw,relatime,context=system_u:object_r:nfs_t:s0)\na0bb3a2c8b0b02ba5958b0576f0d6530e104 on /var/folders type virtiofs (rw,relatime,context=system_u:object_r:nfs_t:s0)"
+}

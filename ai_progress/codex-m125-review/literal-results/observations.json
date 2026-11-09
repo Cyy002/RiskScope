@@ -1,0 +1,969 @@
+{
+  "literal-A": {
+    "message": "電源24V，名目額定10A，實際可用8A，馬達11A，輔助3A。",
+    "checks": [
+      {
+        "rule": "continuous_power",
+        "status": "fail",
+        "reason": "持續電流需求超過電源連續額定值",
+        "numbers": {
+          "supply_voltage_v": "24",
+          "motor_voltage_v": "24",
+          "motor_current_a": "8",
+          "other_current_a": "3",
+          "total_current_a": "11",
+          "limit_current_a": "8",
+          "total_power_w": "264",
+          "limit_power_w": "192",
+          "over_current_a": "3"
+        },
+        "formula": "I_total = I_motor + I_other；P = V × I",
+        "evidence": [
+          {
+            "fact_key": "supply_voltage",
+            "source_id": "DOC-PS",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "supply_continuous_current",
+            "value": "8",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "10",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-PS",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "motor_voltage",
+            "source_id": "DOC-MOTOR",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "motor_continuous_current",
+            "source_id": "DOC-MOTOR",
+            "source_version": 1,
+            "value": "8",
+            "unit": "A",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "aux_continuous_current",
+            "source_id": "DOC-AUX",
+            "source_version": 1,
+            "value": "3",
+            "unit": "A",
+            "origin": "document",
+            "verified": true
+          }
+        ],
+        "assumptions": [
+          "馬達與其他負載同時持續運作；數值為指定合成工況的連續值"
+        ],
+        "user_supplied_fact_keys": [
+          "supply_continuous_current"
+        ],
+        "limitations": [
+          "超額不等於必然跳脫或損壞",
+          "未取得啟動電流、電源降額、驅動器/散熱/線材驗證",
+          "本次計算包含使用者在對話中提供、尚未經管理者正式確認的數值（見 evidence 的 verified:false 項目）；結果僅供本次對話參考，不可視為已確認規格"
+        ],
+        "baseline": {
+          "rule": "continuous_power",
+          "status": "fail",
+          "reason": "持續電流需求超過電源連續額定值",
+          "numbers": {
+            "supply_voltage_v": "24",
+            "motor_voltage_v": "24",
+            "motor_current_a": "8",
+            "other_current_a": "3",
+            "total_current_a": "11",
+            "limit_current_a": "10",
+            "total_power_w": "264",
+            "limit_power_w": "240",
+            "over_current_a": "1"
+          },
+          "formula": "I_total = I_motor + I_other；P = V × I",
+          "evidence": [
+            {
+              "fact_key": "supply_voltage",
+              "source_id": "DOC-PS",
+              "source_version": 1,
+              "value": "24",
+              "unit": "V",
+              "origin": "document",
+              "verified": true
+            },
+            {
+              "fact_key": "supply_continuous_current",
+              "source_id": "DOC-PS",
+              "source_version": 1,
+              "value": "10",
+              "unit": "A",
+              "origin": "document",
+              "verified": true
+            },
+            {
+              "fact_key": "motor_voltage",
+              "source_id": "DOC-MOTOR",
+              "source_version": 1,
+              "value": "24",
+              "unit": "V",
+              "origin": "document",
+              "verified": true
+            },
+            {
+              "fact_key": "motor_continuous_current",
+              "source_id": "DOC-MOTOR",
+              "source_version": 1,
+              "value": "8",
+              "unit": "A",
+              "origin": "document",
+              "verified": true
+            },
+            {
+              "fact_key": "aux_continuous_current",
+              "source_id": "DOC-AUX",
+              "source_version": 1,
+              "value": "3",
+              "unit": "A",
+              "origin": "document",
+              "verified": true
+            }
+          ],
+          "assumptions": [
+            "馬達與其他負載同時持續運作；數值為指定合成工況的連續值"
+          ],
+          "user_supplied_fact_keys": [],
+          "limitations": [
+            "超額不等於必然跳脫或損壞",
+            "未取得啟動電流、電源降額、驅動器/散熱/線材驗證"
+          ]
+        }
+      }
+    ],
+    "facts": [
+      {
+        "claim": "指定工況電流合計 11 A；電源額定 8 A。",
+        "basis": "tool:check_constraints",
+        "sources": [
+          {
+            "fact_key": "supply_voltage",
+            "source_id": "DOC-PS",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "supply_continuous_current",
+            "value": "8",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "10",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-PS",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "motor_voltage",
+            "source_id": "DOC-MOTOR",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "motor_continuous_current",
+            "source_id": "DOC-MOTOR",
+            "source_version": 1,
+            "value": "8",
+            "unit": "A",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "aux_continuous_current",
+            "source_id": "DOC-AUX",
+            "source_version": 1,
+            "value": "3",
+            "unit": "A",
+            "origin": "document",
+            "verified": true
+          }
+        ]
+      },
+      {
+        "claim": "對應功率 264 W；額定 192 W。",
+        "basis": "tool:check_constraints",
+        "sources": [
+          {
+            "fact_key": "supply_voltage",
+            "source_id": "DOC-PS",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "supply_continuous_current",
+            "value": "8",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "10",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-PS",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "motor_voltage",
+            "source_id": "DOC-MOTOR",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "motor_continuous_current",
+            "source_id": "DOC-MOTOR",
+            "source_version": 1,
+            "value": "8",
+            "unit": "A",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "aux_continuous_current",
+            "source_id": "DOC-AUX",
+            "source_version": 1,
+            "value": "3",
+            "unit": "A",
+            "origin": "document",
+            "verified": true
+          }
+        ]
+      }
+    ],
+    "reply": "已記錄您這一輪提供的數值（尚未經管理者正式確認，僅供本次對話試算）：supply_voltage=24V；supply_continuous_current=8A；motor_continuous_current=11A；aux_continuous_current=3A\n已完成本輪分析：\n- 您這輪提出的新方案（尚未經管理者正式確認，僅供本次試算比較）：supply_continuous_current 由 10A（文件 DOC-PS）換成 8A\n- 已確認工程條件：持續電流需求超過電源連續額定值\n- 新方案計算結果：總電流 11A（電源額定 8A）、總功率 264W（額定上限 192W）\n- 對照現有狀態（變更前）：電源額定 10A，新方案總電流 11A，相對現有額定超出 10%；相對新方案本身的額定 8A 超出 37.5%\n- 分析依據：指定工況電流合計 11 A；電源額定 8 A。；對應功率 264 W；額定 192 W。\n- 主要風險：R-POWER：在已知同時持續負載條件下，不符合目前電源連續容量／電壓限制。；R-IMPACT-M-02：M-02 的變更需檢視下游依賴；R-IMPACT-PS-01：PS-01 的變更需檢視下游依賴\n- 尚未確定的條件：超額不等於必然跳脫或損壞；未取得啟動電流、電源降額、驅動器/散熱/線材驗證；本次計算包含使用者在對話中提供、尚未經管理者正式確認的數值（見 evidence 的 verified:false 項目）；結果僅供本次對話參考，不可視為已確認規格\n- 方案狀態：A（僅更換馬達）：blocked；B（馬達與電源一併調整）：unverified；C（調整負載分配／控制）：unverified\n- 建議下一步：馬達啟動電流及驅動器允許峰值是多少？；電源的降額與熱條件是否滿足？\n任何變更仍需人工審核後才能執行；本回覆僅轉述下方確定性分析結果，不代表最終核准。",
+    "reply_source": "deterministic_template",
+    "accepted": {
+      "supply_voltage": {
+        "value": "24",
+        "unit": "V"
+      },
+      "supply_continuous_current": {
+        "value": "8",
+        "unit": "A",
+        "mode": "replace"
+      },
+      "motor_continuous_current": {
+        "value": "11",
+        "unit": "A"
+      },
+      "aux_continuous_current": {
+        "value": "3",
+        "unit": "A"
+      }
+    },
+    "rejected": [],
+    "unclaimed": [],
+    "session_inputs": {
+      "aux_continuous_current": {
+        "unit": "A",
+        "value": "3"
+      },
+      "motor_continuous_current": {
+        "unit": "A",
+        "value": "11"
+      },
+      "supply_continuous_current": {
+        "mode": "replace",
+        "unit": "A",
+        "value": "8"
+      },
+      "supply_voltage": {
+        "unit": "V",
+        "value": "24"
+      }
+    },
+    "diagnostic": {
+      "extract": {
+        "status": "success"
+      },
+      "reply": {
+        "status": "connection_error"
+      }
+    }
+  },
+  "literal-B": {
+    "message": "只將馬達改成9A，其餘完全不變。",
+    "checks": [
+      {
+        "rule": "continuous_power",
+        "status": "fail",
+        "reason": "持續電流需求超過電源連續額定值",
+        "numbers": {
+          "supply_voltage_v": "24",
+          "motor_voltage_v": "24",
+          "motor_current_a": "9",
+          "other_current_a": "3",
+          "total_current_a": "12",
+          "limit_current_a": "8",
+          "total_power_w": "288",
+          "limit_power_w": "192",
+          "over_current_a": "4"
+        },
+        "formula": "I_total = I_motor + I_other；P = V × I",
+        "evidence": [
+          {
+            "fact_key": "supply_voltage",
+            "source_id": "DOC-PS",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "supply_continuous_current",
+            "value": "8",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "10",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-PS",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "motor_voltage",
+            "source_id": "DOC-MOTOR",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "motor_continuous_current",
+            "value": "9",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "8",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-MOTOR",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "aux_continuous_current",
+            "source_id": "DOC-AUX",
+            "source_version": 1,
+            "value": "3",
+            "unit": "A",
+            "origin": "document",
+            "verified": true
+          }
+        ],
+        "assumptions": [
+          "馬達與其他負載同時持續運作；數值為指定合成工況的連續值"
+        ],
+        "user_supplied_fact_keys": [
+          "supply_continuous_current",
+          "motor_continuous_current"
+        ],
+        "limitations": [
+          "超額不等於必然跳脫或損壞",
+          "未取得啟動電流、電源降額、驅動器/散熱/線材驗證",
+          "本次計算包含使用者在對話中提供、尚未經管理者正式確認的數值（見 evidence 的 verified:false 項目）；結果僅供本次對話參考，不可視為已確認規格"
+        ],
+        "baseline": {
+          "rule": "continuous_power",
+          "status": "fail",
+          "reason": "持續電流需求超過電源連續額定值",
+          "numbers": {
+            "supply_voltage_v": "24",
+            "motor_voltage_v": "24",
+            "motor_current_a": "8",
+            "other_current_a": "3",
+            "total_current_a": "11",
+            "limit_current_a": "10",
+            "total_power_w": "264",
+            "limit_power_w": "240",
+            "over_current_a": "1"
+          },
+          "formula": "I_total = I_motor + I_other；P = V × I",
+          "evidence": [
+            {
+              "fact_key": "supply_voltage",
+              "source_id": "DOC-PS",
+              "source_version": 1,
+              "value": "24",
+              "unit": "V",
+              "origin": "document",
+              "verified": true
+            },
+            {
+              "fact_key": "supply_continuous_current",
+              "source_id": "DOC-PS",
+              "source_version": 1,
+              "value": "10",
+              "unit": "A",
+              "origin": "document",
+              "verified": true
+            },
+            {
+              "fact_key": "motor_voltage",
+              "source_id": "DOC-MOTOR",
+              "source_version": 1,
+              "value": "24",
+              "unit": "V",
+              "origin": "document",
+              "verified": true
+            },
+            {
+              "fact_key": "motor_continuous_current",
+              "source_id": "DOC-MOTOR",
+              "source_version": 1,
+              "value": "8",
+              "unit": "A",
+              "origin": "document",
+              "verified": true
+            },
+            {
+              "fact_key": "aux_continuous_current",
+              "source_id": "DOC-AUX",
+              "source_version": 1,
+              "value": "3",
+              "unit": "A",
+              "origin": "document",
+              "verified": true
+            }
+          ],
+          "assumptions": [
+            "馬達與其他負載同時持續運作；數值為指定合成工況的連續值"
+          ],
+          "user_supplied_fact_keys": [],
+          "limitations": [
+            "超額不等於必然跳脫或損壞",
+            "未取得啟動電流、電源降額、驅動器/散熱/線材驗證"
+          ]
+        }
+      }
+    ],
+    "facts": [
+      {
+        "claim": "指定工況電流合計 12 A；電源額定 8 A。",
+        "basis": "tool:check_constraints",
+        "sources": [
+          {
+            "fact_key": "supply_voltage",
+            "source_id": "DOC-PS",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "supply_continuous_current",
+            "value": "8",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "10",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-PS",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "motor_voltage",
+            "source_id": "DOC-MOTOR",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "motor_continuous_current",
+            "value": "9",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "8",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-MOTOR",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "aux_continuous_current",
+            "source_id": "DOC-AUX",
+            "source_version": 1,
+            "value": "3",
+            "unit": "A",
+            "origin": "document",
+            "verified": true
+          }
+        ]
+      },
+      {
+        "claim": "對應功率 288 W；額定 192 W。",
+        "basis": "tool:check_constraints",
+        "sources": [
+          {
+            "fact_key": "supply_voltage",
+            "source_id": "DOC-PS",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "supply_continuous_current",
+            "value": "8",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "10",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-PS",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "motor_voltage",
+            "source_id": "DOC-MOTOR",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "motor_continuous_current",
+            "value": "9",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "8",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-MOTOR",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "aux_continuous_current",
+            "source_id": "DOC-AUX",
+            "source_version": 1,
+            "value": "3",
+            "unit": "A",
+            "origin": "document",
+            "verified": true
+          }
+        ]
+      }
+    ],
+    "reply": "已記錄您這一輪提供的數值（尚未經管理者正式確認，僅供本次對話試算）：motor_continuous_current=9A\n已完成本輪分析：\n- 您這輪提出的新方案（尚未經管理者正式確認，僅供本次試算比較）：motor_continuous_current 由 8A（文件 DOC-MOTOR）換成 9A\n- 先前已提供、本輪未變更的條件（仍套用於本次計算）：supply_continuous_current：8A（文件額定 10A）\n- 已確認工程條件：持續電流需求超過電源連續額定值\n- 新方案計算結果：總電流 12A（電源額定 8A）、總功率 288W（額定上限 192W）\n- 對照現有狀態（變更前）：電源額定 10A，新方案總電流 12A，相對現有額定超出 20%；相對新方案本身的額定 8A 超出 50%\n- 分析依據：指定工況電流合計 12 A；電源額定 8 A。；對應功率 288 W；額定 192 W。\n- 主要風險：R-POWER：在已知同時持續負載條件下，不符合目前電源連續容量／電壓限制。；R-IMPACT-M-02：M-02 的變更需檢視下游依賴；R-IMPACT-PS-01：PS-01 的變更需檢視下游依賴\n- 尚未確定的條件：超額不等於必然跳脫或損壞；未取得啟動電流、電源降額、驅動器/散熱/線材驗證；本次計算包含使用者在對話中提供、尚未經管理者正式確認的數值（見 evidence 的 verified:false 項目）；結果僅供本次對話參考，不可視為已確認規格\n- 方案狀態：A（僅更換馬達）：blocked；B（馬達與電源一併調整）：unverified；C（調整負載分配／控制）：unverified\n- 建議下一步：馬達啟動電流及驅動器允許峰值是多少？；電源的降額與熱條件是否滿足？\n任何變更仍需人工審核後才能執行；本回覆僅轉述下方確定性分析結果，不代表最終核准。",
+    "reply_source": "deterministic_template",
+    "accepted": {
+      "motor_continuous_current": {
+        "value": "9",
+        "unit": "A",
+        "mode": "replace"
+      }
+    },
+    "rejected": [],
+    "unclaimed": [],
+    "session_inputs": {
+      "aux_continuous_current": {
+        "unit": "A",
+        "value": "3"
+      },
+      "motor_continuous_current": {
+        "mode": "replace",
+        "unit": "A",
+        "value": "9"
+      },
+      "supply_continuous_current": {
+        "mode": "replace",
+        "unit": "A",
+        "value": "8"
+      },
+      "supply_voltage": {
+        "unit": "V",
+        "value": "24"
+      }
+    },
+    "diagnostic": {
+      "extract": {
+        "status": "success"
+      },
+      "reply": {
+        "status": "connection_error"
+      }
+    }
+  },
+  "literal-C": {
+    "message": "電源額定一直是10A，實際可用一直是8A，我只修改馬達。",
+    "checks": [
+      {
+        "rule": "continuous_power",
+        "status": "fail",
+        "reason": "持續電流需求超過電源連續額定值",
+        "numbers": {
+          "supply_voltage_v": "24",
+          "motor_voltage_v": "24",
+          "motor_current_a": "9",
+          "other_current_a": "3",
+          "total_current_a": "12",
+          "limit_current_a": "8",
+          "total_power_w": "288",
+          "limit_power_w": "192",
+          "over_current_a": "4"
+        },
+        "formula": "I_total = I_motor + I_other；P = V × I",
+        "evidence": [
+          {
+            "fact_key": "supply_voltage",
+            "source_id": "DOC-PS",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "supply_continuous_current",
+            "value": "8",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "10",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-PS",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "motor_voltage",
+            "source_id": "DOC-MOTOR",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "motor_continuous_current",
+            "value": "9",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "8",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-MOTOR",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "aux_continuous_current",
+            "source_id": "DOC-AUX",
+            "source_version": 1,
+            "value": "3",
+            "unit": "A",
+            "origin": "document",
+            "verified": true
+          }
+        ],
+        "assumptions": [
+          "馬達與其他負載同時持續運作；數值為指定合成工況的連續值"
+        ],
+        "user_supplied_fact_keys": [
+          "supply_continuous_current",
+          "motor_continuous_current"
+        ],
+        "limitations": [
+          "超額不等於必然跳脫或損壞",
+          "未取得啟動電流、電源降額、驅動器/散熱/線材驗證",
+          "本次計算包含使用者在對話中提供、尚未經管理者正式確認的數值（見 evidence 的 verified:false 項目）；結果僅供本次對話參考，不可視為已確認規格"
+        ],
+        "baseline": {
+          "rule": "continuous_power",
+          "status": "fail",
+          "reason": "持續電流需求超過電源連續額定值",
+          "numbers": {
+            "supply_voltage_v": "24",
+            "motor_voltage_v": "24",
+            "motor_current_a": "8",
+            "other_current_a": "3",
+            "total_current_a": "11",
+            "limit_current_a": "10",
+            "total_power_w": "264",
+            "limit_power_w": "240",
+            "over_current_a": "1"
+          },
+          "formula": "I_total = I_motor + I_other；P = V × I",
+          "evidence": [
+            {
+              "fact_key": "supply_voltage",
+              "source_id": "DOC-PS",
+              "source_version": 1,
+              "value": "24",
+              "unit": "V",
+              "origin": "document",
+              "verified": true
+            },
+            {
+              "fact_key": "supply_continuous_current",
+              "source_id": "DOC-PS",
+              "source_version": 1,
+              "value": "10",
+              "unit": "A",
+              "origin": "document",
+              "verified": true
+            },
+            {
+              "fact_key": "motor_voltage",
+              "source_id": "DOC-MOTOR",
+              "source_version": 1,
+              "value": "24",
+              "unit": "V",
+              "origin": "document",
+              "verified": true
+            },
+            {
+              "fact_key": "motor_continuous_current",
+              "source_id": "DOC-MOTOR",
+              "source_version": 1,
+              "value": "8",
+              "unit": "A",
+              "origin": "document",
+              "verified": true
+            },
+            {
+              "fact_key": "aux_continuous_current",
+              "source_id": "DOC-AUX",
+              "source_version": 1,
+              "value": "3",
+              "unit": "A",
+              "origin": "document",
+              "verified": true
+            }
+          ],
+          "assumptions": [
+            "馬達與其他負載同時持續運作；數值為指定合成工況的連續值"
+          ],
+          "user_supplied_fact_keys": [],
+          "limitations": [
+            "超額不等於必然跳脫或損壞",
+            "未取得啟動電流、電源降額、驅動器/散熱/線材驗證"
+          ]
+        }
+      }
+    ],
+    "facts": [
+      {
+        "claim": "指定工況電流合計 12 A；電源額定 8 A。",
+        "basis": "tool:check_constraints",
+        "sources": [
+          {
+            "fact_key": "supply_voltage",
+            "source_id": "DOC-PS",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "supply_continuous_current",
+            "value": "8",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "10",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-PS",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "motor_voltage",
+            "source_id": "DOC-MOTOR",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "motor_continuous_current",
+            "value": "9",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "8",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-MOTOR",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "aux_continuous_current",
+            "source_id": "DOC-AUX",
+            "source_version": 1,
+            "value": "3",
+            "unit": "A",
+            "origin": "document",
+            "verified": true
+          }
+        ]
+      },
+      {
+        "claim": "對應功率 288 W；額定 192 W。",
+        "basis": "tool:check_constraints",
+        "sources": [
+          {
+            "fact_key": "supply_voltage",
+            "source_id": "DOC-PS",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "supply_continuous_current",
+            "value": "8",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "10",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-PS",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "motor_voltage",
+            "source_id": "DOC-MOTOR",
+            "source_version": 1,
+            "value": "24",
+            "unit": "V",
+            "origin": "document",
+            "verified": true
+          },
+          {
+            "fact_key": "motor_continuous_current",
+            "value": "9",
+            "unit": "A",
+            "origin": "proposed_change",
+            "verified": false,
+            "change_mode": "replace",
+            "baseline_value": "8",
+            "baseline_unit": "A",
+            "baseline_source_id": "DOC-MOTOR",
+            "baseline_source_version": 1,
+            "added_value": null,
+            "added_unit": null
+          },
+          {
+            "fact_key": "aux_continuous_current",
+            "source_id": "DOC-AUX",
+            "source_version": 1,
+            "value": "3",
+            "unit": "A",
+            "origin": "document",
+            "verified": true
+          }
+        ]
+      }
+    ],
+    "reply": "已完成本輪分析：\n- 先前已提供、本輪未變更的條件（仍套用於本次計算）：supply_continuous_current：8A（文件額定 10A）；motor_continuous_current：9A（文件額定 8A）\n- 已確認工程條件：持續電流需求超過電源連續額定值\n- 新方案計算結果：總電流 12A（電源額定 8A）、總功率 288W（額定上限 192W）\n- 對照現有狀態（變更前）：電源額定 10A，新方案總電流 12A，相對現有額定超出 20%；相對新方案本身的額定 8A 超出 50%\n- 分析依據：指定工況電流合計 12 A；電源額定 8 A。；對應功率 288 W；額定 192 W。\n- 主要風險：R-POWER：在已知同時持續負載條件下，不符合目前電源連續容量／電壓限制。；R-IMPACT-M-02：M-02 的變更需檢視下游依賴；R-IMPACT-PS-01：PS-01 的變更需檢視下游依賴\n- 尚未確定的條件：超額不等於必然跳脫或損壞；未取得啟動電流、電源降額、驅動器/散熱/線材驗證；本次計算包含使用者在對話中提供、尚未經管理者正式確認的數值（見 evidence 的 verified:false 項目）；結果僅供本次對話參考，不可視為已確認規格\n- 方案狀態：A（僅更換馬達）：blocked；B（馬達與電源一併調整）：unverified；C（調整負載分配／控制）：unverified\n- 建議下一步：馬達啟動電流及驅動器允許峰值是多少？；電源的降額與熱條件是否滿足？\n任何變更仍需人工審核後才能執行；本回覆僅轉述下方確定性分析結果，不代表最終核准。",
+    "reply_source": "deterministic_template",
+    "accepted": {},
+    "rejected": [],
+    "unclaimed": [],
+    "session_inputs": {
+      "aux_continuous_current": {
+        "unit": "A",
+        "value": "3"
+      },
+      "motor_continuous_current": {
+        "mode": "replace",
+        "unit": "A",
+        "value": "9"
+      },
+      "supply_continuous_current": {
+        "mode": "replace",
+        "unit": "A",
+        "value": "8"
+      },
+      "supply_voltage": {
+        "unit": "V",
+        "value": "24"
+      }
+    },
+    "diagnostic": {
+      "extract": {
+        "status": "success"
+      },
+      "reply": {
+        "status": "connection_error"
+      }
+    }
+  }
+}

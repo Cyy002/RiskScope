@@ -1,0 +1,49 @@
+{
+ "id": "BB14",
+ "domain": "軟體工程/可靠度",
+ "model": "qwen3:8b",
+ "mode": "PROTO_V2_BINDING_VERIFIED",
+ "llm_enabled": true,
+ "turns": [
+  {
+   "user": "今天晚上要上線新版本，但有一個偶發失敗的測試尚未排除。若出事，回滾需要 40 分鐘。我們本月的可用性目標是 99.9%，本月已經停機 20 分鐘。可以上線嗎？",
+   "reply": "**核心問題**：是否可以在本月可用性目標未達的情況下，上線新版本並承擔可能的停機風險？\n\n**資料衝突（未擅自擇一）**：可用性目標與已停機時間的關係\n\n**已知事實**：\n- 本月可用性目標為 99.9%（來源：Q2）\n- 本月已累計停機 20 分鐘（來源：Q6）\n- 回滾需要 40 分鐘（來源：Q1）\n- 本月以 30 天計（來源：Q4）\n- 回滾演練實測 4,0 分鐘（來源：Q7）\n\n**硬限制**：本月可用性目標為 99.9%；本月已累計停機 20 分鐘\n\n**計算（逐項驗證層級已標示；未驗證專業結論）**：\n- 本月可用性達成率：1 - (20 / (30 * 24 * 60)) → **0.9995** 比例（⚠含非來源之假設輸入，結果僅供參考；輸入：20=20分鐘[D-SLO]；30=30天[D-SLO]；24=假設值[無來源]；60=假設值[無來源]）　本月可用性達成率\n- ⛔ 專案工期（有任務依賴時必須用此種，不可把工期直接相加）：輸入對應驗證失敗，結果未採用（上线: no source quantity (assumed input, not grounded)）\n\n**風險（依重要性）**：\n- [high] 偶發失敗測試導致上線後停機，影響本月可用性目標｜成因鏈：偶發失敗測試未排除→上線後系統失敗→停機時間增加→可用性目標未達｜依據：根據本月已停機時間與可用性目標的差距判斷\n- [medium] 回滾需要 40 分鐘，可能導致停機時間超出預算｜成因鏈：偶發失敗測試導致上線後系統失敗→需要回滾→回滾耗時→停機時間增加｜依據：根據回滾耗時與可用性目標的關係判斷\n\n**方案比較**：\n- 上線新版本（可行性：conditional；違反限制：本月可用性目標未達）優點：完成新版本上線；缺點：可能影響本月可用性目標；成本影響：未知\n- 延後上線（可行性：yes；違反限制：無）優點：避免影響可用性目標；缺點：延誤上線時間；成本影響：未知\n\n**資訊缺口**：\n- 偶發失敗測試的具體原因：若無法排除原因，可能導致上線後持續停機，影響可用性目標（取得方式：需進行進一步的測試與分析）\n- 偶發失敗測試的發生頻率：頻率越高，對可用性目標的影響越大（取得方式：需進行歷史數據分析或壓力測試）\n\n**建議行動**：\n1. 進行偶發失敗測試的根因分析（需確認偶發失敗測試的具體原因，以評估是否可安全上線）\n2. 評估回滾後的可用性影響（需計算回滾後的停機時間是否會影響本月可用性目標）\n\n**會改變結論的新資訊**：偶發失敗測試的具體原因；回滾後的停機時間；本月可用性達成率",
+   "raw_model_json": "{\n  \"core_issue\": \"是否可以在本月可用性目標未達的情況下，上線新版本並承擔可能的停機風險？\",\n  \"known_facts\": [\n    {\"text\": \"本月可用性目標為 99.9%\",\"source\":\"Q2\"},\n    {\"text\": \"本月已累計停機 20 分鐘\",\"source\":\"Q6\"},\n    {\"text\": \"回滾需要 40 分鐘\",\"source\":\"Q1\"},\n    {\"text\": \"本月以 30 天計\",\"source\":\"Q4\"},\n    {\"text\": \"回滾演練實測 4,0 分鐘\",\"source\":\"Q7\"}\n  ],\n  \"unknowns\": [\n    {\"what\": \"偶發失敗測試的具體原因\",\"why_it_matters\": \"若無法排除原因，可能導致上線後持續停機，影響可用性目標\",\"how_to_get\": \"需進行進一步的測試與分析\"},\n    {\"what\": \"偶發失敗測試的發生頻率\",\"why_it_matters\": \"頻率越高，對可用性目標的影響越大\",\"how_to_get\": \"需進行歷史數據分析或壓力測試\"}\n  ],\n  \"hard_constraints\": [\n    {\"text\": \"本月可用性目標為 99.9%\",\"source\":\"Q2\"},\n    {\"text\": \"本月已累計停機 20 分鐘\",\"source\":\"Q6\"}\n  ],\n  \"conflicts\": [\n    {\"text\": \"可用性目標與已停機時間的關係\",\"sources\":[\"Q2\",\"Q6\"]}\n  ],\n  \"calculations\": [\n    {\n      \"name\": \"本月可用性達成率\",\n      \"formula\": \"1 - (20 / (30 * 24 * 60))\",\n      \"inputs\": {\n        \"20\": {\"ref\": \"Q6\", \"meaning\": \"本月已累計停機\", \"unit\": \"分鐘\"},\n        \"30\": {\"ref\": \"Q4\", \"meaning\": \"本月以\", \"unit\": \"天\"},\n        \"24\": {\"ref\": \"user_turn_1\", \"meaning\": \"一天的分鐘數\", \"unit\": \"小時\"},\n        \"60\": {\"ref\": \"user_turn_1\", \"meaning\": \"一小時的分鐘數\", \"unit\": \"分鐘\"}\n      },\n      \"unit\": \"比例\",\n      \"meaning\": \"本月可用性達成率\"\n    },\n    {\n      \"kind\": \"critical_path\",\n      \"name\": \"專案工期（有任務依賴時必須用此種，不可把工期直接相加）\",\n      \"tasks\": [\n        {\n          \"id\": \"上线\",\n          \"duration\": {\"ref\": \"user_turn_1\", \"meaning\": \"上線新版本的工期\", \"unit\": \"分鐘\"},\n          \"after\": []\n        },\n        {\n          \"id\": \"回滾\",\n          \"duration\": {\"ref\": \"Q1\", \"meaning\": \"回滾需要\", \"unit\": \"分鐘\"},\n          \"after\": [\"上线\"]\n        }\n      ]\n    }\n  ],\n  \"risks\": [\n    {\n      \"id\": \"R1\",\n      \"description\": \"偶發失敗測試導致上線後停機，影響本月可用性目標\",\n      \"cause_chain\": [\"偶發失敗測試未排除→上線後系統失敗→停機時間增加→可用性目標未達\"],\n      \"severity\": \"high\",\n      \"severity_basis\": \"根據本月已停機時間與可用性目標的差距判斷\"\n    },\n    {\n      \"id\": \"R2\",\n      \"description\": \"回滾需要 40 分鐘，可能導致停機時間超出預算\",\n      \"cause_chain\": [\"偶發失敗測試導致上線後系統失敗→需要回滾→回滾耗時→停機時間增加\"],\n      \"severity\": \"medium\",\n      \"severity_basis\": \"根據回滾耗時與可用性目標的關係判斷\"\n    }\n  ],\n  \"options\": [\n    {\n      \"name\": \"上線新版本\",\n      \"feasible\": \"conditional\",\n      \"violates_constraints\": [\"本月可用性目標未達\"],\n      \"pros\": [\"完成新版本上線\"],\n      \"cons\": [\"可能影響本月可用性目標\"],\n      \"cost_impact\": \"未知\"\n    },\n    {\n      \"name\": \"延後上線\",\n      \"feasible\": \"yes\",\n      \"violates_constraints\": [],\n      \"pros\": [\"避免影響可用性目標\"],\n      \"cons\": [\"延誤上線時間\"],\n      \"cost_impact\": \"未知\"\n    }\n  ],\n  \"recommended_actions\": [\n    {\n      \"action\": \"進行偶發失敗測試的根因分析\",\n      \"priority\": 1,\n      \"reason\": \"需確認偶發失敗測試的具體原因，以評估是否可安全上線\"\n    },\n    {\n      \"action\": \"評估回滾後的可用性影響\",\n      \"priority\": 2,\n      \"reason\": \"需計算回滾後的停機時間是否會影響本月可用性目標\"\n    }\n  ],\n  \"what_would_change_the_decision\": [\"偶發失敗測試的具體原因\", \"回滾後的停機時間\", \"本月可用性達成率\"]\n}",
+   "verification": {
+    "calc": [
+     {
+      "name": "本月可用性達成率",
+      "status": "UNVERIFIED_ASSUMED_INPUT",
+      "issues": [
+       "24: no source quantity (assumed input, not grounded)",
+       "60: no source quantity (assumed input, not grounded)"
+      ],
+      "value": 0.999537037037037,
+      "levels": {
+       "presence": false,
+       "binding": false,
+       "arithmetic": true,
+       "professional_validity": "not_validated"
+      }
+     },
+     {
+      "name": "專案工期（有任務依賴時必須用此種，不可把工期直接相加）",
+      "kind": "critical_path",
+      "status": "REJECTED_BINDING",
+      "issues": [
+       "上线: no source quantity (assumed input, not grounded)"
+      ]
+     }
+    ],
+    "ungrounded_numbers": [
+     "0分鐘"
+    ],
+    "claim_flags": []
+   },
+   "elapsed_s": 51.3,
+   "llm_state": "CALLED_STRUCTURED",
+   "ledger_size": 7,
+   "conflicts": []
+  }
+ ]
+}

@@ -1,0 +1,13 @@
+{
+ "id": "BB01",
+ "model": "qwen3:8b",
+ "mode": "DIRECT_QWEN_NO_RISKSCOPE",
+ "turns": [
+  {
+   "user": "我們要在 9 週內上線新的訂單 API。團隊 4 人可平行工作，壓力測試不能省略。目前的任務排程能達成嗎？如果不能，該怎麼辦？",
+   "answer": "",
+   "status": "error:ReadTimeout",
+   "elapsed_s": 420.0
+  }
+ ]
+}

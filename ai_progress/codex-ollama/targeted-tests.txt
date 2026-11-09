@@ -1,0 +1,71 @@
+..............FFF                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_non_string_response_must_not_count_as_successful_llm[None] ________
+
+c = <starlette.testclient.TestClient object at 0x109500bc0>
+engineer = {'Authorization': 'Bearer <redacted-ephemeral-test-token>'}
+ollama = ([('http://127.0.0.1:11434/api/generate', {'json': {'model': 'qwen3:8b', 'prompt': '你只負責從使用者訊息中，找出下面這些固定欄位明確提到的數值，不能自己...出現過的數字或結論。以下是語意必須一致的備用版本，只能換語氣，不能換內容：\n已取得足夠資料完成本輪分析，詳見風險與方案；任何變更仍需人工審核後才能執行。', 'stream': False}, 'timeout': 20})], [])
+malformed = None
+
+    @pytest.mark.parametrize("malformed", [None, [], {"text": "not a response string"}])
+    def test_non_string_response_must_not_count_as_successful_llm(c, engineer, ollama, malformed):
+        ollama[1].extend([response({"response": "{}"}), response({"response": malformed})])
+        result = turn(c, engineer)
+>       assert result["reply_source"] == "deterministic_template"
+E       AssertionError: assert 'llm_phrased' == 'deterministic_template'
+E         
+E         - deterministic_template
+E         + llm_phrased
+
+tests/test_ollama_integration_codex.py:199: AssertionError
+____ test_non_string_response_must_not_count_as_successful_llm[malformed1] _____
+
+c = <starlette.testclient.TestClient object at 0x109500440>
+engineer = {'Authorization': 'Bearer <redacted-ephemeral-test-token>'}
+ollama = ([('http://127.0.0.1:11434/api/generate', {'json': {'model': 'qwen3:8b', 'prompt': '你只負責從使用者訊息中，找出下面這些固定欄位明確提到的數值，不能自己...出現過的數字或結論。以下是語意必須一致的備用版本，只能換語氣，不能換內容：\n已取得足夠資料完成本輪分析，詳見風險與方案；任何變更仍需人工審核後才能執行。', 'stream': False}, 'timeout': 20})], [])
+malformed = []
+
+    @pytest.mark.parametrize("malformed", [None, [], {"text": "not a response string"}])
+    def test_non_string_response_must_not_count_as_successful_llm(c, engineer, ollama, malformed):
+        ollama[1].extend([response({"response": "{}"}), response({"response": malformed})])
+        result = turn(c, engineer)
+>       assert result["reply_source"] == "deterministic_template"
+E       AssertionError: assert 'llm_phrased' == 'deterministic_template'
+E         
+E         - deterministic_template
+E         + llm_phrased
+
+tests/test_ollama_integration_codex.py:199: AssertionError
+____ test_non_string_response_must_not_count_as_successful_llm[malformed2] _____
+
+c = <starlette.testclient.TestClient object at 0x1099b9130>
+engineer = {'Authorization': 'Bearer <redacted-ephemeral-test-token>'}
+ollama = ([('http://127.0.0.1:11434/api/generate', {'json': {'model': 'qwen3:8b', 'prompt': '你只負責從使用者訊息中，找出下面這些固定欄位明確提到的數值，不能自己...出現過的數字或結論。以下是語意必須一致的備用版本，只能換語氣，不能換內容：\n已取得足夠資料完成本輪分析，詳見風險與方案；任何變更仍需人工審核後才能執行。', 'stream': False}, 'timeout': 20})], [])
+malformed = {'text': 'not a response string'}
+
+    @pytest.mark.parametrize("malformed", [None, [], {"text": "not a response string"}])
+    def test_non_string_response_must_not_count_as_successful_llm(c, engineer, ollama, malformed):
+        ollama[1].extend([response({"response": "{}"}), response({"response": malformed})])
+        result = turn(c, engineer)
+>       assert result["reply_source"] == "deterministic_template"
+E       AssertionError: assert 'llm_phrased' == 'deterministic_template'
+E         
+E         - deterministic_template
+E         + llm_phrased
+
+tests/test_ollama_integration_codex.py:199: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:45
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/starlette/testclient.py:45: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_ollama_integration_codex.py::test_success_uses_model_text_and_persists_provenance
+  /Users/haochenglin/Documents/RiskScope_work/CrossDomainRiskAgent/.venv/lib/python3.12/site-packages/langgraph/cache/base/__init__.py:8: LangChainPendingDeprecationWarning: The default value of `allowed_objects` will change in a future version. Pass an explicit value (e.g., allowed_objects='messages' or allowed_objects='core') to suppress this warning.
+    from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_ollama_integration_codex.py::test_non_string_response_must_not_count_as_successful_llm[None]
+FAILED tests/test_ollama_integration_codex.py::test_non_string_response_must_not_count_as_successful_llm[malformed1]
+FAILED tests/test_ollama_integration_codex.py::test_non_string_response_must_not_count_as_successful_llm[malformed2]
+3 failed, 14 passed, 2 warnings in 0.29s

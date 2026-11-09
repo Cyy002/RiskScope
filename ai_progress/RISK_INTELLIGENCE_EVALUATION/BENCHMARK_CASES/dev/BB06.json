@@ -1,0 +1,56 @@
+{
+ "id": "BB06",
+ "domain": "專案管理/多輪",
+ "focus": "custom",
+ "question": "",
+ "turns": [
+  "客戶要求 6 個月內交付功能 A。團隊評估 A 需要 4.5 個月。這個專案可以如期交付嗎？",
+  "客戶現在又要求加入功能 B，開發主管估計 B 需要 2 個月，且與 A 共用同一組 3 人團隊、不能平行。現在還能 6 個月交付嗎？"
+ ],
+ "documents": [
+  {
+   "id": "D-CAP",
+   "title": "團隊容量",
+   "body": "團隊 3 人，目前無法增補人力。估計值為開發主管提供的單點估計，無信賴區間。"
+  }
+ ],
+ "rubric": {
+  "known_facts": [
+   "A=4.5 月",
+   "B=2 月",
+   "期限 6 月",
+   "團隊 3 人不可增補",
+   "不能平行"
+  ],
+  "unknowns": [
+   "估計不確定度"
+  ],
+  "hard_constraints": [],
+  "key_risks": [
+   "第2輪不再可行",
+   "單點估計無緩衝"
+  ],
+  "risk_links": [],
+  "reasonable_options": [
+   "B 縮減範圍或延後",
+   "延長期限 0.5 月以上",
+   "增補人力(目前不可)"
+  ],
+  "forbidden_recommendations": [
+   "第2輪仍說可如期交付"
+  ],
+  "required_calculations": [
+   "第1輪：緩衝 1.5 月",
+   "第2輪：4.5+2 = 6.5 月 > 6 月，短缺 0.5 月"
+  ],
+  "must_not_fabricate": [],
+  "decision_content": "第2輪必須改變結論，不得沿用第1輪",
+  "critical_errors": [
+   "多輪後仍宣稱可行"
+  ],
+  "required_numbers": [
+   "6.5"
+  ],
+  "forbidden_phrases": []
+ }
+}

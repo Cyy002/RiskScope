@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-01T06:50:56.854414+00:00",
+  "sha256": {
+    "deploy/riskscope.sh": "175f8eefa3f42c93770e680b7654fb361c8723421c393d696d17e4869506f062",
+    "deploy/riskscope.ps1": "a85849f305cbc02b33434c028a47383412f8933c91b4fb5f0e4a0ec5f38d97ec",
+    "scripts/portable_smoke.py": "566c358a8033e239019fbfa7ee03961ce60dd53f78487dcabff02de038ad64f9",
+    ".env.example": "dd4444831a09fabbf37e71fbf9401bfd76a202bca0e020e3f40f50d3afc3e5ba",
+    ".containerignore": "307f211f3ea89b52d75148e0e84744c4e14ad5a6462c40bfdf2bdc5ca26667ef",
+    "compose.yml": "4c12aa51aa186d0b808ce8ba1e77a27dd60655180ff752205803dc1b5db61328"
+  }
+}

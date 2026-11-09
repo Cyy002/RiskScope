@@ -1,0 +1,13 @@
+{
+  "container_user": "risk (uid 10001, gid 10001)",
+  "named_volume_behavior": {
+    "macos_podman_machine": "PASS: Rootless podman initializes volume permissions in user namespace",
+    "linux_rootless_podman": "PASS: Named volume created in user namespace, accessible by container uid 10001",
+    "windows_wsl2": "PASS: Named volume stored in WSL2 ext4 vhdx, proper POSIX permissions"
+  },
+  "host_bind_mount_behavior": {
+    "macos_virtiofs": "PASS for /Users paths; FAILS with exit 125 for unshared paths like /tmp",
+    "linux_native": "REQUIRES :Z (SELinux) and :U (chown to container UID); without :U, non-root user 10001 gets PermissionError [Errno 13]",
+    "windows_drvfs": "CAUTION: SQLite WAL file locking issues over 9P/drvfs NTFS mounts; named volume is strongly required"
+  }
+}

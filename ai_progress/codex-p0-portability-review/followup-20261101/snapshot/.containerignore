@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+.pytest_cache/
+runtime/
+*.pyc
+*.zip
+.env
+.env.*
+!.env.example
+ai_progress/
+previews/
+references/
+*.sqlite3
+*.sqlite3-*
+*credentials*.json
+*.tar.gz

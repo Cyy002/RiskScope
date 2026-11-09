@@ -1,0 +1,17 @@
+# Native Linux AMD64 check on GitHub-hosted runners (free tier). NOT YET RUN (project is not in a repo).
+# No Ollama on the runner -> proves build/init/API/ACL/persistence on native linux/amd64 ONLY; it can NOT prove real-LLM Agent analysis.
+name: podman-linux-amd64
+on: [workflow_dispatch]
+jobs:
+  podman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: podman --version && uname -m
+      - run: deploy/riskscope.sh build
+      - run: deploy/riskscope.sh up
+      - name: Structured + ACL smoke (no model on runner)
+        run: |
+          set +e; SMOKE_ALLOW_FALLBACK=1 SMOKE_ATTEMPTS=1 podman exec riskscope-portable env SMOKE_ALLOW_FALLBACK=1 SMOKE_ATTEMPTS=1 python scripts/portable_smoke.py; rc=$?
+          echo "smoke rc=$rc (2 = deterministic-only, expected here)"; [ $rc = 0 ] || [ $rc = 2 ]
+      - run: podman exec riskscope-portable python -m scripts.evaluate | tail -5
