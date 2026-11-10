@@ -50,11 +50,16 @@ Open http://127.0.0.1:8100, paste the `engineer` token from `creds`, ask e.g. "�
 - **`REFUSED: ...` 訊息**：`riskscope.sh` 刻意拒絕任何可能撞到正式部署名稱/埠號/映像標籤的操作，
   這是設計行為，不是 bug——不要繞過這些檢查，改用預設的 `riskscope-portable`/8100 設定即可。
 - **換一台電腦重新執行**：`purge` 之後再 `build`→`up`，會產生全新的隨機 demo token（不會沿用舊的）。
-- **Podman Desktop GUI 顯示「No Container Engine」或看不到容器**：若 `podman` 是透過非標準路徑安裝
-  （例如手動展開官方 `.pkg` 到使用者目錄，而非走 Podman Desktop 自己的安裝流程），Podman Desktop
-  可能偵測不到該 machine/連線。這與本專案程式碼無關；`podman ps`/`podman logs` 在 Terminal 裡一樣
-  能正確顯示容器狀態與日誌，教師可改用 Terminal 驗證，或透過 Podman Desktop 官方安裝流程重新安裝
-  CLI 以修正 GUI 偵測問題。
+- **Podman Desktop GUI 顯示「No Container Engine」或「Podman needs to be set up」**：若 `podman`
+  是透過非標準路徑安裝（例如手動展開官方 `.pkg` 到使用者目錄，而非走 Podman Desktop 自己的安裝
+  流程），Podman Desktop 可能偵測不到該執行檔/machine/連線。**已實測排查（Claude A，2026-11-10）**：
+  單純把該路徑加進 GUI 工作階段的 `PATH`（`launchctl setenv PATH "..."`，不需要 sudo、不改任何系統
+  檔、重開機即完全復原）不足以讓橫幅消失——Podman Desktop 的「Podman」擴充功能看起來不是單純用 PATH
+  搜尋，可能需要在其「Set up」精靈裡手動設定，而那個精靈有可能會嘗試初始化/建立新的 machine，為了
+  不違反「不重新安裝、不建立另一套 Podman、不重設任何 Machine」的限制，沒有進一步點擊測試。**這與
+  本專案程式碼完全無關**；`podman ps`/`podman logs`/`podman machine list` 在 Terminal 裡一律正確
+  顯示容器與機器狀態（已多次驗證），教師可改用 Terminal 驗證，或若真的需要 Desktop GUI，改用 Podman
+  Desktop 官方安裝流程（而非手動展開 `.pkg`）安裝 CLI 以修正偵測問題。
 
 ## Notes
 Own names/port (`riskscope-portable`, 8100) never collide with other deployments. Named volumes inherit uid 10001 ownership; if you use a bind mount add `:U` (Linux). Image is plain `python:3.12-slim` + pure-Python deps, so it builds natively on ARM64 and AMD64.
