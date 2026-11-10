@@ -52,14 +52,35 @@ Open http://127.0.0.1:8100, paste the `engineer` token from `creds`, ask e.g. "�
 - **換一台電腦重新執行**：`purge` 之後再 `build`→`up`，會產生全新的隨機 demo token（不會沿用舊的）。
 - **Podman Desktop GUI 顯示「No Container Engine」或「Podman needs to be set up」**：若 `podman`
   是透過非標準路徑安裝（例如手動展開官方 `.pkg` 到使用者目錄，而非走 Podman Desktop 自己的安裝
-  流程），Podman Desktop 可能偵測不到該執行檔/machine/連線。**已實測排查（Claude A，2026-11-10）**：
-  單純把該路徑加進 GUI 工作階段的 `PATH`（`launchctl setenv PATH "..."`，不需要 sudo、不改任何系統
-  檔、重開機即完全復原）不足以讓橫幅消失——Podman Desktop 的「Podman」擴充功能看起來不是單純用 PATH
-  搜尋，可能需要在其「Set up」精靈裡手動設定，而那個精靈有可能會嘗試初始化/建立新的 machine，為了
-  不違反「不重新安裝、不建立另一套 Podman、不重設任何 Machine」的限制，沒有進一步點擊測試。**這與
-  本專案程式碼完全無關**；`podman ps`/`podman logs`/`podman machine list` 在 Terminal 裡一律正確
-  顯示容器與機器狀態（已多次驗證），教師可改用 Terminal 驗證，或若真的需要 Desktop GUI，改用 Podman
-  Desktop 官方安裝流程（而非手動展開 `.pkg`）安裝 CLI 以修正偵測問題。
+  流程），Podman Desktop 可能偵測不到該執行檔。**已實測排查（Claude A，2026-11-10，直接解壓縮
+  Podman Desktop 的 `app.asar` 讀取官方原始碼確認，不是猜測）**：
+  - 單純把路徑加進 GUI 工作階段的 `PATH`（`launchctl setenv PATH "..."`）不夠：其「Podman」內建擴充
+    功能的偵測邏輯（`podman-cli.ts`）用 `which -a podman` 找執行檔，但只會額外查
+    `/opt/podman/bin:/usr/local/bin:/opt/homebrew/bin:/opt/local/bin` 這幾個固定路徑，不含使用者
+    自訂安裝路徑。
+  - 畫面上的「**Set up**」按鈕（`mac-os-installer.ts`）**確認會執行 `open <官方.pkg> -W`**，也就是
+    跳出 macOS 系統安裝精靈（需要輸入管理員密碼）把 Podman 安裝到 `/opt/podman/bin/`——這會建立
+    *另一套*獨立的 Podman，不是修好現有這一套，因此沒有點擊測試，以免違反「不重新安裝、不建立
+    另一套 Podman」的限制。
+  - **找到真正的官方解法**：這個擴充功能其實有一個專門給這種情況用的設定，
+    `podman.binary.path`（UI 上顯示名稱是「**Path to Podman Binary**」，在 Settings → Preferences
+    的「Podman」分類底下）。原始碼（`getPodmanCli()`）會**優先**使用這個自訂路徑，PATH 搜尋只是
+    找不到時的備援。只要把它設成實際安裝路徑（這台機器是
+    `/Users/haochenglin/.local/podman/bin/podman`），理論上不需要重新安裝、不需要碰任何 machine，
+    Podman Desktop 就會直接用現有這一套 CLI，連帶原本就在 `~/.config/containers/podman-connections.json`
+    裡的 3 台 machine（含正式機）也應該會被正常偵測到（純讀取，不會自動建立或修改）。
+  - **沒有能完成最後一步**：Podman Desktop 的介面是用沒有標準無障礙標籤的元件畫的（整個視窗用
+    System Events 檢視只看到 `button 1`/`group 1` 這種通用、無名稱的元素，連側邊欄「Settings」
+    文字都抓不到語意名稱），點擊座標的方式在這台機器上也不支援（`click at {x,y}` 回傳系統錯誤
+    -25200）。在沒有辦法先確認「即將點到的到底是哪個按鈕」的情況下，盲目用座標或通用索引點擊
+    有風險（旁邊可能就是會動到 machine 的按鈕），所以沒有進一步嘗試。
+  - **需要你親自做的 30 秒操作**：開啟 Podman Desktop → 左側齒輪圖示「Settings」→「Preferences」
+    → 找到「Podman」分類 → 「Path to Podman Binary」欄位填入
+    `/Users/haochenglin/.local/podman/bin/podman` → 存檔。完成後回報，我可以立刻重新檢查
+    Containers/Images/Volumes/Logs 是否正確顯示。
+  - **這與本專案程式碼完全無關**；`podman ps`/`podman logs`/`podman machine list` 在 Terminal 裡
+    一律正確顯示容器與機器狀態（已多次驗證），在你設定上面那個欄位之前，教師可持續改用 Terminal
+    驗證，或若是用官方標準流程安裝 Podman（而非手動展開 `.pkg`），通常不會遇到這個問題。
 
 ## Notes
 Own names/port (`riskscope-portable`, 8100) never collide with other deployments. Named volumes inherit uid 10001 ownership; if you use a bind mount add `:U` (Linux). Image is plain `python:3.12-slim` + pure-Python deps, so it builds natively on ARM64 and AMD64.
