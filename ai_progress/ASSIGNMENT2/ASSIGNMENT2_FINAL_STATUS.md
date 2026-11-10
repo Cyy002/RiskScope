@@ -1,7 +1,8 @@
-# RiskScope 作業二 最終狀態 (Claude A, 更新於 2026-11-10)
+# RiskScope 作業二 最終狀態 (Claude A, 更新於 2026-11-10 下午)
 
-對照 commit `0c84fcf`（延續 `5354851`/`b5f30a8`，加上 claude-b 的獨立審查、一次完整的「教授第一次
-驗收」真實瀏覽器 GUI 操作模擬，以及本次新發現並修復的一個真正的繳交阻塞問題）。
+對照 commit `96445e1`（延續 `0c84fcf`/`b5f30a8`，加上 claude-b 的獨立審查、「教授第一次驗收」真實
+瀏覽器 GUI 操作模擬，以及本輪新完成的：全 git 歷史密鑰重寫清查、README 改成 Podman 優先、正式
+截圖包、精簡版人工審查文件）。
 
 ## 總結判定
 
@@ -12,13 +13,20 @@
 不只是 API 腳本）；缺的兩項都不是程式問題，而是需要使用者本人處理的外部事項（GitHub 帳號/權限、
 真人審查時間）。
 
-**本次新發現並已修復的真正阻塞問題**：README 文件第 4 節寫的 `python -m pytest -q`（不帶任何路徑
-參數）在這個倉庫目前的狀態下實際上會**整批失敗**——`ai_progress/codex-m125-review/` 底下保留的
-兩份舊 `tests/` 快照各自帶有自己的 `conftest.py`，pytest 從倉庫根目錄做預設遞迴收集時，會把它們
-的模組名稱和真正的 `tests/conftest.py` 搞混，丟出 `ImportPathMismatchError`，整個收集中止、0 項
-測試執行。這代表一個完全照 README 操作的老師，光是執行文件寫的那一行指令就會得到看起來像是程式
-壞掉的錯誤。已修復：新增 `pytest.ini`（`testpaths = tests`），不改動、不刪除任一份舊快照，驗證
-後乾淨的 `python -m pytest -q` 可重現 302 passed。
+**本輪新發現並已修復的兩個真正阻塞問題：**
+1. README 文件寫的 `python -m pytest -q`（不帶任何路徑參數）原本會**整批收集失敗**——
+   `ai_progress/codex-m125-review/` 底下保留的兩份舊 `tests/` 快照各自帶有自己的 `conftest.py`，
+   pytest 從倉庫根目錄做預設遞迴收集時會把模組名稱搞混，丟出 `ImportPathMismatchError`，0 項測試
+   執行。已修復：新增 `pytest.ini`（`testpaths = tests`），不改動任一份舊快照，驗證後 302 passed。
+2. **git 完整歷史（不只是最新檔案）曾經包含 11 組真實的一次性測試 Token 字串**（在
+   `ai_progress/antigravity-acl-validation/baseline-test-run.log` 與
+   `ai_progress/codex-ollama/targeted-tests.txt` 的最早一次提交裡）。先前只修正了最新版本的檔案
+   內容，但舊 commit 仍可用 `git log -p` 完整還原出這些字串——這正是你特別提醒要檢查的風險。已處理：
+   備份整個 `.git`（`~/riskscope_git_backup_before_history_rewrite_20261110.tar.gz`）後，用
+   `git-filter-repo` 把這 11 組字串從**全部歷史**換成統一的 `<redacted-ephemeral-test-token>`佔位字串，
+   重新掃描全歷史（含更廣泛的 API key / private key 樣式）確認乾淨，commit 數與訊息不變。這些 Token
+   本身已確認是過去暫存測試資料庫產生的一次性字串，與目前任何真實憑證都不吻合，不是真正能用的機密，
+   但既然會出現在將要公開/繳交的歷史裡，清乾淨仍是必要的。重寫後重跑 302 passed 驗證無誤。
 
 ## 1. 逐項對照老師要求
 
@@ -36,18 +44,23 @@
 
 ## 2. Git / GitHub 狀態
 
-- 本地倉庫：9 個 commit，工作樹乾淨，HEAD = `0c84fcf`。
+- 本地倉庫：13 個 commit，工作樹乾淨，HEAD = `96445e1`。
 - `git remote -v` 為空——**沒有建立任何遠端，也沒有嘗試建立公開儲存庫**（依指示不擅自建立）。
-- 已核對：無 `.venv/`、無 `runtime/`、無目前有效的憑證/Token；舊測試 log 裡兩處一次性測試 Token
-  字串已遮蔽（確認與目前任何真實憑證不符，純屬過去暫存資料庫的拋棄式 Token）。
-- `.gitignore` 排除 `runtime/`、`.venv/`、`.env`、本機備份 tar。追蹤檔案 1346 個，最大檔案約
-  0.6MB，`.git` 總大小 4.8MB——適合直接 push。
+- **已完整檢查過 git 歷史（不只最新檔案）**：用 `git log -p --all` 對全部歷史掃描 Bearer token、
+  `sk-`/`AKIA`/私鑰等樣式，找到的 11 組一次性測試 Token 已用 `git-filter-repo` 從全歷史清除（詳見
+  上方總結），清除前已備份完整 `.git` 到使用者家目錄外的 `riskscope_git_backup_before_history_rewrite_20261110.tar.gz`。
+  重寫後重新掃描確認乾淨。
+- 無 `.venv/`、無 `runtime/`、無任何目前有效的憑證/Token 被追蹤。
+- `.gitignore` 排除 `runtime/`、`.venv/`、`.env`、本機備份 tar。追蹤檔案約 1360 個（含新增的截圖
+  與審查文件），最大檔案約 1.6MB（截圖），`.git` 總大小 12MB——適合直接 push。
 
 **缺少且需要使用者處理：**
 1. 提供要推送的 GitHub repository（新建或既有），以及推送權限/認證方式（SSH key 或 HTTPS token）。
 2. 決定 repository 是否要公開；本專案不含真實企業資料，但若要公開請使用者自行確認校方/系上規範。
 
 我**沒有**自行建立 GitHub repo 或推送，待使用者指示後立即執行 `git remote add` + `git push`。
+**注意**：由於歷史已被重寫（commit hash 全部改變），若你或 claude-b 之前已經手動複製/備份過舊版的
+`.git`，那份備份和現在的倉庫是兩條不同的歷史，push 前請確認用的是這次重寫後的版本（HEAD `96445e1`）。
 
 ## 3. Podman 啟動與 Demo 現況
 
@@ -59,11 +72,13 @@ deploy/demo_run.sh
 1. **CLI/API 層**（`demo_run.sh`/`scripts/demo_scenarios.py`）：`build`→`up`/`health`→`demo`(FULL
    PASS)→`smoke`→`restart-test` 全部成功，見 `deploy/README_PODMAN.md` 開頭與
    `ai_progress/ASSIGNMENT2/DEMO_EVIDENCE.md`。
-2. **真實瀏覽器 GUI 層**（claude-b，「教授第一次驗收模擬」，CONDITIONAL PASS）：用 AppleScript/
-   Accessibility 實際在 Safari 裡點擊操作，不是背景 API 腳本冒充——engineer 登入 → 對話式 Agent
-   問答（14A/336W 檢核）→ 決策推演頁看到 `fail` 檢核卡與方案比較 → 提出模擬變更申請 → 換 manager
-   登入核准並執行 → 操作稽核頁確認紀錄 → 兩個 GUI 可見的失敗案例（無 Token 登入、outsider 無權限）
-   → `down`/`up` 重啟後資料保留。Token 全程透過剪貼簿貼入並隨即清空，未顯示在畫面或截圖中。
+2. **真實瀏覽器 GUI 層**（claude-b 的「教授第一次驗收模擬」+ Claude A 本輪的清潔重跑，CONDITIONAL
+   PASS）：用 AppleScript/Accessibility 實際在 Safari 裡點擊操作，不是背景 API 腳本冒充——manager/
+   engineer 登入 → 對話式 Agent 問答（真實等待 LLM 回覆，14A/336W 檢核、風險 R-POWER）→ 決策推演頁
+   看到確定性檢核卡與可追溯工程依賴 → 提出模擬變更申請 → manager 核准並執行 → 操作稽核頁確認紀錄
+   → GUI 可見的失敗案例（outsider 無權限）。Token 全程透過 accessibility API 直接填入輸入框，從未
+   顯示或列印在畫面、截圖或終端機輸出中。**正式截圖包**（11 張，含 Podman Desktop 真實限制畫面）已
+   整理於 `ai_progress/ASSIGNMENT2/evidence/screenshots/`，索引見該目錄的 `README.md`。
 
 **阻塞風險（非程式缺陷，但請知悉）：**
 - 目前獨立測試 VM（`riskscope-codex-apple-20261107`）上**同時有三個測試容器在跑**（8100 原始測試、
@@ -80,10 +95,14 @@ deploy/demo_run.sh
 ## 4. 尚未完成，需要使用者本人處理的事項
 
 1. **GitHub 遠端**：如上，需使用者提供 repo 與權限。
-2. **HUMAN_REVIEW 7 題真人審查**：`ai_progress/RISK_INTELLIGENCE_EVALUATION/HUMAN_REVIEW/` 準備好了，
-   但目前零份真人確認；AI 的預審不能取代。
-3. **最終繳交前的實際截圖/錄影**：核心流程已用真實瀏覽器 GUI 走過一次（見第 3 節），但尚未產出
-   正式的截圖/錄影檔案給老師，由 claude-b 負責整理。
+2. **HUMAN_REVIEW 7 題真人審查**：精簡版已備好在
+   `ai_progress/RISK_INTELLIGENCE_EVALUATION/HUMAN_REVIEW/HUMAN_REVIEW_FOR_USER.md`——每題一張卡片
+   （模型實際回答摘要、AI 評審分數與理由、你可以直接打勾的判定欄），設計成可以在合理時間內親自看完；
+   原始完整版（9000+ 行）仍保留供深入查證。**目前零份真人確認**；AI 的預審不能取代，你填完判定欄後
+   請回報給 Claude A / claude-b 記錄完成日期。
+3. **最終繳交前的正式截圖/錄影**：11 張真實操作截圖已整理在
+   `ai_progress/ASSIGNMENT2/evidence/screenshots/`（涵蓋 Podman Desktop、登入、Agent 問答+工具檢核、
+   決策分析、管理者核准、失敗案例），可直接用於繳交文件；若需要錄影檔案（非靜態截圖），仍待製作。
 4. **是否要做 Windows/Linux 實測**：若時間允許，建議至少找一台 Windows/Linux 機器跑一次
    `riskscope.ps1`/對應 shell 指令驗證，否則提交時必須保留「僅 macOS 實測」的誠實標示。
 5. **清理驗收期間留下的多個測試容器**（8100/8110/8130，見第 3 節）：確認不再需要後請執行
