@@ -1,7 +1,15 @@
-# RiskScope 作業二 最終狀態 (Claude A, 更新於 2026-11-10 深夜)
+# RiskScope 作業二 最終狀態 (Claude A, 更新於 2026-11-11 凌晨)
 
-對照 commit `67d53ea`。延續 claude-b 的獨立審查、「教授第一次驗收」真實瀏覽器 GUI 操作模擬，本輪
-（daemon 重啟後第二輪）新完成：Podman Desktop 整合排查（已驗證安全但無法修復的限制）、
+對照 commit `16e7402`（HEAD，工作樹乾淨，306 passed）。**Podman Desktop 問題已完全解決**：
+使用者依照上一輪提供的 30 秒操作，在 Settings → Preferences → Podman 設定了「Path to Podman
+Binary」為 `/Users/haochenglin/.local/podman/bin/podman` 後，Podman Desktop 現在能正確顯示
+Containers（3 個）、Images（4 個）、Volumes（3 個）及真實 Logs——截圖 12–15 為證，見下方第 3.5
+節。過程中發現並妥善處理了一個小插曲：Podman Desktop 自動把預設連線從正式機改成了測試 VM，
+已第一時間用 `podman system connection default riskscope-machine` 復原，正式機全程未被啟動
+或改動。另外整合了 claude-b 本輪完成的兩份正式交付文件：`ASSIGNMENT2_SUBMISSION_CHECKLIST.md`
+（正式 PASS/FAIL 分類清單）與 `HUMAN_REVIEW_FULL_FOR_USER.md`（七題完整包，含逐題全文與簽名欄）。
+
+延續 claude-b 的獨立審查、「教授第一次驗收」真實瀏覽器 GUI 操作模擬，先前已完成：
 `riskscope.ps1` 一個真實邏輯錯誤修復、GitHub CLI 現況確認、一項需要使用者親自處理的安全提醒
 （見第 0 節），以及 claude-b 獨立審查 `HUMAN_REVIEW_FOR_USER.md` 時發現、Claude A 已修復並驗證的
 **兩個真實程式缺陷**（見第 3.5 節「B1」）：模型回答中殘留的範本佔位符文字外洩給使用者、軟標示
@@ -74,6 +82,20 @@ git 歷史或程式碼裡的問題（我已確認它從未被寫入任何追蹤�
 3. **這台機器沒有安裝 GitHub CLI**（`gh` 指令不存在）。要上傳需要你自行安裝 `gh` 並登入，或直接用
    `git remote add` + `git push`（需要 SSH key 或 Personal Access Token，請勿在對話中貼出）。
 
+**預設 Private Repository 的具體授權步驟**（依你指示，未取得授權前不會公開發布，也不會自行建立）：
+1. 你在 GitHub 網站上自行建立一個新的 **Private** repository（例如命名 `RiskScope`），不要勾選
+   「Initialize with README」（避免與本地歷史衝突）。
+2. 你決定要用哪種方式授權推送，二選一：
+   - **SSH**：你在這台 Mac 上執行 `ssh-keygen`（若還沒有金鑰）並把公鑰加到你的 GitHub 帳號，
+     或確認已有可用的 SSH key。
+   - **HTTPS + PAT**：你在 GitHub 網站產生一個 Personal Access Token（repo 權限即可），之後用
+     `git push` 時輸入；或安裝 `gh` 並執行 `gh auth login`。
+3. 你把 repository 的 URL（例如 `git@github.com:你的帳號/RiskScope.git`）告訴我，**不要把 Token
+   本身貼在對話裡**。
+4. 收到 URL 後，我只會執行 `git remote add origin <URL>` 和 `git push -u origin main`，不會修改
+   任何內容、不會更改 repository 的公開/私人設定（那是 GitHub 網站上的設定，不是 git 指令能改的）。
+5. 推送前我會再跑一次 `git log --oneline` 和全歷史密鑰掃描給你看最終確認，確認過才推送。
+
 我**沒有**自行建立 GitHub repo 或推送，待使用者指示後立即執行 `git remote add` + `git push`。
 **注意**：由於歷史已被重寫（commit hash 全部改變），若你或 claude-b 之前已經手動複製/備份過舊版的
 `.git`，那份備份和現在的倉庫是兩條不同的歷史，push 前請確認用的是這次重寫後的版本（HEAD `96445e1`）。
@@ -105,17 +127,17 @@ deploy/demo_run.sh
   未被觸碰。
 - 只在 macOS（Apple Silicon）實測；Windows/Linux 的 `riskscope.ps1`/shell 指令**理論相容但未實測**，
   已在 README 誠實標示，不得向老師宣稱已驗證。
-- Podman Desktop GUI 在這台機器上看不到容器（見上表「Podman 可重現啟動」列），老師自己標準安裝的
-  Podman Desktop 不一定會遇到這個問題，但目前**無法證明** Podman Desktop 一定能正確顯示本專案容器。
-- **容器目前狀態更新（2026-11-10 晚間盤點）**：隔離測試 VM 曾經停止過（原因不明，可能是閒置逾時
-  或系統睡眠，不是被誰關掉的），已重新啟動並確認 3 個測試容器（8100/8110/8130）都還在、狀態是
-  `Exited (0)`（乾淨停止，不是崩潰），對應的 3 個 volume（`riskscope_portable_data`/`_teacher`/
-  `_prof`）資料完整，**沒有刪除任何東西**。正式機 `riskscope-machine` 全程仍是 "Never up"。若要
-  恢復使用任一個，`podman start <容器名>` 即可；若確認不再需要，由你決定何時清理。
+- ~~Podman Desktop GUI 在這台機器上看不到容器~~ **已解決（2026-11-11）**：使用者設定
+  `podman.binary.path` 後，Containers/Images/Volumes/Logs 全部正確顯示，見第 3.5 節與
+  `evidence/screenshots/12–15_*.png`。
+- **容器目前狀態（2026-11-11 凌晨再次確認）**：3 個測試容器（riskscope-portable/-prof/-teacher）
+  皆仍存在，`-prof` 目前是 Running（Podman Desktop 偵測過程中啟動），其餘為 `Exited (0)`（乾淨
+  停止）；對應 3 個 volume 資料完整，**沒有刪除任何東西**。正式機 `riskscope-machine` 全程仍是
+  "Never up"，未被啟動或改動。
 
 ## 3.5 本輪（daemon 重啟後）新排查項目
 
-**A1：Podman Desktop 整合（第二輪，已找到官方正解，缺最後一步需要你操作）**
+**A1：Podman Desktop 整合（第三輪，✅ 已完全解決）**
 第一輪只是實測「會不會單純是PATH問題」（答案：不是）。這輪改用直接解壓縮 Podman Desktop 自己的
 `app.asar`、讀取其「Podman」內建擴充功能的**官方原始碼**（`podman-cli.ts`/`podman-install.ts`/
 `mac-os-installer.ts`/`package.json`），不是用猜的：
@@ -134,10 +156,23 @@ deploy/demo_run.sh
   元素；嘗試用螢幕座標直接點擊（`click at {x,y}`）在這台機器上系統回傳 -25200 錯誤，不支援。在
   無法事先確認「即將點到的到底是哪個按鈕」的情況下，用猜測性的索引或座標點擊有風險（旁邊可能就是
   真的會動到 machine 的按鈕），所以沒有進一步嘗試，直接把確切步驟列出來。
-- **需要你做的 30 秒操作**：開啟 Podman Desktop → 左側齒輪圖示「Settings」→「Preferences」→
-  找「Podman」分類 → 「Path to Podman Binary」欄位填 `/Users/haochenglin/.local/podman/bin/podman`
-  → 存檔。做完跟我說一聲，我可以馬上重新檢查 Containers/Images/Volumes/Logs 是否正確顯示。
-- 這個發現已寫進 `deploy/README_PODMAN.md` 常見問題一節，含完整技術細節。
+- **你已完成那 30 秒操作，結果：完全成功。** 重新開啟 Podman Desktop 後：
+  - 自動彈出一個原生對話框：「Podman Machine 'riskscope-codex-apple-20261107' is running but
+    not the default machine (default is 'riskscope-machine'). ... Do you want to set it as
+    default?」——這證實了偵測本身已經成功運作（能正確抓到我們的測試 VM 名稱）。用 Escape 鍵
+    （對應 Cancel）安全關閉，沒有讓它更改預設連線。
+  - **意外發現並已處理**：Podman Desktop 啟動過程中，自己把 `podman system connection` 的預設
+    值從 `riskscope-machine`（正式機）改成了測試 VM——這是它自己的行為，不是因為我按了什麼。
+    第一時間發現後立刻用 `podman system connection default riskscope-machine` 復原，正式機全程
+    "Never up"，沒有被啟動或改動。
+  - **Containers 頁**：正確列出全部 3 個真實容器（riskscope-portable/-prof/-teacher），狀態、
+    埠號、Image 名稱都對。
+  - **Images 頁**：正確列出 4 個真實映像（3 個 riskscope-portable 版本 + python 3.12-slim base）。
+  - **Volumes 頁**：正確列出 3 個真實 volume。
+  - **Logs 頁**：`riskscope-portable-prof` 的即時 log 顯示真實 Uvicorn 啟動訊息與實際 HTTP 請求
+    （`GET /health`、`GET /api/projects/demo-chamber/overview` 等，皆 200 OK）。
+  - 截圖存於 `ai_progress/ASSIGNMENT2/evidence/screenshots/12–15_*.png`。
+- 這個發現與解決過程已寫進 `deploy/README_PODMAN.md` 常見問題一節，含完整技術細節。
 
 **A2：GitHub 正式交付準備（檢查結果）**
 - 這台機器**沒有安裝 GitHub CLI**（`gh` 指令不存在）。要上傳需要你自行安裝並登入 `gh auth login`，
