@@ -26,14 +26,15 @@ git 歷史或程式碼裡的問題（我已確認它從未被寫入任何追蹤�
 請你自行到 OpenAgents 後台確認是否要輪替這個 workspace token，以及評估這個對話紀錄本身的存取
 範圍是否需要限制。
 
-## 總結判定
+## 總結判定（封版，2026-11-11）
 
-**技術面：有條件 PASS（CONDITIONAL PASS）。繳交面：尚未具備「可繳交」條件——缺 GitHub 遠端與任何真人確認。**
+**技術面：有條件 PASS（CONDITIONAL PASS）。繳交面：尚未具備「可繳交」條件——缺 GitHub 遠端與使用者本人簽核。**
 
-這與 claude-b 獨立審查（`INDEPENDENT_REVIEW_claude-b_20261109.md`）及其後續「教授第一次驗收模擬」
-的結論一致。技術實作、測試、真實 Podman/Demo 執行證據都已完成且可重現（含真實瀏覽器 GUI 點擊，
-不只是 API 腳本）；缺的兩項都不是程式問題，而是需要使用者本人處理的外部事項（GitHub 帳號/權限、
-真人審查時間）。
+七題人工審查已由使用者本人親自逐題判定完成（BB02/BB07/BB10/BB13 PASS、BB01/BB23 有條件接受、
+**BB16 FAIL**，完整原話見 `HUMAN_REVIEW_DECISIONS.md`），不再是空白項目；唯一剩下的是
+`HUMAN_REVIEW_FINAL_SUMMARY.md` 結尾的簽核欄（姓名/日期），依指示留白等待使用者本人簽署。技術
+實作、測試、真實 Podman/Demo 執行證據都已完成且可重現（含真實瀏覽器 GUI 點擊，不只是 API 腳本）；
+剩下需要使用者本人處理的外部事項只有：GitHub 帳號/權限、簽核。
 
 **本輪新發現並已修復的兩個真正阻塞問題：**
 1. README 文件寫的 `python -m pytest -q`（不帶任何路徑參數）原本會**整批收集失敗**——
@@ -214,14 +215,15 @@ claude-b 對照 K3 真實最終回答逐題核對該文件時，發現：
 ## 4. 尚未完成，需要使用者本人處理的事項
 
 1. **GitHub 遠端**：如上，需使用者提供 repo 與權限。
-2. **HUMAN_REVIEW 7 題真人審查**：精簡版已備好在
-   `ai_progress/RISK_INTELLIGENCE_EVALUATION/HUMAN_REVIEW/HUMAN_REVIEW_FOR_USER.md`——每題一張卡片
-   （模型實際回答摘要、AI 評審分數與理由、你可以直接打勾的判定欄），設計成可以在合理時間內親自看完；
-   原始完整版（9000+ 行）仍保留供深入查證。**目前零份真人確認**；AI 的預審不能取代，你填完判定欄後
-   請回報給 Claude A / claude-b 記錄完成日期。
-3. **最終繳交前的正式截圖/錄影**：11 張真實操作截圖已整理在
-   `ai_progress/ASSIGNMENT2/evidence/screenshots/`（涵蓋 Podman Desktop、登入、Agent 問答+工具檢核、
-   決策分析、管理者核准、失敗案例），可直接用於繳交文件；若需要錄影檔案（非靜態截圖），仍待製作。
+2. **HUMAN_REVIEW 7 題真人審查：已完成**（使用者本人逐題判定，非 AI 預審）。結果：BB02/BB07/
+   BB10/BB13 PASS；BB01、BB23 有條件接受；**BB16 FAIL**。完整原話在
+   `ai_progress/RISK_INTELLIGENCE_EVALUATION/HUMAN_REVIEW/HUMAN_REVIEW_DECISIONS.md`，彙整在
+   `HUMAN_REVIEW_FINAL_SUMMARY.md`。**唯一剩下的動作**：`HUMAN_REVIEW_FINAL_SUMMARY.md` 結尾的
+   簽核欄（姓名/日期）依指示留白，沒有任何 Agent 代填，需要你本人簽署。
+3. **最終繳交前的正式截圖/錄影**：15 張真實操作截圖已整理在
+   `ai_progress/ASSIGNMENT2/evidence/screenshots/`（涵蓋 Podman Desktop 完整修復前後對照、登入、
+   Agent 問答+工具檢核、決策分析、管理者核准、失敗案例、Containers/Images/Volumes/Logs），可直接
+   用於繳交文件；若需要錄影檔案（非靜態截圖），仍待製作。
 4. **是否要做 Windows/Linux 實測**：若時間允許，建議至少找一台 Windows/Linux 機器跑一次
    `riskscope.ps1`/對應 shell 指令驗證，否則提交時必須保留「僅 macOS 實測」的誠實標示。
 5. **清理驗收期間留下的多個測試容器**（8100/8110/8130，見第 3 節）：確認不再需要後請執行
