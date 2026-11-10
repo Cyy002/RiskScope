@@ -37,13 +37,16 @@ switch ($Action) {
  'demo' { RequireOwned; Pod exec $Name python scripts/demo_scenarios.py }
  'smoke' { RequireOwned; Pod exec $Name python scripts/portable_smoke.py }
  'restart-test' { RequireOwned
-   Pod exec $Name python scripts/portable_smoke.py
+   # smoke's own non-zero exit (e.g. M7 legitimately rejecting one non-deterministic LLM
+   # reply) must not abort this check before persistence is verified -- capture rc, don't throw.
+   podman exec $Name python scripts/portable_smoke.py; $rc1 = $LASTEXITCODE
    $before = podman exec $Name python -c $SnapPy; if ($LASTEXITCODE -ne 0) { throw 'snapshot failed' }
    Pod restart $Name | Out-Null; Start-Sleep 8
    $after = podman exec $Name python -c $SnapPy; if ($LASTEXITCODE -ne 0) { throw 'snapshot failed' }
    if ($before -ne $after) { throw 'PERSISTENCE FAIL: credentials/analysis records changed across restart' }
    'PERSISTENCE OK: credentials hash and saved analysis records identical after restart'
-   Pod exec $Name python scripts/portable_smoke.py }
+   podman exec $Name python scripts/portable_smoke.py; $rc2 = $LASTEXITCODE
+   if ($rc1 -ne 0 -or $rc2 -ne 0) { throw "restart-test: persistence ok but smoke rc=$rc1/$rc2 (see RESULT lines above)" } }
  'creds' { RequireOwned; Pod exec $Name cat /app/runtime/demo_credentials.json }
  'down' { RequireOwned; if ((PodQuiet container exists $Name) -eq 0) { Pod rm -f $Name } }
  'purge' { RequireOwned
