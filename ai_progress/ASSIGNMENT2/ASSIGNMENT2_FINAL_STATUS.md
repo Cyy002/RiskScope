@@ -115,15 +115,29 @@ deploy/demo_run.sh
 
 ## 3.5 本輪（daemon 重啟後）新排查項目
 
-**A1：Podman Desktop 整合（已實測排查，確認安全限制，未能修復）**
-實際測試了「是不是單純 PATH 找不到執行檔」這個假設：用 `launchctl setenv PATH "..."` 把
-`~/.local/podman/bin` 加進 GUI 工作階段的環境變數（不需要 sudo、不改任何系統檔、對其他程式也只是
-多一個可執行檔搜尋路徑，完全可逆），關閉並重新開啟 Podman Desktop 讓它用新環境重新啟動——結果
-「Podman needs to be set up」的提示依然存在,代表這個擴充功能的偵測邏輯不是單純查 PATH。已將
-PATH 變更復原。沒有進一步嘗試點擊「Set up」精靈，因為那個流程有可能會嘗試初始化或重新設定一個
-machine,這正是你明確要求不要做的事,在無法確認它實際行為前不應該冒險點下去。**結論：保留 CLI
-方案（已完全驗證可用），Desktop GUI 的限制誠實記錄在 `deploy/README_PODMAN.md` 常見問題一節，
-不影響 Podman 本身的部署是否成功。**
+**A1：Podman Desktop 整合（第二輪，已找到官方正解，缺最後一步需要你操作）**
+第一輪只是實測「會不會單純是PATH問題」（答案：不是）。這輪改用直接解壓縮 Podman Desktop 自己的
+`app.asar`、讀取其「Podman」內建擴充功能的**官方原始碼**（`podman-cli.ts`/`podman-install.ts`/
+`mac-os-installer.ts`/`package.json`），不是用猜的：
+- **證實「Set up」按鈕不安全**：原始碼顯示它會執行 `open <內建.pkg> -W`——跳出 macOS 系統安裝精靈
+  （需要管理員密碼），把 Podman 裝到 `/opt/podman/bin/`，等於建立**第二套獨立安裝**，不是修好現有
+  這套。因此沒有點擊測試，完全沒有違反「不重新安裝、不建立另一套 Podman」。
+- **找到真正的官方解法**：這個擴充功能原本就設計了一個專門給這種情況用的設定——
+  `podman.binary.path`，UI 上顯示名稱是「**Path to Podman Binary**」，在
+  **Settings → Preferences → Podman 分類**底下。原始碼證實 `getPodmanCli()` 會優先用這個自訂路徑，
+  PATH 搜尋只是備援。填入 `/Users/haochenglin/.local/podman/bin/podman` 後，理論上完全不需要重裝、
+  不會碰任何 machine，因為既有的 3 台 machine 早就正確登記在
+  `~/.config/containers/podman-connections.json`（已確認內容正確,含正式機),Podman Desktop 讀到
+  對的執行檔後應該就能直接偵測到，純讀取不會自動新建。
+- **沒有完成最後一步的原因（不是沒試，是確認不安全才停）**：Podman Desktop 整個視窗（含側邊欄
+  「Settings」文字）用 System Events 檢視只看到 `button 1`/`group 1` 這種完全沒有語意標籤的通用
+  元素；嘗試用螢幕座標直接點擊（`click at {x,y}`）在這台機器上系統回傳 -25200 錯誤，不支援。在
+  無法事先確認「即將點到的到底是哪個按鈕」的情況下，用猜測性的索引或座標點擊有風險（旁邊可能就是
+  真的會動到 machine 的按鈕），所以沒有進一步嘗試，直接把確切步驟列出來。
+- **需要你做的 30 秒操作**：開啟 Podman Desktop → 左側齒輪圖示「Settings」→「Preferences」→
+  找「Podman」分類 → 「Path to Podman Binary」欄位填 `/Users/haochenglin/.local/podman/bin/podman`
+  → 存檔。做完跟我說一聲，我可以馬上重新檢查 Containers/Images/Volumes/Logs 是否正確顯示。
+- 這個發現已寫進 `deploy/README_PODMAN.md` 常見問題一節，含完整技術細節。
 
 **A2：GitHub 正式交付準備（檢查結果）**
 - 這台機器**沒有安裝 GitHub CLI**（`gh` 指令不存在）。要上傳需要你自行安裝並登入 `gh auth login`，
