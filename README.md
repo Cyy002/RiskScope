@@ -4,10 +4,14 @@
 
 本專案不只提供概念文件；包含可操作的繁體中文 Web UI、REST API、SQLite 持久化、權限與來源版本管理、工程規格檢核、可追溯工程影響圖、人工核准與模擬執行、事件監測及自動測試。
 
-> **作業二評分者請先看這裡**：`ai_progress/ASSIGNMENT2/`——`DEMO_EVIDENCE.md`（真實執行的核心能力證據：
-> 對話/授權/工具檢查/方案比較/模擬核准/錯誤處理，含原始終端輸出）、`FAILURE_CASES.md`（4 個失敗案例，
-> 誠實標示真實模型 vs. mock）、`DEMO_RUNBOOK.md`（截圖/錄影流程）、`CONSISTENCY_REVIEW.md`（文件與
-> 實際版本一致性核對）。Podman 實測狀態見本文件第 1 節與 `deploy/README_PODMAN.md`。
+> **作業二評分者請先看這裡**：`ai_progress/ASSIGNMENT2/ASSIGNMENT2_SUBMISSION_CHECKLIST.md`——
+> 區分「已完成且實測通過」「已完成但未跨平台驗證」「仍需使用者親自操作」「不影響繳交的已知限制」
+> 四類的正式交付清單。其餘補充文件：`DEMO_EVIDENCE.md`（真實執行的核心能力證據：對話/授權/工具
+> 檢查/方案比較/模擬核准/錯誤處理，含原始終端輸出）、`FAILURE_CASES.md`（4 個失敗案例，誠實標示
+> 真實模型 vs. mock）、`DEMO_RUNBOOK.md`（截圖/錄影流程）、`CONSISTENCY_REVIEW.md`（文件與實際
+> 版本一致性核對）、`evidence/screenshots/`（15 張真實操作截圖，索引見該目錄 `README.md`）。
+> 七題人工審查見 `ai_progress/RISK_INTELLIGENCE_EVALUATION/HUMAN_REVIEW/`。Podman 實測狀態見本
+> 文件第 1 節與 `deploy/README_PODMAN.md`。
 
 ## 1. Podman 部署（課程指定技術，第一次拿到專案請從這裡開始）
 
