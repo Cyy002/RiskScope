@@ -99,6 +99,99 @@ def test_bb01_schedule_block_contradicting_an_unhedged_feasibility_claim_is_flag
     assert '可以如期上線' in data['reply']  # kept, but only underneath the unmissable warning
 
 
+# --- Overnight fix (2026-11-10, claude-b independent review of real K3 ------
+# BB01/BB23 answers): the model sometimes echoes the discipline prompt's own
+# 【排程計算】 format placeholders verbatim instead of filling in real values,
+# and that literal template garbage was reaching the user untouched.
+
+def test_schedule_block_stray_template_line_is_stripped_even_when_the_real_tasks_parse_fine(c, engineer, monkeypatch):
+    """Real BB01 (K3, qwen3:8b) shape: the real A-F lines are individually
+    grounded and parse_schedule_block() succeeds on them -- the model just
+    ALSO echoed the prompt's format-example line ("任務id: 工期=數字 週,
+    前置=[其他任務id,...]") verbatim right after the real deadline line.
+    Checking only `schedule is None` would miss this entirely, since the
+    stray line simply fails the task-line regex and is silently skipped by
+    findall() without affecting the rest of the parse."""
+    conn = db.connect()
+    db.add_doc(conn, 'D-PLAN-BB01C', 'demo-chamber', '任務清單與工期3', '專案',
+               '任務（工期，週；前置）：A 設計 2；B 後端 4（A）；C 前端 3（A）；D 整合 2（B 與 C）；E 壓力測試 2（D）；F 文件 1（A）。',
+               allowed=('engineer', 'manager'))
+    conn.close()
+    reply_text = (
+        '核心問題：能否在9週內完成訂單API上線。\n'
+        '結論：關鍵路徑A→B→D→E=10週，超過9週期限，無法達成。\n\n'
+        '【排程計算】\n'
+        '期限=9 週\n'
+        '任務id: 工期=數字 週, 前置=[其他任務id,...]\n'
+        'A: 工期=2 週, 前置=[]\n'
+        'B: 工期=4 週, 前置=[A]\n'
+        'C: 工期=3 週, 前置=[A]\n'
+        'D: 工期=2 週, 前置=[B,C]\n'
+        'E: 工期=2 週, 前置=[D]\n'
+        'F: 工期=1 週, 前置=[A]\n'
+        '可行方案建議：優先處理A→C→D→E這條路徑。'
+    )
+    _mock_calls(monkeypatch, free_form_reply=reply_text)
+    r = c.post(f'{ROOT}/chat', headers=engineer, json={
+        'message': '我們要在9週內上線新的訂單API。目前的任務排程能達成嗎？',
+        'session_id': 'reasoning-bb01-template-leak', 'use_local_llm': True, 'focus': 'supplier'})
+    data = r.json()
+    assert '任務id' not in data['reply']
+    assert '工期=數字' not in data['reply']
+    assert data['reply_source'] == 'llm_phrased'
+    assert '關鍵路徑A→B→D→E=10週，超過9週期限' in data['reply']  # real conclusion kept
+
+
+def test_schedule_block_with_an_ungrounded_duration_is_dropped_entirely_not_shown_garbled(c, engineer, monkeypatch):
+    """Real BB23 (K3, qwen3:8b) shape: every task line literally uses
+    "任務id" as its own id (never replaced with a real identifier), and one
+    task's duration (18 天) is a model-invented assumption with no grounding
+    in the message or documents -- parse_schedule_block() correctly returns
+    None (ungrounded duration), but nothing was stripping the garbled block
+    itself out of what the user sees."""
+    reply_text = (
+        '核心問題：30天修補期限內，35天的完整回歸測試來不及，12天的縮減方案可以。\n'
+        '結論：建議採用縮減方案以符合30天法規期限。\n\n'
+        '【排程計算】\n'
+        '期限=30 天\n'
+        '任務id: 工期=35 天, 前置=[]\n'
+        '任務id: 工期=12 天, 前置=[]\n'
+        '任務id: 工期=18 天, 前置=[測試]\n'
+        '（假設修補與報告需在測試後進行）'
+    )
+    _mock_calls(monkeypatch, free_form_reply=reply_text)
+    r = c.post(f'{ROOT}/chat', headers=engineer, json={
+        'message': '法規要求30天內完成修補，完整回歸測試要35天，縮減方案12天，來得及嗎？',
+        'session_id': 'reasoning-bb23-template-leak', 'use_local_llm': True, 'focus': 'supplier'})
+    data = r.json()
+    assert '任務id' not in data['reply']
+    assert '【排程計算】' not in data['reply']
+    assert data['reply_source'] == 'llm_phrased'
+    assert '建議採用縮減方案以符合30天法規期限' in data['reply']  # real conclusion kept
+
+
+def test_schedule_block_with_real_task_names_and_no_placeholder_text_is_never_stripped(c, engineer, monkeypatch):
+    """Regression guard: a genuinely well-formed block (real task names,
+    no echoed template text) must be left exactly as-is -- this fix must
+    only ever remove a model's leaked format placeholders, never a real,
+    useful computation the user should actually see."""
+    reply_text = (
+        '核心問題：排隊中的認證測試是否能在8週內完成。\n\n'
+        '【排程計算】\n'
+        '期限=8 週\n'
+        '任務1: 工期=2 週, 前置=[]\n'
+        '任務2: 工期=6 週, 前置=[任務1]\n'
+        '結論：總工期8週，剛好符合期限，但無緩衝。'
+    )
+    _mock_calls(monkeypatch, free_form_reply=reply_text)
+    r = c.post(f'{ROOT}/chat', headers=engineer, json={
+        'message': '產品必須在8週後上市，認證實驗室現在排隊等待測試，我們能保證如期上市嗎？',
+        'session_id': 'reasoning-clean-schedule-block', 'use_local_llm': True, 'focus': 'supplier'})
+    data = r.json()
+    assert '【排程計算】' in data['reply']
+    assert '任務1' in data['reply'] and '任務2' in data['reply']
+
+
 def test_bb01_schedule_block_that_correctly_reports_the_overrun_is_not_blocked(c, engineer, monkeypatch):
     """The cross-check must only fire on a genuine CONTRADICTION -- a reply
     that correctly states the deadline is missed must pass through."""

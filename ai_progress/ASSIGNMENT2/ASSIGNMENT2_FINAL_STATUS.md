@@ -1,8 +1,19 @@
-# RiskScope 作業二 最終狀態 (Claude A, 更新於 2026-11-10 下午)
+# RiskScope 作業二 最終狀態 (Claude A, 更新於 2026-11-10 晚間)
 
-對照 commit `96445e1`（延續 `0c84fcf`/`b5f30a8`，加上 claude-b 的獨立審查、「教授第一次驗收」真實
-瀏覽器 GUI 操作模擬，以及本輪新完成的：全 git 歷史密鑰重寫清查、README 改成 Podman 優先、正式
-截圖包、精簡版人工審查文件）。
+對照 commit `3490728`。延續 claude-b 的獨立審查、「教授第一次驗收」真實瀏覽器 GUI 操作模擬，本輪
+（daemon 重啟後第二輪）新完成：Podman Desktop 整合排查（已驗證安全但無法修復的限制）、
+`riskscope.ps1` 一個真實邏輯錯誤修復、GitHub CLI 現況確認、一項需要使用者親自處理的安全提醒
+（見第 0 節）。
+
+## 0. ⚠️ 需要你立即知道的安全提醒（非程式問題）
+
+**OpenAgents Workspace Token 已在本次對話的多個 Bash 指令中以明文出現過**（我呼叫
+`workspace-endpoint.openagents.org` 的 `curl` 指令裡的 `X-Workspace-Token` 標頭）。這**不是**
+git 歷史或程式碼裡的問題（我已確認它從未被寫入任何追蹤檔案），而是這個 OpenAgents 對話本身的
+工具呼叫紀錄裡會留存這個值。我沒有能力自己輪替或撤銷這個 Token（那是 OpenAgents 平台的權限，
+不是我能呼叫的工具範圍）。**依你的指示，不能只憑「我改了記錄」就宣稱這個 Token 已經安全**——
+請你自行到 OpenAgents 後台確認是否要輪替這個 workspace token，以及評估這個對話紀錄本身的存取
+範圍是否需要限制。
 
 ## 總結判定
 
@@ -91,6 +102,44 @@ deploy/demo_run.sh
   已在 README 誠實標示，不得向老師宣稱已驗證。
 - Podman Desktop GUI 在這台機器上看不到容器（見上表「Podman 可重現啟動」列），老師自己標準安裝的
   Podman Desktop 不一定會遇到這個問題，但目前**無法證明** Podman Desktop 一定能正確顯示本專案容器。
+- **容器目前狀態更新（2026-11-10 晚間盤點）**：隔離測試 VM 曾經停止過（原因不明，可能是閒置逾時
+  或系統睡眠，不是被誰關掉的），已重新啟動並確認 3 個測試容器（8100/8110/8130）都還在、狀態是
+  `Exited (0)`（乾淨停止，不是崩潰），對應的 3 個 volume（`riskscope_portable_data`/`_teacher`/
+  `_prof`）資料完整，**沒有刪除任何東西**。正式機 `riskscope-machine` 全程仍是 "Never up"。若要
+  恢復使用任一個，`podman start <容器名>` 即可；若確認不再需要，由你決定何時清理。
+
+## 3.5 本輪（daemon 重啟後）新排查項目
+
+**A1：Podman Desktop 整合（已實測排查，確認安全限制，未能修復）**
+實際測試了「是不是單純 PATH 找不到執行檔」這個假設：用 `launchctl setenv PATH "..."` 把
+`~/.local/podman/bin` 加進 GUI 工作階段的環境變數（不需要 sudo、不改任何系統檔、對其他程式也只是
+多一個可執行檔搜尋路徑，完全可逆），關閉並重新開啟 Podman Desktop 讓它用新環境重新啟動——結果
+「Podman needs to be set up」的提示依然存在,代表這個擴充功能的偵測邏輯不是單純查 PATH。已將
+PATH 變更復原。沒有進一步嘗試點擊「Set up」精靈，因為那個流程有可能會嘗試初始化或重新設定一個
+machine,這正是你明確要求不要做的事,在無法確認它實際行為前不應該冒險點下去。**結論：保留 CLI
+方案（已完全驗證可用），Desktop GUI 的限制誠實記錄在 `deploy/README_PODMAN.md` 常見問題一節，
+不影響 Podman 本身的部署是否成功。**
+
+**A2：GitHub 正式交付準備（檢查結果）**
+- 這台機器**沒有安裝 GitHub CLI**（`gh` 指令不存在）。要上傳需要你自行安裝並登入 `gh auth login`，
+  或直接用 `git remote add` + `git push`（需要你提供 SSH key 或 Personal Access Token）。
+- 重新掃描了這一輪新增的所有 commit（截圖、審查文件、文件修正）的完整歷史，Bearer token、API
+  key、私鑰樣式、demo_credentials.json 格式字串皆無發現，連截圖檔案本身的二進位內容都用 `strings`
+  掃過一次，乾淨。
+- `.gitignore` 排除項目未變、仍然正確。
+- README 文件裡列出的指令（`build`/`up`/`demo`/`smoke`/`restart-test`/`creds`/`down`/`purge`）
+  與 `deploy/riskscope.sh`/`riskscope.ps1` 實際支援的指令逐一核對一致。
+- **見第 0 節：OpenAgents Workspace Token 曝露在對話紀錄裡，需要你親自處理，與本倉庫無關。**
+
+**A3：真實程式缺陷排查（找到並修復 1 個）**
+逐行比對 `riskscope.ps1`（Windows 版本）與已驗證過的 `riskscope.sh`（Linux/macOS 版本）邏輯，
+發現 `restart-test` 有一個真實的行為差異：PowerShell 版的 `Pod` 輔助函式只要指令結束碼非 0 就會
+直接拋出例外，但 `restart-test` 一開始直接用它執行 `scripts/portable_smoke.py`——如果 smoke
+腳本因為模型輸出的隨機性而非確定性地回報失敗（不是 podman 的問題），整個 `restart-test` 會在
+做持久性檢查之前就中止，還會誤報成「podman exec 失敗」，掩蓋了真正原因。已修正為比照 `.sh` 版本
+的作法：先記下結束碼、不中止、做完持久性檢查後才一起回報。**這台機器沒有安裝 PowerShell（`pwsh`
+不存在），無法實際執行驗證語法或行為，這個修正僅經過與 `.sh` 版本的邏輯比對確認——Windows 實測
+仍然掛零，必須繼續誠實標示為未實測。**
 
 ## 4. 尚未完成，需要使用者本人處理的事項
 

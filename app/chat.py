@@ -1553,6 +1553,22 @@ def _generic_free_form_reply(conn, project, result, message, session_id=None, ac
     if text is None:
         return None, {'status': 'unavailable', 'detail': diag}, None
     schedule = reasoning.parse_schedule_block(text, ldg)
+    if '【排程計算】' in text and ('任務id' in text.split('【排程計算】', 1)[1] or '工期=數字' in text):
+        # Overnight fix (2026-11-10, claude-b independent review of real K3
+        # BB01/BB23 answers): the model sometimes echoes the discipline
+        # prompt's own format placeholders verbatim ("工期=數字", "前置=[其他
+        # 任務id,...]") instead of filling in real numbers. Checking only
+        # `schedule is None` misses this: BB01's block still parses
+        # successfully (its real A-F lines are fine; the placeholder line
+        # simply fails _TASK_LINE_RE and is silently skipped by findall), so
+        # the garbage line was reaching the user even though the computation
+        # itself was unaffected. Detecting the literal placeholder text
+        # directly -- independent of whether the rest of the block parsed --
+        # catches both that case and BB23's (an ungrounded duration makes
+        # parse_schedule_block() return None, which already triggers this).
+        trimmed = text.split('【排程計算】', 1)[0].rstrip()
+        if trimmed:
+            text = trimmed
     if schedule and schedule.get('deadline') is not None and schedule['total'] > schedule['deadline']:
         if _affirms_without_negation(text, _FEASIBILITY_CLAIM_RE):
             unit = schedule.get('deadline_unit', '')
