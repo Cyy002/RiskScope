@@ -7,12 +7,45 @@
 > **作業二評分者請先看這裡**：`ai_progress/ASSIGNMENT2/`——`DEMO_EVIDENCE.md`（真實執行的核心能力證據：
 > 對話/授權/工具檢查/方案比較/模擬核准/錯誤處理，含原始終端輸出）、`FAILURE_CASES.md`（4 個失敗案例，
 > 誠實標示真實模型 vs. mock）、`DEMO_RUNBOOK.md`（截圖/錄影流程）、`CONSISTENCY_REVIEW.md`（文件與
-> 實際版本一致性核對）。Podman 實測狀態見本文件第 2 節與 `deploy/README_PODMAN.md`。
+> 實際版本一致性核對）。Podman 實測狀態見本文件第 1 節與 `deploy/README_PODMAN.md`。
 
-## 1. 最快在 Mac / Windows / Linux 啟動
+## 1. Podman 部署（課程指定技術，第一次拿到專案請從這裡開始）
 
-> 若你是依課程要求評估 Podman 部署，**請直接跳到第 2 節**——這一節是不需要 Podman 的本機
-> Python 快速啟動路徑，兩者啟動同一套程式但彼此獨立，不需要都跑過一遍。
+若你是第一次拿到這個專案（例如評分老師），**這是你應該先走的路徑**；下一節的本機 Python
+啟動是開發/除錯用的次要路徑，兩者啟動同一套程式但彼此獨立，不需要都跑過一遍。
+
+需要 Podman >= 4.4（先 `podman machine init`／`podman machine start`，macOS/Windows 皆需要）與
+一個本機 Ollama 伺服器（`ollama serve`；`ollama pull qwen3:8b`）。完整的安裝前提、Ollama 連線
+設定、環境變數、建置/啟動/Demo/測試/停止指令及常見問題排解，都在：
+
+**Portable/demo entry (isolated, never touches any production deployment): see `deploy/README_PODMAN.md`** (`deploy/riskscope.sh` or `deploy\riskscope.ps1`; port 8100, volume `riskscope_portable_data`).
+
+最快上手（macOS/Linux；Windows 對應指令見 `deploy/README_PODMAN.md` 第 2 節）：
+
+```bash
+deploy/riskscope.sh build
+deploy/riskscope.sh up      # http://127.0.0.1:8100
+deploy/demo_run.sh          # 一鍵展示全部六項課程要求能力
+```
+
+> Historical (0.1-era) commands using `riskscope`/`riskscope_runtime`/port 8000/`--rm` were removed from this README because they collide with the live production deployment.
+
+**實機驗證（Claude A，2026-11-09/10，macOS Apple Silicon）**：`build`（含從乾淨 checkout 的
+`--no-cache` 冷建置）、`up`/`/health`、`smoke`（決定性引擎計算 + 真實 LLM 回覆）、`demo`（全部
+六項課程要求能力，含真實瀏覽器 GUI 操作，非僅 API 腳本）、`restart-test`（重啟後資料與憑證完整
+保留）皆 **PASS**。Windows/Linux 尚未在真實主機上實測，`riskscope.ps1` 內容與 `.sh` 一致但僅經
+程式碼審閱。完整紀錄見 `deploy/README_PODMAN.md` 開頭的「Tested status」。
+
+**對應企劃第 181 行「LLM server 以外的介面、Agent、檢索、工具及紀錄服務均由 Podman 容器執行」**：
+單一 `riskscope`/`riskscope-portable` 容器裡的 FastAPI 行程已同時包含網頁介面（`app/static/`）、
+Agent 對話邏輯（`app/chat.py`）、文件檢索（`app/retrieval.py`）、工程工具檢核（`app/engineering.py`）
+與紀錄（`app/db.py` 寫入容器內 volume 掛載的 SQLite）——只有 LLM 推論本身（Ollama）照企劃明文排除
+留在容器外、由主機提供。因此現狀已滿足此條款，不需要拆成多個容器。
+
+## 2. 本機 Python 快速啟動（開發/除錯用，非必要）
+
+> 這一節是不需要 Podman 的本機 Python 路徑，給需要直接改程式、重跑測試的開發者用。
+> 若你只是要評估/驗收這個專案，上面第 1 節的 Podman 路徑已足夠，不需要再跑這一節。
 
 需要 Python **3.12 或 3.13**（建議 3.12）。在終端機執行：
 
@@ -60,26 +93,6 @@ python -m uvicorn app.api:app --host 127.0.0.1 --port 8000
 ```
 
 到「決策推演」勾選「本機 Ollama」即可要求額外說明。LLM 的內容被標註為**未驗證文字**，不影響工程數值、風險規則、審核狀態或自動執行。系統拒絕把 Ollama URL 指向一般遠端雲端網址。**真實 Qwen3 推理品質已多輪評估**（`qwen3:8b`／`qwen3.6:27b`，見 `ai_progress/RISK_INTELLIGENCE_EVALUATION/`），分數用於持續改善安全護欄，但評估結果本身不等於任何專業領域的正式結論。
-
-## 2. Podman 部署（企劃指定技術）
-
-若你已安裝 Podman（需先 `podman machine init`／`podman machine start`，macOS/Windows 皆需要），
-完整的安裝前提、Ollama 連線設定、環境變數、建置/啟動/Demo/測試/停止指令及常見問題排解，
-都在：
-
-**Portable/demo entry (isolated, never touches any production deployment): see `deploy/README_PODMAN.md`** (`deploy/riskscope.sh` or `deploy\riskscope.ps1`; port 8100, volume `riskscope_portable_data`).
-
-> Historical (0.1-era) commands using `riskscope`/`riskscope_runtime`/port 8000/`--rm` were removed from this README because they collide with the live production deployment.
-
-初次 build 需要網路下載 Python 套件與 base image。**實機驗證（Claude A，2026-11-09）**：`deploy/riskscope.sh build` 成功建置、`up` 啟動容器並通過 `/health`
-檢查、`smoke`（決定性引擎計算 + 真實 LLM 回覆）與 `restart-test`（重啟後憑證與分析紀錄完整保留）皆
-**PASS**；完整紀錄見 `deploy/README_PODMAN.md` 開頭的「Tested status」。
-
-**對應企劃第 181 行「LLM server 以外的介面、Agent、檢索、工具及紀錄服務均由 Podman 容器執行」**：
-單一 `riskscope`/`riskscope-portable` 容器裡的 FastAPI 行程已同時包含網頁介面（`app/static/`）、
-Agent 對話邏輯（`app/chat.py`）、文件檢索（`app/retrieval.py`）、工程工具檢核（`app/engineering.py`）
-與紀錄（`app/db.py` 寫入容器內 volume 掛載的 SQLite）——只有 LLM 推論本身（Ollama）照企劃明文排除
-留在容器外、由主機提供。因此現狀已滿足此條款，不需要拆成多個容器。
 
 ## 3. 直接操作驗收
 
