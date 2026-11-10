@@ -2,15 +2,15 @@
 
 Needs: Podman >= 4.4 (tested 6.1.4), an Ollama server with a model pulled (default `qwen3:8b`, ~5 GB; `qwen3.6:27b` needs ~20 GB RAM). No production data/tokens are used: a fresh named volume is initialised on first start and generates NEW random demo tokens.
 
-**Tested status (Claude A, 2026-11-09, on an independent test VM `riskscope-codex-apple-20261107`,
-`applehv` backend — the pre-existing `libkrun` backend aborts on this machine, so `applehv` is
-used instead; this does not touch the separate production machine/container):**
-`build` → succeeds. `up` → container starts and `/health` returns `{"status":"ok", ...}`. `smoke`
-→ **PASS (deterministic + real LLM)**, clean run with the Ollama queue idle (an earlier run hit an
-LLM-extraction timeout while an unrelated model-evaluation batch was concurrently saturating the
-same shared Ollama server — resource contention, not an app defect; confirmed by re-running clean).
-`restart-test` → **PASS**, `PERSISTENCE OK: credentials hash and 3 saved analysis record(s)
-identical after restart`, smoke re-run after restart also PASS.
+**Tested status (macOS, Apple Silicon, 2026-11-09/10):** `build` (including a `--no-cache` cold
+build from a clean checkout) → succeeds. `up` → container starts and `/health` returns
+`{"status":"ok", ...}`. `smoke` → **PASS** (both the deterministic engineering calculation and a
+real local-LLM reply). `demo` → **FULL PASS** (all 6 course-required capabilities: conversation,
+ACL/authorization, tool checks, option comparison, simulated approval, error handling), verified
+both via the CLI script and by hand in the real browser UI (login → chat → engineering check →
+risk/option comparison → manager approval → two rejection cases). `restart-test` → **PASS**,
+data and credentials survive a container restart. Windows/Linux: **not yet tested** on a real
+host — `riskscope.ps1` exists and mirrors the same commands, but has only been reviewed, not run.
 
 ## 0. Ollama must be reachable from the container
 The app only accepts `localhost`, `127.0.0.1`, `::1`, `host.containers.internal` as model host (by design, no cloud).
@@ -34,7 +34,7 @@ Or, for a single command after `build`+`up` that runs the whole demo and auto-bu
 packaging bug this script had — fixed in commit `b5f30a8` — before relying on it).
 
 ## 2. Windows PowerShell
-`.\deploy\riskscope.ps1 build|up|smoke|restart-test|creds|purge` (same behaviour; set `$env:OLLAMA_MODEL` etc. first).
+`.\deploy\riskscope.ps1 build|up|smoke|demo|restart-test|creds|down|purge` (same behaviour; set `$env:OLLAMA_MODEL` etc. first).
 
 ## 3. GUI
 Open http://127.0.0.1:8100, paste the `engineer` token from `creds`, ask e.g. "電源24V、名目額定10A、實際可用8A，馬達11A、輔助3A，電流夠嗎？".
@@ -50,6 +50,11 @@ Open http://127.0.0.1:8100, paste the `engineer` token from `creds`, ask e.g. "�
 - **`REFUSED: ...` 訊息**：`riskscope.sh` 刻意拒絕任何可能撞到正式部署名稱/埠號/映像標籤的操作，
   這是設計行為，不是 bug——不要繞過這些檢查，改用預設的 `riskscope-portable`/8100 設定即可。
 - **換一台電腦重新執行**：`purge` 之後再 `build`→`up`，會產生全新的隨機 demo token（不會沿用舊的）。
+- **Podman Desktop GUI 顯示「No Container Engine」或看不到容器**：若 `podman` 是透過非標準路徑安裝
+  （例如手動展開官方 `.pkg` 到使用者目錄，而非走 Podman Desktop 自己的安裝流程），Podman Desktop
+  可能偵測不到該 machine/連線。這與本專案程式碼無關；`podman ps`/`podman logs` 在 Terminal 裡一樣
+  能正確顯示容器狀態與日誌，教師可改用 Terminal 驗證，或透過 Podman Desktop 官方安裝流程重新安裝
+  CLI 以修正 GUI 偵測問題。
 
 ## Notes
 Own names/port (`riskscope-portable`, 8100) never collide with other deployments. Named volumes inherit uid 10001 ownership; if you use a bind mount add `:U` (Linux). Image is plain `python:3.12-slim` + pure-Python deps, so it builds natively on ARM64 and AMD64.

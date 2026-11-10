@@ -1,5 +1,5 @@
 # Windows PowerShell driver (Podman Desktop / podman machine on WSL2). NOT yet run on a real Windows host.
-# Usage: .\deploy\riskscope.ps1 build|up|smoke|restart-test|creds|down|purge
+# Usage: .\deploy\riskscope.ps1 build|up|smoke|demo|restart-test|creds|down|purge
 param([Parameter(Mandatory=$true)][string]$Action)
 $ErrorActionPreference = 'Stop'
 Set-Location (Join-Path $PSScriptRoot '..')
@@ -49,5 +49,5 @@ switch ($Action) {
  'purge' { RequireOwned
    if ((PodQuiet container exists $Name) -eq 0) { Pod rm -f $Name | Out-Null }
    if ((PodQuiet volume exists $Vol) -eq 0) { Pod volume rm $Vol } }
- default { throw 'usage: riskscope.ps1 build|up|smoke|restart-test|creds|down|purge' }
+ default { throw 'usage: riskscope.ps1 build|up|smoke|demo|restart-test|creds|down|purge' }
 }
