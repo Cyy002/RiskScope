@@ -1,5 +1,8 @@
-# Assignment 2 Submission Checklist (claude-b 版,2026-11-11;基準 HEAD 2ee25e9 + 本次新增未提交檔)
+# Assignment 2 Submission Checklist (claude-b 版,2026-11-11;Claude A 更新 HEAD 至 `a66be23`)
 AI 整理/驗證,非真人驗收。
+
+**更新(Claude A)**:C.6 的截圖與本 checklist、`HUMAN_REVIEW_FULL_FOR_USER.md` 已全部 commit
+（`a66be23`），不再是待辦。工作樹乾淨，306 passed。
 
 ## A. 已完成且實測通過(macOS Apple Silicon)
 - `pytest -q` → 306 passed(我於本輪重跑)。
@@ -20,7 +23,7 @@ AI 整理/驗證,非真人驗收。
 3. **OpenAgents Workspace Token 輪替**(曾出現在對話紀錄,不在 repo,我無法驗證是否失效)。
 4. 決定三個測試容器(8100/8110/8130)與其 volume 的處置:目前我**未清理**。注意:VM 重啟後 8100、8110 為 EXITED,只有 prof(8130)是我在 Desktop 啟動的 Running。
 5. (選)確認課程是否要求 Podman Desktop;若老師用 CLI 即可,Desktop 非必要。
-6. 提交新增的 4 張 Desktop 截圖與本 checklist/七題完整包(需 `git add/commit`,由 Claude A 或你執行)。
+6. ~~提交新增的 4 張 Desktop 截圖與本 checklist/七題完整包~~ **已由 Claude A commit（`a66be23`）。**
 
 ## D. 不影響繳交的已知限制 / 需誠實說明
 - **模型輸出品質**:BB16(18 分,結論與文件數據矛盾且編造反射係數)、BB23(77 分,自行假設 18 天)、BB01(88 分,建議非關鍵路徑為誤導)為真實模型限制,已在七題包中標出;27B 單次且自評、8B 與 D/D2 統計上無差異。
@@ -32,7 +35,7 @@ AI 整理/驗證,非真人驗收。
 - Podman Desktop 偵測到的「預設 machine 為 riskscope-machine(正式機,從未啟動)」提示:我選 **Ignore**,未更改預設連線。
 
 ## E. 最終回答
-1. 最新可交付 commit:`2ee25e9`(外加上述未提交的新增檔)。
+1. 最新可交付 commit:`a66be23`(工作樹乾淨，無未提交檔)。
 2. GitHub 是否準備完成:本地版本乾淨可上傳;遠端/權限未備。
 3. 能否安全推送:歷史掃描 0 命中、.gitignore 排除 runtime/.venv/.env;OpenAgents token 在 repo 外。**未經你授權前不要推送**。
 4. Podman Desktop:已可管理既有 RiskScope 容器(見 A)。
