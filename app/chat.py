@@ -1721,9 +1721,15 @@ def chat_turn(conn, actor, project, message, session_id, focus=None, use_local_l
         if trustworthy:
             llm_text, reply_diag = generic_free_form_text, {'status': 'success'}
             if soft_flags:
+                # Overnight fix (2026-11-10, claude-b independent review):
+                # the same figure can trip more than one soft-flag check
+                # (e.g. a percentage check and a schedule/cost check both
+                # catching "18"), so soft_flags could list it twice -- dedupe
+                # while preserving first-seen order before showing the user.
+                unique_flags = list(dict.fromkeys(soft_flags))
                 llm_text += ('\n\n（以上部分數字為系統分析時推算或引用之內容，未逐一比對原始來源，包括：'
-                              + '、'.join(soft_flags) + '，請自行核實後採用。）')
-                reply_diag = {'status': 'success_with_unverified_numbers', 'detail': soft_flags}
+                              + '、'.join(unique_flags) + '，請自行核實後採用。）')
+                reply_diag = {'status': 'success_with_unverified_numbers', 'detail': unique_flags}
         else:
             llm_text, reply_diag = None, {'status': 'rejected_inconsistent', 'detail': reason}
     else:

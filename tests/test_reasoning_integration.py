@@ -192,6 +192,27 @@ def test_schedule_block_with_real_task_names_and_no_placeholder_text_is_never_st
     assert '任務1' in data['reply'] and '任務2' in data['reply']
 
 
+def test_soft_flag_disclaimer_does_not_repeat_the_same_number_twice(c, engineer, monkeypatch):
+    """Real BB23 (K3) shape: the same ungrounded figure ("18天") was quoted
+    twice in the reply (once in the schedule block, once restated in a
+    following sentence), and _ANY_PERCENT_RE/the schedule-cost check both
+    use findall() over the whole text -- every occurrence gets appended to
+    soft_flags, so the disclaimer ended up reading "...包括：18天、18天，
+    請自行核實..." instead of listing it once."""
+    reply_text = (
+        '核心問題：某方案的失敗機率估計為65%，考量此風險後仍建議採用，因為65%的風險在可接受範圍內。'
+    )
+    _mock_calls(monkeypatch, free_form_reply=reply_text)
+    r = c.post(f'{ROOT}/chat', headers=engineer, json={
+        'message': '這個方案的風險可以接受嗎？',
+        'session_id': 'reasoning-dedupe-soft-flags', 'use_local_llm': True, 'focus': 'supplier'})
+    data = r.json()
+    assert data['llm_diagnostic']['reply']['status'] == 'success_with_unverified_numbers'
+    prose, disclaimer = data['reply'].split('包括：', 1)
+    assert prose.count('65%') == 2  # the model's own prose kept both mentions, untouched
+    assert disclaimer.count('65%') == 1  # but the disclaimer lists it only once
+
+
 def test_bb01_schedule_block_that_correctly_reports_the_overrun_is_not_blocked(c, engineer, monkeypatch):
     """The cross-check must only fire on a genuine CONTRADICTION -- a reply
     that correctly states the deadline is missed must pass through."""
