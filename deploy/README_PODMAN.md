@@ -9,13 +9,20 @@ real local-LLM reply). `demo` → **FULL PASS** (all 6 course-required capabilit
 ACL/authorization, tool checks, option comparison, simulated approval, error handling), verified
 both via the CLI script and by hand in the real browser UI (login → chat → engineering check →
 risk/option comparison → manager approval → two rejection cases). `restart-test` → **PASS**,
-data and credentials survive a container restart. Windows/Linux: **not yet tested** on a real
-host — `riskscope.ps1` exists and mirrors the same commands, but has only been reviewed, not run.
+data and credentials survive a container restart.
+
+**Tested status (Windows 11 real PC, 2026-11-15):** Podman 5.8.10 on WSL2 + Ollama `qwen3:8b` (RTX 5060):
+`Start_RiskScope.bat` end-to-end PASS — container reaches host Ollama, first A1 after a cold start = 14A/336W,
+walkthrough steps 1-10 (approval flow, engineer/outsider permissions) PASS.
+
+**Tested status (Linux, GitHub Actions ubuntu-latest linux/amd64, Podman 5.7.0, 2026-11-15):** `build`, `up`,
+`/health`, token rejection, engineer login, outsider ACL and the deterministic calculation PASS
+(https://github.com/Cyy002/RiskScope/actions/runs/43712945894). No Ollama on the runner, so the real-LLM reply is NOT verified on Linux.
 
 ## 0. Ollama must be reachable from the container
 The app only accepts `localhost`, `127.0.0.1`, `::1`, `host.containers.internal` as model host (by design, no cloud).
 - macOS: nothing extra (`ollama serve`; `ollama pull qwen3:8b`).
-- Windows (Podman Desktop/WSL2) & Linux: set `OLLAMA_HOST=0.0.0.0` for Ollama so the container can reach it via `host.containers.internal`; on Linux you may instead use `RS_HOST_NETWORK=1 OLLAMA_URL=http://127.0.0.1:11434`.
+- Windows (Podman Desktop/WSL2) & Linux: set `OLLAMA_HOST=0.0.0.0` for Ollama so the container can reach it via `host.containers.internal`. On Windows, `host-gateway` resolves to the podman machine itself (169.254.1.2 under pasta), so `riskscope.ps1 up` maps `host.containers.internal` to the machine's default gateway (= the Windows host) instead, and the launcher recreates the container if that address changed after a reboot; on Linux you may instead use `RS_HOST_NETWORK=1 OLLAMA_URL=http://127.0.0.1:11434`.
 - Variables: `OLLAMA_URL`, `OLLAMA_MODEL`, `OLLAMA_REPLY_TIMEOUT_SECONDS` (default 120).
 
 ## 1. Linux / macOS

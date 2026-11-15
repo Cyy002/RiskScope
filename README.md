@@ -30,7 +30,7 @@ git clone https://github.com/Cyy002/RiskScope.git
   若 macOS 阻擋執行，請在檔案上按右鍵 →「打開」。
 - **Windows**：在檔案總管進入 `RiskScope` 資料夾，**雙擊 `Start_RiskScope.bat`**（需已安裝 Podman Desktop 並啟用 WSL2）。
   啟動檔會檢查並可代為設定 `OLLAMA_HOST=0.0.0.0`（Windows 上容器連線本機 Ollama 必要），設定後需重新開啟 Ollama；
-  Windows 防火牆若詢問 Ollama 的網路存取，請允許私人網路。**Windows 路徑尚未在實機完整驗證。**
+  Windows 防火牆若詢問 Ollama 的網路存取，請允許私人網路。**Windows 已於 2026-11-15 在實機完整驗證**（Windows 11、Podman 5.8.10／WSL2、RTX 5060）：一鍵啟動、容器連線本機 Ollama、操作教學步驟 1～10 皆通過。
 
 **電腦需求**：記憶體建議 16 GB 以上、可用磁碟約 15 GB、首次執行需網路（下載 Podman、Ollama、
 `qwen3:8b` 約 5 GB 與基礎映像）。**沒有安裝 Podman、Ollama 或模型也沒關係**：啟動檔會逐項詢問並
@@ -70,8 +70,11 @@ deploy/demo_run.sh          # 一鍵展示全部六項課程要求能力
 **實機驗證（Claude A，2026-11-09/10，macOS Apple Silicon）**：`build`（含從乾淨 checkout 的
 `--no-cache` 冷建置）、`up`/`/health`、`smoke`（決定性引擎計算 + 真實 LLM 回覆）、`demo`（全部
 六項課程要求能力，含真實瀏覽器 GUI 操作，非僅 API 腳本）、`restart-test`（重啟後資料與憑證完整
-保留）皆 **PASS**。Windows/Linux 尚未在真實主機上實測，`riskscope.ps1` 內容與 `.sh` 一致但僅經
-程式碼審閱。完整紀錄見 `deploy/README_PODMAN.md` 開頭的「Tested status」。
+保留）皆 **PASS**。**Windows（2026-11-15，實機）**：`Start_RiskScope.bat` 一鍵啟動 [0/5]～[5/5]、容器連線本機 Ollama、
+冷啟動後第一題 A1 即得 14A／336W、教學步驟 1～10（含核准流程與 engineer／outsider 權限）皆 **PASS**。
+**Linux（2026-11-15，GitHub Actions ubuntu-latest、linux/amd64、Podman 5.7.0）**：`build`、`up`、`/health`、
+未帶 Token 被拒、engineer 登入、outsider 無權限、決定性計算皆 **PASS**（[執行紀錄](https://github.com/Cyy002/RiskScope/actions/runs/43712945894)）；
+runner 上沒有 Ollama，因此 Linux 只驗證到容器與決定性部分，未驗證真實 LLM 回覆。完整紀錄見 `deploy/README_PODMAN.md` 開頭的「Tested status」。
 
 **對應企劃第 181 行「LLM server 以外的介面、Agent、檢索、工具及紀錄服務均由 Podman 容器執行」**：
 單一 `riskscope`/`riskscope-portable` 容器裡的 FastAPI 行程已同時包含網頁介面（`app/static/`）、
