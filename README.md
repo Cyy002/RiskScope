@@ -20,19 +20,23 @@
 
 ## 1. Podman 部署（課程指定技術，第一次拿到專案請從這裡開始）
 
-### 最快方式：一鍵啟動（macOS）
+### 最快方式：一鍵啟動（macOS／Windows）
 
 ```bash
 git clone https://github.com/Cyy002/RiskScope.git
 ```
 
-在 Finder 進入 `RiskScope` 資料夾，**雙擊 `Start_RiskScope.command`**（Linux：`bash Start_RiskScope.command`）。
+- **macOS**：在 Finder 進入 `RiskScope` 資料夾，**雙擊 `Start_RiskScope.command`**（Linux：`bash Start_RiskScope.command`）。
+  若 macOS 阻擋執行，請在檔案上按右鍵 →「打開」。
+- **Windows**：在檔案總管進入 `RiskScope` 資料夾，**雙擊 `Start_RiskScope.bat`**（需已安裝 Podman Desktop 並啟用 WSL2）。
+  啟動檔會檢查並可代為設定 `OLLAMA_HOST=0.0.0.0`（Windows 上容器連線本機 Ollama 必要），設定後需重新開啟 Ollama；
+  Windows 防火牆若詢問 Ollama 的網路存取，請允許私人網路。**Windows 路徑尚未在實機完整驗證。**
+
 它會依序：檢查 Podman（必要時初始化並啟動 Podman 虛擬機）→ 檢查本機 Ollama 與 `qwen3:8b`
 → 第一次執行時建置並啟動容器（之後直接沿用）→ 健康檢查 → 顯示三種角色的登入 Token
 → 開啟瀏覽器並以 manager 身分自動登入 `http://127.0.0.1:8100`
 （Token 只放在網址 `#` 之後，不會送到伺服器，載入後立即從網址列移除）。
-登入後可依 `ai_progress/ASSIGNMENT2/DEMO_RUNBOOK.md` 的固定測試案例操作。
-若 macOS 阻擋執行，請在檔案上按右鍵 →「打開」。
+啟動完成後，終端機視窗會顯示逐步操作教學（固定測資、核准流程、權限驗證與自由測試）。
 
 以下為一鍵啟動背後實際執行的步驟與手動操作方式。
 
