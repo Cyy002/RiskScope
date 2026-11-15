@@ -56,18 +56,52 @@ if (-not (Get-Command podman -ErrorAction SilentlyContinue)) {
   if (-not (Get-Command podman -ErrorAction SilentlyContinue)) { Fail "找不到 Podman，請從 https://podman-desktop.io 手動安裝後重新執行本檔" }
 }
 Ok ((& podman --version) -join ' ')
+function VirtGuide {
+  Write-Host ""
+  Write-Host "  Podman 需要 Windows 的硬體虛擬化，請依序確認：" -ForegroundColor Yellow
+  Write-Host "   1. 工作管理員 → 效能 → CPU，右下「虛擬化」需為「已啟用」。"
+  Write-Host "      若為「已停用」：重開機進 BIOS/UEFI，開啟 Intel VT-x（Intel Virtualization Technology）或 AMD SVM。"
+  Write-Host "   2. 若這台 Windows 本身是虛擬機（Parallels、VMware、VirtualBox 等），需在該軟體設定中開啟「巢狀虛擬化」。"
+  Write-Host "   3. 完成後重新開機，再雙擊 Start_RiskScope.bat。"
+}
+function EnableVmp {
+  Warn "Windows 的「虛擬機器平台」功能尚未啟用"
+  if (Ask "以系統管理員身分啟用「虛擬機器平台」與 WSL？（完成後需重新開機）") {
+    Start-Process -FilePath powershell.exe -Verb RunAs -Wait -ArgumentList '-NoProfile','-Command','dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart; dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart'
+    Fail "已送出啟用要求，請重新開機後再雙擊 Start_RiskScope.bat"
+  }
+  VirtGuide; Fail "需要啟用虛擬化才能執行 Podman"
+}
 & podman info *> $null
 if ($LASTEXITCODE -ne 0) {
+  # 預先檢查虛擬化：BIOS 未開啟虛擬化，或「虛擬機器平台」未啟用時，podman machine init 一定失敗
+  $cs = Get-CimInstance Win32_ComputerSystem; $cpu = Get-CimInstance Win32_Processor | Select-Object -First 1
+  if (-not $cs.HypervisorPresent) {
+    if ($cpu.VirtualizationFirmwareEnabled -eq $false) { Warn "BIOS/UEFI 尚未開啟 CPU 虛擬化"; VirtGuide; Fail "請先開啟虛擬化" }
+    EnableVmp
+  }
   $machines = & podman machine list --format '{{.Name}}' 2>$null
   if (-not $machines) {
     Write-Host "  首次使用：初始化 Podman 虛擬機（約 2–5 分鐘）…"
-    & podman machine init
-    if ($LASTEXITCODE -ne 0) { Fail "podman machine init 失敗；請確認 WSL2 正常（可在 PowerShell 執行 wsl --status 檢查）" }
+    & podman machine init 2>&1 | Tee-Object -Variable initLog | Out-Host
+    if ($LASTEXITCODE -ne 0) {
+      & podman machine rm -f *> $null   # 清掉初始化失敗留下的半成品，下次可重新建立
+      if (($initLog -join "`n") -match 'HYPERV_NOT_INSTALLED|虛擬化|virtualization|Virtual Machine Platform') { EnableVmp }
+      Fail "podman machine init 失敗（詳見上方訊息）"
+    }
   }
   Write-Host "  啟動 Podman 虛擬機…"
   & podman machine start *> $null
   & podman info *> $null
-  if ($LASTEXITCODE -ne 0) { Fail "無法連線 Podman，請開啟 Podman Desktop 確認虛擬機狀態" }
+  if ($LASTEXITCODE -ne 0) {
+    Warn "Podman 虛擬機無法啟動，可能是先前初始化失敗留下的損壞狀態"
+    if (Ask "刪除並重新建立 Podman 虛擬機？（不影響 RiskScope 原始碼）") {
+      & podman machine rm -f *> $null
+      & podman machine init; if ($LASTEXITCODE -ne 0) { & podman machine rm -f *> $null; Fail "podman machine init 失敗（詳見上方訊息）" }
+      & podman machine start *> $null; & podman info *> $null
+    }
+    if ($LASTEXITCODE -ne 0) { Fail "無法連線 Podman，請開啟 Podman Desktop 確認虛擬機狀態" }
+  }
 }
 Ok "Podman 已就緒"
 
