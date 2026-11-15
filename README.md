@@ -15,10 +15,25 @@
 > → Final Result，含 Agent 架構說明）。
 > **七題人工審查已由使用者本人完成**（BB02/BB07/BB10/BB13 PASS、BB01/BB23 有條件接受、
 > **BB16 FAIL**，無任何一題被改判為 PASS）：`ai_progress/RISK_INTELLIGENCE_EVALUATION/HUMAN_REVIEW/`
-> （`HUMAN_REVIEW_DECISIONS.md` 逐題原話、`HUMAN_REVIEW_FINAL_SUMMARY.md` 彙整，簽核欄留白待
-> 使用者本人簽署）。Podman 實測狀態見本文件第 1 節與 `deploy/README_PODMAN.md`。
+> （`HUMAN_REVIEW_DECISIONS.md` 逐題原話、`HUMAN_REVIEW_FINAL_SUMMARY.md` 彙整，已由使用者
+> 本人簽核，2026-11-15）。Podman 實測狀態見本文件第 1 節與 `deploy/README_PODMAN.md`。
 
 ## 1. Podman 部署（課程指定技術，第一次拿到專案請從這裡開始）
+
+### 最快方式：一鍵啟動（macOS）
+
+```bash
+git clone https://github.com/Cyy002/RiskScope.git
+```
+
+在 Finder 進入 `RiskScope` 資料夾，**雙擊 `Start_RiskScope.command`**（Linux：`bash Start_RiskScope.command`）。
+它會依序：檢查 Podman（必要時初始化並啟動 Podman 虛擬機）→ 檢查本機 Ollama 與 `qwen3:8b`
+→ 第一次執行時建置並啟動容器（之後直接沿用）→ 健康檢查 → 顯示三種角色的登入 Token
+（manager Token 自動複製到剪貼簿）→ 開啟瀏覽器 `http://127.0.0.1:8100`。
+登入後可依 `ai_progress/ASSIGNMENT2/DEMO_RUNBOOK.md` 的固定測試案例操作。
+若 macOS 阻擋執行，請在檔案上按右鍵 →「打開」。
+
+以下為一鍵啟動背後實際執行的步驟與手動操作方式。
 
 若你是第一次拿到這個專案（例如評分老師），**這是你應該先走的路徑**；下一節的本機 Python
 啟動是開發/除錯用的次要路徑，兩者啟動同一套程式但彼此獨立，不需要都跑過一遍。
