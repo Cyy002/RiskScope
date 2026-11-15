@@ -33,11 +33,16 @@ for i in range(ATTEMPTS):
     tot = [c.get('numbers', {}).get('total_current_a') for c in (r or {}).get('checks', []) if c.get('rule') == 'continuous_power']
     d = (r or {}).get('llm_diagnostic', {})
     acc = (r or {}).get('reply_source') == 'llm_phrased' and d.get('reply', {}).get('status') == 'success'
-    outcomes.append({'attempt': i + 1, 'total_current': tot, 'llm_accepted_by_M7': acc, 'reply_status': d.get('reply', {}).get('status')})
-    if tot != ['14']: break           # structured wrongness is never retried away
+    # With no reachable model the user's numbers cannot be extracted (documented behaviour), so the
+    # engine correctly falls back to the document values: 8A motor + 3A aux = 11A. Accept that ONLY
+    # when fallback is explicitly allowed AND the model was unreachable -- never when a model answered.
+    no_model = d.get('extract', {}).get('status') == 'connection_error'
+    expect = ['11'] if (no_model and os.getenv('SMOKE_ALLOW_FALLBACK') == '1') else ['14']
+    outcomes.append({'attempt': i + 1, 'total_current': tot, 'expected': expect, 'llm_accepted_by_M7': acc, 'reply_status': d.get('reply', {}).get('status')})
+    if tot != expect: break           # structured wrongness is never retried away
     if acc: break
 check('chat 200', st == 200)
-check('deterministic engine: total current 14A (11A motor + 3A aux) on every attempt', all(o['total_current'] == ['14'] for o in outcomes), str(outcomes))
+check('deterministic engine: total current 14A (11A motor + 3A aux; 11A from documents when no model) on every attempt', all(o['total_current'] == o['expected'] for o in outcomes), str(outcomes))
 diag = (r or {}).get('llm_diagnostic', {})
 llm_ok = any(o['llm_accepted_by_M7'] for o in outcomes)
 print('LLM attempts (accepted/total): %d/%d' % (sum(o['llm_accepted_by_M7'] for o in outcomes), len(outcomes)))
