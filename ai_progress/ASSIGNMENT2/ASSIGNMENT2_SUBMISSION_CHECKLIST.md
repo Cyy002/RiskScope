@@ -18,6 +18,9 @@ A 類。所有相關檔案已 commit，工作樹乾淨。
   有條件接受；**BB16 FAIL**。沒有任何一題被改判為 PASS，簽核欄留白待使用者本人填寫。詳見
   `HUMAN_REVIEW/HUMAN_REVIEW_DECISIONS.md`（逐題原話）與 `HUMAN_REVIEW_FINAL_SUMMARY.md`（彙整
   +已知缺陷+展示建議）。
+- **Tool 定義與 Agent 執行追蹤**：`TOOL_SPEC.md`（3 個 Tool 的名稱/用途/輸入/輸出/Error
+  Handling）與 `EXECUTION_TRACE.md`（Demo A1 的完整 User Input → Agent Decision → Tool Call →
+  Observation → Agent Decision → Final Result 標註，含 Agent 架構說明）。
 
 ## B. 已完成但未跨平台驗證
 - Windows(`riskscope.ps1`)、Linux(`riskscope.sh` 在 Linux 的 host-network/OLLAMA_HOST 路徑):僅程式碼審閱,未實測。

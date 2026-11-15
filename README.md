@@ -9,7 +9,10 @@
 > 四類的正式交付清單。其餘補充文件：`DEMO_EVIDENCE.md`（真實執行的核心能力證據：對話/授權/工具
 > 檢查/方案比較/模擬核准/錯誤處理，含原始終端輸出）、`FAILURE_CASES.md`（4 個失敗案例，誠實標示
 > 真實模型 vs. mock）、`DEMO_RUNBOOK.md`（截圖/錄影流程）、`CONSISTENCY_REVIEW.md`（文件與實際
-> 版本一致性核對）、`evidence/screenshots/`（15 張真實操作截圖，索引見該目錄 `README.md`）。
+> 版本一致性核對）、`evidence/screenshots/`（15 張真實操作截圖，索引見該目錄 `README.md`）、
+> `TOOL_SPEC.md`（3 個 Tool 的名稱/用途/輸入/輸出/Error Handling）、`EXECUTION_TRACE.md`
+> （Demo A1 完整流程：User Input → Agent Decision → Tool Call → Observation → Agent Decision
+> → Final Result，含 Agent 架構說明）。
 > **七題人工審查已由使用者本人完成**（BB02/BB07/BB10/BB13 PASS、BB01/BB23 有條件接受、
 > **BB16 FAIL**，無任何一題被改判為 PASS）：`ai_progress/RISK_INTELLIGENCE_EVALUATION/HUMAN_REVIEW/`
 > （`HUMAN_REVIEW_DECISIONS.md` 逐題原話、`HUMAN_REVIEW_FINAL_SUMMARY.md` 彙整，簽核欄留白待
