@@ -32,6 +32,14 @@ git clone https://github.com/Cyy002/RiskScope.git
   啟動檔會檢查並可代為設定 `OLLAMA_HOST=0.0.0.0`（Windows 上容器連線本機 Ollama 必要），設定後需重新開啟 Ollama；
   Windows 防火牆若詢問 Ollama 的網路存取，請允許私人網路。**Windows 路徑尚未在實機完整驗證。**
 
+**電腦需求**：記憶體建議 16 GB 以上、可用磁碟約 15 GB、首次執行需網路（下載 Podman、Ollama、
+`qwen3:8b` 約 5 GB 與基礎映像）。**沒有安裝 Podman、Ollama 或模型也沒關係**：啟動檔會逐項詢問並
+自動下載安裝（macOS 安裝 Podman 時需輸入電腦密碼；Windows 會在需要時請求系統管理員權限並安裝
+WSL2，安裝 WSL2 後需重新開機再執行一次）。沒有 Git 也可以在 GitHub 頁面按 Code → Download ZIP，
+解壓縮後一樣雙擊啟動檔；若 macOS 顯示無法打開，請在檔案上按右鍵 →「打開」，若仍無法執行，
+在終端機輸入 `bash ` 再把檔案拖進去按 Enter；Windows 若出現「Windows 已保護您的電腦」，
+請按「其他資訊」→「仍要執行」。
+
 它會依序：檢查 Podman（必要時初始化並啟動 Podman 虛擬機）→ 檢查本機 Ollama 與 `qwen3:8b`
 → 第一次執行時建置並啟動容器（之後直接沿用）→ 健康檢查 → 顯示三種角色的登入 Token
 → 開啟瀏覽器並以 manager 身分自動登入 `http://127.0.0.1:8100`

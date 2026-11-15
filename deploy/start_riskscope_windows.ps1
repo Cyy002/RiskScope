@@ -13,26 +13,56 @@ function Ok($m)    { Write-Host "  ✓ $m" -ForegroundColor Green }
 function Warn($m)  { Write-Host "  ! $m" -ForegroundColor Yellow }
 function Title($n, $m) { Write-Host ""; Write-Host "[$n] $m" -ForegroundColor Cyan }
 function Fail($m)  { Write-Host ""; Write-Host "  ✗ $m" -ForegroundColor Red; Write-Host ""; Read-Host "按 Enter 關閉視窗" | Out-Null; exit 1 }
-function Pod { & podman @args 2>$null; return $LASTEXITCODE }
+function Pod { & podman @args 2>$null | Out-Null; return $LASTEXITCODE }
+function Ask($m) { $a = Read-Host "  $m [Y/n]"; return ($a -notmatch '^[nN]$') }
+function RefreshPath { $env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User') }
+function HasWinget { return [bool](Get-Command winget -ErrorAction SilentlyContinue) }
+function PortBusy($p) { $c = New-Object Net.Sockets.TcpClient; try { $c.Connect('127.0.0.1', [int]$p); return $true } catch { return $false } finally { $c.Close() } }
+function OllamaUp { try { Invoke-RestMethod -Uri 'http://127.0.0.1:11434/api/tags' -TimeoutSec 3 | Out-Null; return $true } catch { return $false } }
+function OllamaExe { $e = Join-Path $env:LOCALAPPDATA 'Programs\Ollama\ollama app.exe'; if (Test-Path $e) { return $e } else { return $null } }
+function StartOllama { $e = OllamaExe; if ($e) { Start-Process -FilePath $e -WindowStyle Hidden; for ($i=0; $i -lt 30; $i++) { if (OllamaUp) { return $true }; Start-Sleep 2 } }; return (OllamaUp) }
 
 Write-Host "=========================================="
 Write-Host "  RiskScope 跨領域 AI 決策與風險分析系統"
 Write-Host "=========================================="
 
-Title "1/5" "檢查 Podman"
+Title "0/5" "檢查電腦資源"
+$memGB = [math]::Floor((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB)
+$freeGB = [math]::Floor((Get-PSDrive ($env:SystemDrive.TrimEnd(':'))).Free / 1GB)
+if ($memGB -ge 16) { Ok "記憶體 $memGB GB" } else { Warn "記憶體 $memGB GB（建議 16 GB 以上；本機模型回覆可能較慢）" }
+if ($freeGB -ge 15) { Ok "可用磁碟 $freeGB GB" } else { Warn "可用磁碟 $freeGB GB（首次安裝約需 15 GB：模型 5 GB、WSL 虛擬機與映像）" }
+
+Title "1/5" "檢查 WSL2 與 Podman"
+& wsl.exe --status *> $null
+if ($LASTEXITCODE -ne 0) {
+  Warn "這台電腦尚未啟用 WSL2（Podman 在 Windows 上需要它）"
+  if (Ask "以系統管理員身分啟用 WSL2？（完成後需重新開機，再重新執行本檔）") {
+    Start-Process -FilePath wsl.exe -ArgumentList '--install','--no-distribution' -Verb RunAs -Wait
+    Fail "WSL2 已安裝，請重新開機後再雙擊 Start_RiskScope.bat"
+  } else { Fail "需要 WSL2 才能執行 Podman" }
+}
+Ok "WSL2 已啟用"
 if (-not (Get-Command podman -ErrorAction SilentlyContinue)) {
   $cand = "$env:ProgramFiles\RedHat\Podman"
   if (Test-Path "$cand\podman.exe") { $env:Path = "$cand;$env:Path" }
-  else { Fail "找不到 Podman，請先安裝 Podman Desktop：https://podman-desktop.io（需啟用 WSL2）" }
+}
+if (-not (Get-Command podman -ErrorAction SilentlyContinue)) {
+  Warn "這台電腦尚未安裝 Podman"
+  if ((HasWinget) -and (Ask "自動下載並安裝 Podman？（約 100 MB，可能跳出系統管理員確認）")) {
+    & winget install -e --id RedHat.Podman --accept-package-agreements --accept-source-agreements
+    RefreshPath
+    if (Test-Path "$env:ProgramFiles\RedHat\Podman\podman.exe") { $env:Path = "$env:ProgramFiles\RedHat\Podman;$env:Path" }
+  }
+  if (-not (Get-Command podman -ErrorAction SilentlyContinue)) { Fail "找不到 Podman，請從 https://podman-desktop.io 手動安裝後重新執行本檔" }
 }
 Ok ((& podman --version) -join ' ')
 & podman info *> $null
 if ($LASTEXITCODE -ne 0) {
   $machines = & podman machine list --format '{{.Name}}' 2>$null
   if (-not $machines) {
-    Write-Host "  首次使用：初始化 Podman 虛擬機（需 WSL2，約 2–5 分鐘）…"
+    Write-Host "  首次使用：初始化 Podman 虛擬機（約 2–5 分鐘）…"
     & podman machine init
-    if ($LASTEXITCODE -ne 0) { Fail "podman machine init 失敗；請確認已啟用 WSL2（以系統管理員執行 wsl --install 後重新開機）" }
+    if ($LASTEXITCODE -ne 0) { Fail "podman machine init 失敗；請確認 WSL2 正常（可在 PowerShell 執行 wsl --status 檢查）" }
   }
   Write-Host "  啟動 Podman 虛擬機…"
   & podman machine start *> $null
@@ -42,36 +72,50 @@ if ($LASTEXITCODE -ne 0) {
 Ok "Podman 已就緒"
 
 Title "2/5" "檢查本機 LLM（Ollama）"
-$ollamaOk = $false
-try {
+# Windows 上容器需透過 OLLAMA_HOST=0.0.0.0 才能連到本機 Ollama；先設定好，再啟動／重啟 Ollama
+$h = [Environment]::GetEnvironmentVariable('OLLAMA_HOST','User'); if (-not $h) { $h = [Environment]::GetEnvironmentVariable('OLLAMA_HOST','Machine') }
+$needRestart = $false
+if ($h -ne '0.0.0.0' -and $h -notlike '0.0.0.0:*') {
+  [Environment]::SetEnvironmentVariable('OLLAMA_HOST','0.0.0.0','User'); $env:OLLAMA_HOST = '0.0.0.0'; $needRestart = $true
+  Ok "已設定 OLLAMA_HOST=0.0.0.0（讓容器可以連到本機模型；Windows 防火牆若詢問，請允許私人網路）"
+}
+if (-not (OllamaExe) -and -not (Get-Command ollama -ErrorAction SilentlyContinue)) {
+  Warn "這台電腦尚未安裝 Ollama（本機 LLM 服務）"
+  if ((HasWinget) -and (Ask "自動下載並安裝 Ollama？（約 1 GB）")) {
+    & winget install -e --id Ollama.Ollama --accept-package-agreements --accept-source-agreements
+    RefreshPath
+  }
+}
+if ($needRestart -and (OllamaUp)) {
+  Write-Host "  重新啟動 Ollama 以套用設定…"
+  Get-Process -Name 'ollama app','ollama' -ErrorAction SilentlyContinue | Stop-Process -Force
+  Start-Sleep 2
+}
+if (-not (OllamaUp)) { Write-Host "  啟動 Ollama…"; if (-not (StartOllama)) { Warn "Ollama 未啟動" } }
+$olBin = (Get-Command ollama -ErrorAction SilentlyContinue).Source
+if (-not $olBin) { $c = Join-Path $env:LOCALAPPDATA 'Programs\Ollama\ollama.exe'; if (Test-Path $c) { $olBin = $c } }
+if (OllamaUp) {
   $tags = Invoke-RestMethod -Uri 'http://127.0.0.1:11434/api/tags' -TimeoutSec 3
-  $ollamaOk = $true
   if ($tags.models.name -contains $Model) { Ok "Ollama 已啟動，模型 $Model 可用" }
   else {
     Warn "Ollama 已啟動，但尚未下載模型 $Model"
-    $ans = Read-Host "  現在下載 $Model（約 5 GB）？[y/N]"
-    if ($ans -match '^[yY]$') { & ollama pull $Model; if ($LASTEXITCODE -eq 0) { Ok "模型下載完成" } else { Warn "下載失敗，系統將改用固定模板回覆" } }
-    else { Warn "略過下載，系統將改用固定模板回覆" }
+    if ($olBin -and (Ask "現在下載 $Model？（約 5 GB，依網速需數分鐘）")) {
+      & $olBin pull $Model; if ($LASTEXITCODE -eq 0) { Ok "模型下載完成" } else { Warn "下載失敗，系統將改用固定模板回覆" }
+    } else { Warn "略過下載，系統將改用固定模板回覆" }
   }
-} catch {
-  Warn "偵測不到 Ollama（http://127.0.0.1:11434）。系統仍可運作，但回覆改用固定模板。"
-  Warn "啟用本機模型：安裝 Ollama（https://ollama.com）後執行 ollama pull $Model，再重新執行本檔。"
-}
-if ($ollamaOk) {
-  $h = [Environment]::GetEnvironmentVariable('OLLAMA_HOST','User'); if (-not $h) { $h = [Environment]::GetEnvironmentVariable('OLLAMA_HOST','Machine') }
-  if ($h -ne '0.0.0.0' -and $h -notlike '0.0.0.0:*') {
-    Warn "Windows 上容器需要 Ollama 允許外部連線（OLLAMA_HOST=0.0.0.0），目前未設定。"
-    $ans = Read-Host "  幫你設定 OLLAMA_HOST=0.0.0.0（僅限目前使用者）？[Y/n]"
-    if ($ans -notmatch '^[nN]$') {
-      [Environment]::SetEnvironmentVariable('OLLAMA_HOST','0.0.0.0','User')
-      Ok "已設定。請從右下角系統匣結束 Ollama，再重新開啟 Ollama。"
-      Read-Host "  重新開啟 Ollama 後按 Enter 繼續" | Out-Null
-    } else { Warn "未設定；容器可能連不到模型，回覆會改用固定模板" }
-  }
+} else {
+  Warn "偵測不到 Ollama。系統仍可運作，但回覆改用固定模板。"
+  Warn "啟用本機模型：從 https://ollama.com 安裝 Ollama 後重新執行本檔。"
 }
 
 Title "3/5" "準備 RiskScope 容器"
+if ((Pod container exists $Name) -ne 0 -and (PortBusy $Port)) {
+  foreach ($p in ([int]$Port + 1)..([int]$Port + 20)) { if (-not (PortBusy $p)) { Warn "Port $Port 已被其他程式使用，改用 $p"; $Port = "$p"; break } }
+  $env:RS_PORT = $Port; $Url = "http://127.0.0.1:$Port"
+}
 if ((Pod container exists $Name) -eq 0) {
+  $hp = & podman container inspect $Name --format '{{range $p, $b := .HostConfig.PortBindings}}{{range $b}}{{.HostPort}}{{end}}{{end}}' 2>$null
+  if ($hp) { $Port = "$hp"; $Url = "http://127.0.0.1:$Port" }
   $running = & podman container inspect $Name --format '{{.State.Running}}' 2>$null
   if ($running -eq 'true') { Ok "容器 $Name 已在執行" }
   else { if ((Pod start $Name) -ne 0) { Fail "容器啟動失敗" }; Ok "已啟動既有容器 $Name（沿用原有資料）" }
@@ -150,5 +194,6 @@ Write-Host @"
 
 完整說明：README.md、ai_progress\ASSIGNMENT2\DEMO_RUNBOOK.md
 停止系統：podman stop $Name
+更新程式後重新建置：podman rm -f $Name，再重新執行本檔（資料保留在 volume）
 "@
 Read-Host "按 Enter 關閉此視窗（系統會繼續在背景執行）" | Out-Null
