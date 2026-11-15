@@ -1,6 +1,8 @@
 ﻿# RiskScope 一鍵啟動（Windows）：由 Start_RiskScope.bat 呼叫
 # 流程：檢查 Podman → 檢查本機 Ollama 模型 → 建置／啟動容器 → 健康檢查 → 自動登入並顯示操作教學
 $ErrorActionPreference = 'Continue'
+# 關閉 PowerShell 進度列：它會蓋在視窗最上方，造成 [0/5] 的中文字重複與截斷
+$ProgressPreference = 'SilentlyContinue'
 try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
 $Root  = Split-Path -Parent $PSScriptRoot
 Set-Location $Root
@@ -134,7 +136,12 @@ $olBin = (Get-Command ollama -ErrorAction SilentlyContinue).Source
 if (-not $olBin) { $c = Join-Path $env:LOCALAPPDATA 'Programs\Ollama\ollama.exe'; if (Test-Path $c) { $olBin = $c } }
 if (OllamaUp) {
   $tags = Invoke-RestMethod -Uri 'http://127.0.0.1:11434/api/tags' -TimeoutSec 3
-  if ($tags.models.name -contains $Model) { Ok "Ollama 已啟動，模型 $Model 可用" }
+  if ($tags.models.name -contains $Model) {
+    Ok "Ollama 已啟動，模型 $Model 可用"
+    # 預先把模型載入記憶體，避免第一題因冷啟動逾時而退回模板或漏套使用者數值
+    Write-Host "  預先載入模型（第一次約需 10–60 秒）…"
+    try { Invoke-RestMethod -Uri 'http://127.0.0.1:11434/api/generate' -Method Post -ContentType 'application/json' -Body (@{ model = $Model; prompt = ''; keep_alive = '30m' } | ConvertTo-Json) -TimeoutSec 180 | Out-Null; Ok "模型已載入" } catch { Warn "模型預先載入失敗，第一題可能較慢" }
+  }
   else {
     Warn "Ollama 已啟動，但尚未下載模型 $Model"
     if ($olBin -and (Ask "現在下載 $Model？（約 5 GB，依網速需數分鐘）")) {
@@ -169,8 +176,15 @@ $healthy = $false
 for ($i = 0; $i -lt 30; $i++) { try { Invoke-WebRequest "$Url/health" -UseBasicParsing -TimeoutSec 3 | Out-Null; $healthy = $true; break } catch { Start-Sleep 2 } }
 if (-not $healthy) { Fail "系統沒有回應：$Url/health（可執行 podman logs $Name 查看原因）" }
 Ok "系統運作正常：$Url"
-& podman exec $Name python -c "import urllib.request,os;urllib.request.urlopen(os.environ.get('OLLAMA_URL','http://host.containers.internal:11434')+'/api/tags',timeout=3)" *> $null
 $probe = "import urllib.request,os;urllib.request.urlopen(os.environ.get('OLLAMA_URL','http://host.containers.internal:11434')+'/api/tags',timeout=3)"
+& podman exec $Name python -c $probe *> $null
+if ($LASTEXITCODE -ne 0 -and (OllamaUp)) {
+  # 先重建容器：容器內記錄的主機位址（WSL 閘道）在 Windows 重開機後可能改變；資料保留在 volume
+  Write-Host "  容器連不到本機 Ollama，更新主機位址並重建容器（資料保留）…"
+  $env:RS_NAME = $Name; $env:RS_PORT = $Port
+  try { & "$Root\deploy\riskscope.ps1" up | Out-Null } catch { Warn "重建容器失敗：$($_.Exception.Message)" }
+  & podman exec $Name python -c $probe *> $null
+}
 if ($LASTEXITCODE -ne 0 -and (OllamaUp)) {
   # 常見原因：Windows 防火牆擋下 WSL 虛擬網段連到主機 11434
   if (-not (Get-NetFirewallRule -DisplayName 'RiskScope Ollama (WSL)' -ErrorAction SilentlyContinue)) {

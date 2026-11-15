@@ -1,4 +1,5 @@
 # Windows PowerShell driver (Podman Desktop / podman machine on WSL2). NOT yet run on a real Windows host.
+# Labels are read via JSON: Windows PowerShell 5.1 strips the double quotes in a Go-template --format argument.
 # Usage: .\deploy\riskscope.ps1 build|up|smoke|demo|restart-test|creds|down|purge
 param([Parameter(Mandatory=$true)][string]$Action)
 $ErrorActionPreference = 'Stop'
@@ -18,8 +19,8 @@ if ($Image -notmatch '^localhost/riskscope-portable:[A-Za-z0-9_.-]+$') { throw '
 if ($Port -notmatch '^\d+$' -or [int]$Port -lt 1024 -or [int]$Port -gt 65535 -or $Port -eq '8000') { throw 'REFUSED: port must be 1024-65535 and not 8000' }
 $Label = 'io.riskscope.portable=1'
 function Owned($kind, $n) {
-  if ($kind -eq 'container') { if ((PodQuiet container exists $n) -ne 0) { return $true }; $v = podman container inspect $n --format '{{index .Config.Labels "io.riskscope.portable"}}' }
-  else { if ((PodQuiet volume exists $n) -ne 0) { return $true }; $v = podman volume inspect $n --format '{{index .Labels "io.riskscope.portable"}}' }
+  if ($kind -eq 'container') { if ((PodQuiet container exists $n) -ne 0) { return $true }; $v = (podman container inspect $n | ConvertFrom-Json)[0].Config.Labels.'io.riskscope.portable' }
+  else { if ((PodQuiet volume exists $n) -ne 0) { return $true }; $v = (podman volume inspect $n | ConvertFrom-Json)[0].Labels.'io.riskscope.portable' }
   return ($v -eq '1')
 }
 function RequireOwned { if (-not (Owned 'container' $Name)) { throw "REFUSED: container $Name not owned by this kit" }
@@ -30,7 +31,12 @@ switch ($Action) {
  'up' { RequireOwned
    if ((PodQuiet volume exists $Vol) -ne 0) { Pod volume create --label $Label $Vol | Out-Null }
    if ((PodQuiet container exists $Name) -eq 0) { Pod rm -f $Name | Out-Null }
-   Pod run -d --name $Name --label $Label --restart=unless-stopped -p "127.0.0.1:${Port}:8000" --add-host=host.containers.internal:host-gateway -v "${Vol}:/app/runtime" -e "OLLAMA_URL=$Url" -e "OLLAMA_MODEL=$Model" -e "OLLAMA_REPLY_TIMEOUT_SECONDS=$To" $Image | Out-Null
+   # On podman machine (WSL2) 'host-gateway' resolves to the VM itself, not Windows; use the VM's default gateway (= the Windows host).
+   $HostGw = 'host-gateway'
+   $route = try { podman machine ssh 'ip route show default' 2>$null } catch { '' }
+   $m = [regex]::Match("$route", 'via (\d+\.\d+\.\d+\.\d+)')
+   if ($m.Success) { $HostGw = $m.Groups[1].Value }
+   Pod run -d --name $Name --label $Label --restart=unless-stopped -p "127.0.0.1:${Port}:8000" "--add-host=host.containers.internal:$HostGw" -v "${Vol}:/app/runtime" -e "OLLAMA_URL=$Url" -e "OLLAMA_MODEL=$Model" -e "OLLAMA_REPLY_TIMEOUT_SECONDS=$To" $Image | Out-Null
    $ok = $false
    for ($i=0; $i -lt 30; $i++) { try { (Invoke-WebRequest "http://127.0.0.1:$Port/health" -UseBasicParsing).Content; $ok = $true; break } catch { Start-Sleep 2 } }
    if (-not $ok) { podman logs $Name; throw 'health check failed' } }
