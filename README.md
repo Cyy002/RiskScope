@@ -29,7 +29,8 @@ git clone https://github.com/Cyy002/RiskScope.git
 在 Finder 進入 `RiskScope` 資料夾，**雙擊 `Start_RiskScope.command`**（Linux：`bash Start_RiskScope.command`）。
 它會依序：檢查 Podman（必要時初始化並啟動 Podman 虛擬機）→ 檢查本機 Ollama 與 `qwen3:8b`
 → 第一次執行時建置並啟動容器（之後直接沿用）→ 健康檢查 → 顯示三種角色的登入 Token
-（manager Token 自動複製到剪貼簿）→ 開啟瀏覽器 `http://127.0.0.1:8100`。
+→ 開啟瀏覽器並以 manager 身分自動登入 `http://127.0.0.1:8100`
+（Token 只放在網址 `#` 之後，不會送到伺服器，載入後立即從網址列移除）。
 登入後可依 `ai_progress/ASSIGNMENT2/DEMO_RUNBOOK.md` 的固定測試案例操作。
 若 macOS 阻擋執行，請在檔案上按右鍵 →「打開」。
 

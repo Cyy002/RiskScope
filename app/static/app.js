@@ -1,5 +1,7 @@
 'use strict';
 const P='demo-chamber';
+// One-click launcher passes the local demo token in the URL fragment (#token=...); store it for this tab and strip it from the address bar.
+(()=>{const m=location.hash.match(/(?:^#|&)token=([^&]+)/);if(m){sessionStorage.setItem('riskscope_token',decodeURIComponent(m[1]));history.replaceState(null,'',location.pathname+location.search)}})();
 const state={token:sessionStorage.getItem('riskscope_token')||'',user:null,role:null,page:'overview',lastAnalysis:null};
 const el=id=>document.getElementById(id);
 const e=x=>String(x??'').replace(/[&<>"']/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));

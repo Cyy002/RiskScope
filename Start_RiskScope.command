@@ -86,13 +86,12 @@ echo "    engineer 工程師：可分析、提出變更，但不能核准"
 echo "             $E"
 echo "    outsider 無專案權限：用於驗證存取會被拒絕"
 echo "             $O"
-if command -v pbcopy >/dev/null; then
-  printf %s "$M" | pbcopy && ok "manager Token 已複製到剪貼簿，在登入畫面直接貼上即可"
-fi
+ok "瀏覽器將以 manager 身分自動登入；要切換角色，點左下角「登出／更換身分」貼上其他 Token"
 
 echo
 echo "正在開啟瀏覽器：$URL"
-if command -v open >/dev/null; then open "$URL"; elif command -v xdg-open >/dev/null; then xdg-open "$URL"; fi
+LOGIN_URL="$URL/#token=$M"
+if command -v open >/dev/null; then open "$LOGIN_URL"; elif command -v xdg-open >/dev/null; then xdg-open "$LOGIN_URL"; fi
 echo
 echo "固定測試案例：ai_progress/ASSIGNMENT2/DEMO_RUNBOOK.md"
 echo "停止系統：podman stop $NAME"
