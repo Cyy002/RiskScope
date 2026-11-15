@@ -71,6 +71,9 @@ command -v ollama >/dev/null || { [ -x "${OLLAMA_APP}/Contents/Resources/ollama"
 if TAGS=$(curl -fs --max-time 3 http://127.0.0.1:11434/api/tags); then
   if echo "${TAGS}" | grep -q "\"name\":\"${MODEL}\""; then
     ok "Ollama 已啟動，模型 ${MODEL} 可用"
+    echo "  預先載入模型（避免第一題遇到冷啟動逾時，約 10–60 秒）…"
+    curl -fs --max-time 180 http://127.0.0.1:11434/api/generate -d "{\"model\":\"${MODEL}\",\"prompt\":\"\",\"keep_alive\":\"30m\"}" >/dev/null \
+      && ok "模型已載入記憶體" || warn "模型預先載入未完成，第一題可能較慢"
   else
     warn "Ollama 已啟動，但尚未下載模型 ${MODEL}"
     if ask "現在下載 ${MODEL}？（約 5 GB，依網速需數分鐘）"; then
