@@ -20,6 +20,8 @@ function HasWinget { return [bool](Get-Command winget -ErrorAction SilentlyConti
 function PortBusy($p) { $c = New-Object Net.Sockets.TcpClient; try { $c.Connect('127.0.0.1', [int]$p); return $true } catch { return $false } finally { $c.Close() } }
 function OllamaUp { try { Invoke-RestMethod -Uri 'http://127.0.0.1:11434/api/tags' -TimeoutSec 3 | Out-Null; return $true } catch { return $false } }
 function OllamaExe { $e = Join-Path $env:LOCALAPPDATA 'Programs\Ollama\ollama app.exe'; if (Test-Path $e) { return $e } else { return $null } }
+function OllamaListensAll { $c = Get-NetTCPConnection -LocalPort 11434 -State Listen -ErrorAction SilentlyContinue; return [bool]($c | Where-Object { $_.LocalAddress -in @('0.0.0.0','::') }) }
+function RestartOllama { Get-Process -Name 'ollama app','ollama' -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep 2; $env:OLLAMA_HOST = '0.0.0.0'; return (StartOllama) }
 function StartOllama { $e = OllamaExe; if ($e) { Start-Process -FilePath $e -WindowStyle Hidden; for ($i=0; $i -lt 30; $i++) { if (OllamaUp) { return $true }; Start-Sleep 2 } }; return (OllamaUp) }
 
 Write-Host "=========================================="
@@ -120,12 +122,14 @@ if (-not (OllamaExe) -and -not (Get-Command ollama -ErrorAction SilentlyContinue
     RefreshPath
   }
 }
-if ($needRestart -and (OllamaUp)) {
-  Write-Host "  重新啟動 Ollama 以套用設定…"
-  Get-Process -Name 'ollama app','ollama' -ErrorAction SilentlyContinue | Stop-Process -Force
-  Start-Sleep 2
+$env:OLLAMA_HOST = '0.0.0.0'
+# 已在執行、但只聽 127.0.0.1（例如設定變數後沒有完全重啟）也要重啟，否則容器連不到
+if ((OllamaUp) -and ($needRestart -or -not (OllamaListensAll))) {
+  Write-Host "  重新啟動 Ollama，讓它接受容器連線…"
+  if (-not (RestartOllama)) { Warn "Ollama 重新啟動失敗" }
 }
 if (-not (OllamaUp)) { Write-Host "  啟動 Ollama…"; if (-not (StartOllama)) { Warn "Ollama 未啟動" } }
+if ((OllamaUp) -and -not (OllamaListensAll)) { Warn "Ollama 仍只接受本機連線（127.0.0.1），容器可能連不到；請從系統匣完全結束 Ollama 後重新開啟" }
 $olBin = (Get-Command ollama -ErrorAction SilentlyContinue).Source
 if (-not $olBin) { $c = Join-Path $env:LOCALAPPDATA 'Programs\Ollama\ollama.exe'; if (Test-Path $c) { $olBin = $c } }
 if (OllamaUp) {
@@ -166,7 +170,25 @@ for ($i = 0; $i -lt 30; $i++) { try { Invoke-WebRequest "$Url/health" -UseBasicP
 if (-not $healthy) { Fail "系統沒有回應：$Url/health（可執行 podman logs $Name 查看原因）" }
 Ok "系統運作正常：$Url"
 & podman exec $Name python -c "import urllib.request,os;urllib.request.urlopen(os.environ.get('OLLAMA_URL','http://host.containers.internal:11434')+'/api/tags',timeout=3)" *> $null
-if ($LASTEXITCODE -eq 0) { Ok "容器可以連到本機 Ollama" } else { Warn "容器連不到本機 Ollama，回覆會改用固定模板（請確認 OLLAMA_HOST=0.0.0.0 並重新開啟 Ollama）" }
+$probe = "import urllib.request,os;urllib.request.urlopen(os.environ.get('OLLAMA_URL','http://host.containers.internal:11434')+'/api/tags',timeout=3)"
+if ($LASTEXITCODE -ne 0 -and (OllamaUp)) {
+  # 常見原因：Windows 防火牆擋下 WSL 虛擬網段連到主機 11434
+  if (-not (Get-NetFirewallRule -DisplayName 'RiskScope Ollama (WSL)' -ErrorAction SilentlyContinue)) {
+    Warn "容器連不到本機 Ollama，可能被 Windows 防火牆擋下"
+    if (Ask "以系統管理員身分新增防火牆規則（只允許 WSL 內部網段 172.16.0.0/12 連到 11434）？") {
+      Start-Process -FilePath powershell.exe -Verb RunAs -Wait -ArgumentList '-NoProfile','-Command',"New-NetFirewallRule -DisplayName 'RiskScope Ollama (WSL)' -Direction Inbound -Protocol TCP -LocalPort 11434 -RemoteAddress 172.16.0.0/12 -Action Allow -Profile Any"
+      Start-Sleep 2
+      & podman exec $Name python -c $probe *> $null
+    }
+  }
+}
+if ($LASTEXITCODE -eq 0) { Ok "容器可以連到本機 Ollama" }
+else {
+  Warn "容器連不到本機 Ollama，回覆會改用固定模板。可手動檢查："
+  Write-Host "     1. 系統匣 Ollama 圖示 → 右鍵 Quit，再從開始選單重新開啟 Ollama"
+  Write-Host "     2. PowerShell 執行 netstat -ano | findstr 11434，應看到 0.0.0.0:11434"
+  Write-Host "     3. 再雙擊一次 Start_RiskScope.bat"
+}
 
 Title "5/5" "登入資訊"
 try { $creds = (& podman exec $Name cat /app/runtime/demo_credentials.json) -join "`n" | ConvertFrom-Json } catch { Fail "無法讀取登入 Token" }
