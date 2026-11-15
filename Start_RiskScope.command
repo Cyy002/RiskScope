@@ -188,4 +188,4 @@ cat <<GUIDE
 更新程式後重新建置：podman rm -f ${NAME}，再重新執行本檔（資料保留在 volume）
 GUIDE
 echo
-read -r -p "按 Enter 關閉此視窗（系統會繼續在背景執行）" _
+read -r -p "按 Enter 關閉此視窗（系統會繼續在背景執行）" _ || true
