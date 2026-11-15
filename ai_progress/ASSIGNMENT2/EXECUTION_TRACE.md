@@ -8,10 +8,18 @@
 
 ### 關於「資料庫真實紀錄」區塊（2026-11-15 補充）
 
+註：此為 2026-10-20 舊版程式的真實紀錄；該版本未使用使用者提供的數值（user_supplied_fact_keys
+為空），此缺陷已於後續版本處理（找不到單獨的修正 commit：本 repo 的 git 歷史從 `027a458`
+（2026-11-09，Initial commit）開始，該 commit 的 `app/engineering.py` 已包含處理機制——M8 的
+`mode='replace'/'add'` 與 M12.5.1 的 `supply_actual_current`，見 `power_continuous` docstring；
+同類輸入在 2026-11-09 的 Demo A1 已正確使用使用者數值，見階段 4 的 14A／336W。但 10/20 這句
+訊息本身沒有在現行版本重跑，針對這一句是否已修正待確認）。
+
 Demo A1 那次執行寫入的 `analyses`／`tool_calls` 紀錄存在測試 VM
-（`riskscope-codex-apple-20261107`）的容器 volume 內；補充當下該 VM 為關機狀態，未啟動它，
-因此**沒有取得 Demo A1 本身的資料庫紀錄**。本機 `runtime/agent.sqlite3` 的 `analyses` 與
-`tool_calls` 皆為 0 筆。
+（`riskscope-codex-apple-20261107`）的容器 volume 內。2026-11-15 兩次檢查時，正式機
+`riskscope-machine` 與兩台測試 VM 皆未運作（`podman ps -a` 無法連線，8100／8110／8130 皆未
+監聽），依指示不啟動，因此**沒有取得 Demo A1 本身、也沒有取得任何 11/09 之後的資料庫紀錄**。
+本機 `runtime/agent.sqlite3` 的 `analyses` 與 `tool_calls` 皆為 0 筆。
 
 以下各階段標示「資料庫真實紀錄」的區塊，取自**另一次真實執行**——目前能讀到的、與 Demo A1
 最接近的一次完整分析（同為 `focus='motor_upgrade'` 的馬達/電源問題）：
@@ -195,8 +203,27 @@ LLM 只負責生成候選敘述內容本身。
 ## Agent 架構說明
 
 **Model**：本機 Ollama，預設 `qwen3:8b`（`README.md` 第 2 節 `OLLAMA_MODEL=qwen3:8b`；本次
-Demo 執行使用真實該模型，非 mock）。LLM 只用於「轉述」，不被允許自行做數學、授權判斷或決定控制
-流程（`ai_progress/RISK_INTELLIGENCE_EVALUATION/CURRENT_ARCHITECTURE.md` 第 62-74 行）。
+Demo 執行使用真實該模型，非 mock）。依現行程式碼，LLM 只在四個地方被呼叫（`call_ollama`），
+每一處的輸出都要先通過確定性檢查才會被採用：
+
+1. **抽取使用者訊息中的數值**（`app/chat.py:1123` `_extract_user_supplied`，呼叫於 `:1177`；
+   僅 `focus='motor_upgrade'`）：LLM 只能對固定的 `USER_SUPPLIABLE_KEYS` 提出候選值，每個候選值
+   還要通過 `convert()` 的單位維度檢查，且數值＋單位必須逐字出現在使用者訊息裡
+   （`_grounded_in_message`）才會被採用——模組 docstring 的原話是「propose (never decide)」。
+2. **轉述確定性計算結果**（`app/chat.py:1403` `_llm_reply`，呼叫於 `:1476`）：有確定性檢核的
+   焦點（`chat_turn` 的 `if check:` 分支，`app/chat.py:1693`，Demo A1 走這條），LLM 只把已算好的
+   結果改寫成自然語言，再由 M7（`_reply_is_trustworthy`，`app/chat.py:914`）核對，不通過就退回
+   確定性範本。
+3. **無確定性規則的焦點做自由形式的風險分析**（`app/chat.py:1488` `_generic_free_form_reply`，
+   呼叫於 `:1552`；`chat_turn` 的 `app/chat.py:1654`、`:1709` 分支，例如 Demo B 的供應商決策）：
+   這條路徑上 LLM 確實自己做推理並寫出分析文字，不只是轉述。但文字同樣要過 M7——核准／安全等
+   聲稱類檢查維持硬性拒絕，數字類改為附註提醒（`strict_numeric=False`，`app/chat.py:1720`）；
+   排程總工期由程式重算。這段文字只成為回覆內容，不會改寫 `facts`／`options`／`risks`。
+4. **`/analyze` 的選用說明文字**（`app/analyzer.py:60` `_safe_local_explanation`，呼叫於 `:86`）：
+   同樣經 M7 檢查，不通過即不保留。
+
+四處都不涉及選擇工具、決定流程走向、核准或寫入。註：`CURRENT_ARCHITECTURE.md`（2026-11-01）
+寫的「LLM 只能轉述」早於第 3 點的 2026-11-04 架構修訂，以上以現行程式碼為準。
 
 **Tools**：`get_context`／`check_constraints`／`trace_impact`（詳見本次新增的
 `ai_progress/ASSIGNMENT2/TOOL_SPEC.md`）。三者的呼叫與否、呼叫順序、傳入參數完全由
@@ -206,16 +233,19 @@ Demo 執行使用真實該模型，非 mock）。LLM 只用於「轉述」，不
 `StateGraph` 編譯四個順序節點（`get_context→check_constraints→trace_impact→synthesis`）；
 未安裝則用程式明示的 `sequential_fallback` 依序呼叫同樣四個函式。回傳結果裡的
 `orchestration` 欄位會誠實標示實際走的是 `'langgraph'` 還是 `'sequential_fallback'`，
-不會偽稱已使用 LangGraph（`README.md` 第 2 節「本地 LangGraph」一段）。
+不會偽稱已使用 LangGraph（`README.md` 第 2 節「本地 LangGraph」一段）。容器映像有安裝
+LangGraph（`Containerfile:7` 安裝 `requirements-langgraph.txt`，內容為 `langgraph==1.0.0`）；
+上方 10/20 的資料庫紀錄也記錄了 `orchestration = "langgraph"`。這裡的 LangGraph 只用來串接
+四個固定順序的節點，沒有條件分支，也沒有讓 LLM 選擇節點。
 
 **是否採用 ReAct**：**未採用**。依據：
 1. `ARCHITECTURE_AND_HANDOFF.md`「實際資料流」一節明確寫出固定的
    `Workflow [get_context -> check_constraints -> trace_impact -> synthesis]`，並在該段結尾
    說明「這是刻意設計的單一工作流，不是角色互辯設計」。
-2. `CURRENT_ARCHITECTURE.md` 第 62-74 行（「2.3 LLM 在整條流程裡被允許做什麼」）明確指出 LLM
-   只能轉述系統已經算好的內容，任何不在「系統信任的數字集合」裡的轉述都會被 M7 擋下退回確定性
-   範本——LLM 沒有機會依據自己的觀察去決定下一步該呼叫哪個工具或改變流程走向，而 ReAct 模式的
-   核心正是「LLM 依據上一步的 Observation 自主決定下一個 Action」。本專案的工具呼叫序列與參數
-   完全不受 LLM 輸出影響，因此架構上不符合 ReAct 的定義。
+2. 程式碼：`app/analyzer.py:440-457` 的四個節點是固定順序，`app/chat.py` 的 `chat_turn`
+   （`:1582`）先跑完 `analyze()`（`:1638`）才呼叫 LLM 產生回覆文字。LLM 的輸出不會回頭觸發
+   任何工具呼叫，也不會改變流程走向；而 ReAct 模式的核心正是「LLM 依據上一步的 Observation
+   自主決定下一個 Action」。唯一會影響工具輸入的 LLM 輸出是上方第 1 點的數值抽取，它只提供
+   `check_constraints` 的候選參數，且須先通過確定性驗證。因此架構上不符合 ReAct 的定義。
 
-本系統未採用 ReAct，而是採用 Model／Tools／Orchestration 三層、由程式控制的確定性工作流。理由：(1) 數值、單位與規格比較屬於可驗證事實，應由確定性工具計算，不交給 LLM 自行決定是否、何時呼叫工具；(2) 涉及核准與變更的動作必須經過固定的權限與人工核准關卡，流程需可預測、可稽核；(3) 本地 Qwen3:8b 在自由選擇工具與多步推理時穩定性不足，固定流程可降低錯誤呼叫與無限迴圈風險。LLM 負責語意理解、風險推理與自然語言輸出。
+本系統未採用 ReAct，而是採用 Model／Tools／Orchestration 三層、由程式控制的確定性工作流。理由：(1) 數值、單位與規格比較屬於可驗證事實，應由確定性工具計算，不交給 LLM 自行決定是否、何時呼叫工具；(2) 涉及核准與變更的動作必須經過固定的權限與人工核准關卡，流程需可預測、可稽核；(3) 本地 Qwen3:8b 在自由選擇工具與多步推理時穩定性不足，固定流程可降低錯誤呼叫與無限迴圈風險。LLM 負責三件事：從使用者訊息抽取候選數值、把確定性工具的結果轉述為自然語言、以及在沒有確定性規則的焦點撰寫風險分析文字；三者的輸出都須通過確定性檢查才會被採用，LLM 不參與數值計算、工具選擇、流程控制與核准。
