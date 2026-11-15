@@ -91,12 +91,23 @@ ok "瀏覽器將以 manager 身分自動登入；要切換角色，點左下角�
 echo
 echo "正在開啟瀏覽器：$URL"
 LOGIN_URL="$URL/#token=$M"
-if command -v open >/dev/null; then open "$LOGIN_URL"; elif command -v xdg-open >/dev/null; then xdg-open "$LOGIN_URL"; fi
+if command -v open >/dev/null; then
+  open "$LOGIN_URL"
+  # 瀏覽器開啟後，把本視窗叫回最前面，確保先看到下方操作教學
+  sleep 3
+  case "${TERM_PROGRAM:-}" in
+    Apple_Terminal) open -a Terminal ;;
+    iTerm.app)      open -a iTerm ;;
+  esac
+elif command -v xdg-open >/dev/null; then
+  xdg-open "$LOGIN_URL"
+fi
 cat <<GUIDE
 
 ==========================================
   操作教學（瀏覽器已用 manager 身分登入）
 ==========================================
+瀏覽器已在後方開啟，請先閱讀本教學，再切換到瀏覽器照步驟操作。
 輸入範例請逐字複製；本機模型每題約需 30–60 秒。
 
 【第一部分｜固定測資：對話式 Agent】
