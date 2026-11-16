@@ -1,5 +1,12 @@
 # RiskScope 作業二 最終狀態 (Claude A, 更新於 2026-11-11 凌晨)
 
+> **最新狀態（2026-11-16，取代本文件中所有「未推送／簽核留白／Windows、Linux 未實測」的敘述；以下內容保留為歷史紀錄）**
+> - 已推送至 Private repo `https://github.com/Cyy002/RiskScope`；人工審查已簽核（2026-11-15）。
+> - 一鍵啟動：`Start_RiskScope.command`（macOS）、`Start_RiskScope.bat`（Windows），含自動安裝前置軟體、自動登入與終端機操作教學。
+> - 實測：macOS（乾淨副本＋教學 1～10＋容器內 pytest 304 passed／2 skipped）、Windows 11 實機（一鍵啟動＋教學 1～10）、
+>   Linux（GitHub Actions，build／up／health／權限／決定性計算；未驗證 LLM 回覆）。
+> - **結論：可繳交。** 只剩使用者本人把老師與助教加入 Collaborators 並在課程平台繳交連結（截止 2026-11-22）。
+
 對照 commit `16e7402`（HEAD，工作樹乾淨，306 passed）。**Podman Desktop 問題已完全解決**：
 使用者依照上一輪提供的 30 秒操作，在 Settings → Preferences → Podman 設定了「Path to Podman
 Binary」為 `/Users/haochenglin/.local/podman/bin/podman` 後，Podman Desktop 現在能正確顯示
@@ -28,7 +35,7 @@ git 歷史或程式碼裡的問題（我已確認它從未被寫入任何追蹤�
 
 ## 總結判定（封版，2026-11-11）
 
-**技術面：有條件 PASS（CONDITIONAL PASS）。繳交面：尚未具備「可繳交」條件——缺 GitHub 遠端與使用者本人簽核。**
+~~技術面：有條件 PASS。繳交面：缺 GitHub 遠端與使用者本人簽核。~~ **（已過時，見文件開頭 2026-11-16 最新狀態：已推送、已簽核，可繳交。）**
 
 七題人工審查已由使用者本人親自逐題判定完成（BB02/BB07/BB10/BB13 PASS、BB01/BB23 有條件接受、
 **BB16 FAIL**，完整原話見 `HUMAN_REVIEW_DECISIONS.md`），不再是空白項目；唯一剩下的是

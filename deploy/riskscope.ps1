@@ -1,4 +1,4 @@
-# Windows PowerShell driver (Podman Desktop / podman machine on WSL2). NOT yet run on a real Windows host.
+# Windows PowerShell driver (Podman Desktop / podman machine on WSL2). Verified on a real Windows 11 PC on 2026-11-15.
 # Labels are read via JSON: Windows PowerShell 5.1 strips the double quotes in a Go-template --format argument.
 # Usage: .\deploy\riskscope.ps1 build|up|smoke|demo|restart-test|creds|down|purge
 param([Parameter(Mandatory=$true)][string]$Action)
