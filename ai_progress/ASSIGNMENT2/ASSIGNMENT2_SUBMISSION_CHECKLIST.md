@@ -2,7 +2,7 @@
 AI 整理/驗證,非真人驗收（人工審查結果一節除外——那是使用者本人的真實判定）。
 
 > **最新狀態（2026-11-16，取代下方 B、C、E 中已過時的敘述）**
-> - **GitHub**：已推送到 Private repo `https://github.com/Cyy002/RiskScope`（`main`）。
+> - **GitHub**：已推送到公開 repo `https://github.com/Cyy002/RiskScope`（`main`；依課程要求於 2026-11-16 改為 Public，免登入即可 clone／下載 ZIP）。
 > - **人工審查簽核**：`HUMAN_REVIEW_FINAL_SUMMARY.md` 已簽核（林浩誠，2026-11-15，經使用者本人授權填寫）。
 > - **一鍵啟動**：macOS `Start_RiskScope.command`、Windows `Start_RiskScope.bat`。自動檢查／安裝 Podman、Ollama、
 >   `qwen3:8b`，建置啟動、預先載入模型、自動以 manager 登入，並在終端機顯示逐步操作教學（固定測資＋預期結果、
@@ -11,7 +11,7 @@ AI 整理/驗證,非真人驗收（人工審查結果一節除外——那是使
 >   Windows 11 實機（一鍵啟動、容器連線本機 Ollama、冷啟動後第一題 14A/336W、教學步驟 1～10）、
 >   Linux（GitHub Actions ubuntu-latest，build／up／health／權限／決定性計算；runner 無 Ollama，未驗證 LLM 回覆）。
 >   細節見 README 第 1 節與 `deploy/README_PODMAN.md` 的 Tested status。
-> - **仍需使用者本人處理**：把老師與助教加入 repo 的 Collaborators，並在課程平台繳交 repo 連結（截止 2026-11-22）。
+> - **仍需使用者本人處理**：在課程平台繳交 repo 連結（截止 2026-11-22）。
 
 **更新（Claude A，封版）**：七題人工審查已由使用者本人完成（BB01/BB23 有條件接受、BB16 FAIL、
 其餘 4 題 PASS），完整原話見 `HUMAN_REVIEW_DECISIONS.md`，彙整見 `HUMAN_REVIEW_FINAL_SUMMARY.md`
@@ -39,7 +39,7 @@ A 類。所有相關檔案已 commit，工作樹乾淨。
 - Apple 以外的 Podman 後端(libkrun 在本機會 abort,實測用 applehv)。
 
 ## C. 仍需要你親自操作
-1. ~~GitHub 推送~~ → 已完成。**仍需**：把老師與助教加入 Collaborators，並在課程平台繳交連結。
+1. ~~GitHub 推送~~ → 已完成。**仍需**：在課程平台繳交連結。
 2. ~~人工審查簽核~~ → 已完成（2026-11-15）。
 3. **OpenAgents Workspace Token 輪替**(曾出現在對話紀錄,不在 repo,我無法驗證是否失效)。
 4. 決定三個測試容器(8100/8110/8130)與其 volume 的處置:目前我**未清理**。注意:VM 重啟後 8100、8110 為 EXITED,只有 prof(8130)是我在 Desktop 啟動的 Running。
@@ -67,10 +67,10 @@ A 類。所有相關檔案已 commit，工作樹乾淨。
 
 ## E. 最終回答
 1. 最新可交付 commit:見本次 Claude A 封版 commit（工作樹乾淨，無未提交檔）。
-2. GitHub:已推送至 Private repo `Cyy002/RiskScope`。
+2. GitHub:已推送至公開 repo `Cyy002/RiskScope`。
 3. 安全:歷史掃描 0 命中、.gitignore 排除 runtime/.venv/.env。
 4. Podman Desktop:已可管理既有 RiskScope 容器(見 A)。
 5. 七題人工審查:**已完成**（BB02/BB07/BB10/BB13 PASS、BB01/BB23 有條件接受、BB16 FAIL），
    簽核已完成。
 6. 老師第一次取得作業:雙擊 `Start_RiskScope.command`（macOS）或 `Start_RiskScope.bat`（Windows）;手動路徑為 `deploy/riskscope.sh build && deploy/riskscope.sh up`。
-7. 能否正式繳交:**可以**;只剩加入老師/助教為 Collaborators 並在課程平台繳交連結。
+7. 能否正式繳交:**可以**;只剩在課程平台繳交連結。

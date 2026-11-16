@@ -1,11 +1,11 @@
 # RiskScope 作業二 最終狀態 (Claude A, 更新於 2026-11-11 凌晨)
 
 > **最新狀態（2026-11-16，取代本文件中所有「未推送／簽核留白／Windows、Linux 未實測」的敘述；以下內容保留為歷史紀錄）**
-> - 已推送至 Private repo `https://github.com/Cyy002/RiskScope`；人工審查已簽核（2026-11-15）。
+> - 已推送至公開 repo `https://github.com/Cyy002/RiskScope`（依課程要求於 2026-11-16 改為 Public）；人工審查已簽核（2026-11-15）。
 > - 一鍵啟動：`Start_RiskScope.command`（macOS）、`Start_RiskScope.bat`（Windows），含自動安裝前置軟體、自動登入與終端機操作教學。
 > - 實測：macOS（乾淨副本＋教學 1～10＋容器內 pytest 304 passed／2 skipped）、Windows 11 實機（一鍵啟動＋教學 1～10）、
 >   Linux（GitHub Actions，build／up／health／權限／決定性計算；未驗證 LLM 回覆）。
-> - **結論：可繳交。** 只剩使用者本人把老師與助教加入 Collaborators 並在課程平台繳交連結（截止 2026-11-22）。
+> - **結論：可繳交。** 只剩使用者本人在課程平台繳交 repo 連結（截止 2026-11-22）。
 
 對照 commit `16e7402`（HEAD，工作樹乾淨，306 passed）。**Podman Desktop 問題已完全解決**：
 使用者依照上一輪提供的 30 秒操作，在 Settings → Preferences → Podman 設定了「Path to Podman
@@ -90,7 +90,7 @@ git 歷史或程式碼裡的問題（我已確認它從未被寫入任何追蹤�
 3. **這台機器沒有安裝 GitHub CLI**（`gh` 指令不存在）。要上傳需要你自行安裝 `gh` 並登入，或直接用
    `git remote add` + `git push`（需要 SSH key 或 Personal Access Token，請勿在對話中貼出）。
 
-**預設 Private Repository 的具體授權步驟**（依你指示，未取得授權前不會公開發布，也不會自行建立）：
+**（歷史紀錄，已過時：repo 現為 Public）預設 Private Repository 的具體授權步驟**（依你指示，未取得授權前不會公開發布，也不會自行建立）：
 1. 你在 GitHub 網站上自行建立一個新的 **Private** repository（例如命名 `RiskScope`），不要勾選
    「Initialize with README」（避免與本地歷史衝突）。
 2. 你決定要用哪種方式授權推送，二選一：
